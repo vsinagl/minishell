@@ -1,7 +1,13 @@
 #include <stdio.h>
 
+void	hello_word(void)
+{
+	printf("Hello world\n");
+	return;
+}
+
 int main(void)
 {
-	printf("Hello world");	
+	hello_world();
 	return(0);
 }
