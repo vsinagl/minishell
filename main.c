@@ -6,7 +6,7 @@
 /*   By: mmarek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:54 by mmarek            #+#    #+#             */
-/*   Updated: 2024/06/13 10:36:28 by mmarek           ###   ########.fr       */
+/*   Updated: 2024/06/15 09:41:22 by mmarek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **env)
 {
 	int			i;
 	char		*line;
-	t_command	command;
+	t_cmd	command;
 	char		pwd[1024];
 
 	i = 0;
@@ -33,11 +33,11 @@ int	main(int argc, char **argv, char **env)
 	printf("********* minishell v0.0 **************\n");
 	printf("\n");
 	printf("basic core, test basic function ls, ps, ls -l, ps -l ..etc");
+	printf("add cd for testing");
 	printf("\n\n");
 	printf("Uzivatel: %s\n", getenv("USER"));
 	getcwd(pwd, sizeof(pwd));
 	printf("Dir: %s\n", pwd);
-
 
 	while (1)
 	{

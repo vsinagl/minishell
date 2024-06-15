@@ -6,15 +6,15 @@
 /*   By: mmarek <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:45 by mmarek            #+#    #+#             */
-/*   Updated: 2024/06/13 10:29:11 by mmarek           ###   ########.fr       */
+/*   Updated: 2024/06/15 09:41:21 by mmarek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	ft_parse(char *line)
+t_cmd	ft_parse(char *line)
 {
-	t_command	command;
+	t_cmd		command;
 	int			count;
 	char		*delimiter = " ";
 	char		*token;
@@ -24,19 +24,12 @@ t_command	ft_parse(char *line)
 	token = strtok(line, delimiter);
 	while (token != NULL)
 	{
-		command.flags[count] = strdup(token);
+		command.cmd[count] = strdup(token);
 		token = strtok(NULL, delimiter);
 		count++;
 	}
-	command.flags[count] = token;
-
-	//printf ("Command: %s\n", command.command);
-	//printf ("Command: %s\n", command.flags[0]);
-	//printf ("Command: %s\n", command.flags[1]);
-	//printf ("Command: %s\n", command.flags[2]);
-	//printf ("Command: %s\n", command.flags[3]);
-	//printf ("Command: %s\n", command.flags[4]);
-
+	command.cmd[count] = token;
+	command.type = 1;
 
 	return (command);
 }
