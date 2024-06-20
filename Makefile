@@ -8,7 +8,8 @@ CFLAGS =
 
 FOLDERS = 	main.c \
 			ft_parse.c \
-			ft_execute.c
+			ft_execute.c \
+			multi_pipe.c
 
 OBJECTS = $(FOLDERS:.c=.o)
 
