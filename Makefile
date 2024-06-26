@@ -4,14 +4,14 @@ NAME = minishell
 CC = clang
 
 #CFLAGS = -Wall -Werror -Wextra
-CFLAGS =
+CFLAGS = 
 
-FOLDERS = 	main.c \
-			ft_parse.c \
-			ft_execute.c \
-			multi_pipe.c
+SRCS = 	 srcs/main.c \
+			srcs/ft_parse.c \
+			srcs/ft_execute.c \
+			srcs/multi_pipe.c \
 
-OBJECTS = $(FOLDERS:.c=.o)
+OBJECTS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
