@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 // Clearing the shell using escape sequences
 #define clear() printf("\033[H\033[J")
