@@ -1,0 +1,3 @@
+/home/vsinagl/Code/42/minishell/minishell/tests/builtins/build/CMakeFiles/gtest_builtin.dir
+/home/vsinagl/Code/42/minishell/minishell/tests/builtins/build/CMakeFiles/edit_cache.dir
+/home/vsinagl/Code/42/minishell/minishell/tests/builtins/build/CMakeFiles/rebuild_cache.dir
