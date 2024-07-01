@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
-
 void	ft_parse(char *line, char pars, char *arr[], t_cmd *command)
 {
 	char 	*s;

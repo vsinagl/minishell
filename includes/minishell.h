@@ -25,6 +25,25 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+//our libraries:
+# include "../libft/libft.h"
+
+typedef struct s_env t_env;
+//false = 0, true = 1
+enum e_bool
+{
+	FALSE,
+	TRUE,
+};
+
+typedef struct s_env
+{
+	const char	*name;
+	const char	*value;
+	t_env	*next;
+}	t_env;
+
+
 typedef struct s_cmd
 {
 	int				type;
@@ -75,5 +94,22 @@ void	input_pipe(t_cmd *list);
 void	output_pipe(t_cmd *list, int fdd[2]);
 void	middle_pipe(t_cmd *list, int fd[2]);
 void	free_command(t_cmd *cmd);
+
+
+//builtins
+/* echo --nevim jak se presne bude pasovat do echa. Zakladni echo jsem udelal tak ze funguje jako kdyby to byla executable, takze ./echo "ahoj svete" nebo ./echo ahoj svete
+* --- proto pouzivam argv a argc jako input parametry.
+*/
+int		msh_echo(int argc, char **argv);
+int		msh_pwd(void);
+int		msh_cd(int argc, char **argv);
+int		msh_export(int argc, char **argv, t_env **env);
+
+
+//enviromental variables functions:
+t_env	*env_add(t_env **head, const char *name, const char *value);
+int		env_print(t_env *head);
+void	env_free(t_env *head);
+char	*env_getvalue(t_env *head, char *name);
 
 #endif
