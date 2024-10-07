@@ -1,0 +1,14 @@
+CMakeLists.txt
+get_next_line
+google_test
+includes
+libft
+Makefile
+minishell
+my_worknotes.md
+neco.txt
+README.md
+Session.vim
+something.txt
+srcs
+tests

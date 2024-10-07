@@ -12,6 +12,14 @@
 
 #include "../includes/minishell.h"
 
+/** 
+ * ft_parse - Parses a command line input and constructs a linked list of commands.
+ * 
+ * @param line: The input command line.
+ * @param pars: The delimiter character for parsing.
+ * @param arr: Array to store parsed command segments.
+ * @param command: Pointer to the command structure to be populated.
+ */
 void	ft_parse(char *line, char pars, char *arr[], t_cmd *command)
 {
 	char 	*s;
@@ -58,6 +66,13 @@ void	ft_parse(char *line, char pars, char *arr[], t_cmd *command)
 		//*(arr + 1) = NULL;
 }
 
+/**
+ * parse_arr - Parses a line into an array of strings based on a delimiter.
+ * 
+ * @param line: The input line to be parsed.
+ * @param pars: The delimiter character for parsing.
+ * @param arr: Array to store parsed segments.
+ */
 void	parse_arr(char *line, char pars, char *arr[])
 {
 	char 	*s;
