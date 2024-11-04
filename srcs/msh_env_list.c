@@ -12,7 +12,8 @@
 
 #include "../includes/minishell.h"
 //minishell data structure should contatin the head of the linked list, that will be first initialized to NULL.
-//the nodes are added to the begging, so newest nodes are the firt ones
+//the nodes are added to the begging, so newest nodes are the first ones
+
 t_env	*env_add(t_env **head, const char *name, const char *value)
 {
 	t_env	*new;
@@ -27,14 +28,14 @@ t_env	*env_add(t_env **head, const char *name, const char *value)
 	return (new);
 }
 
-int	env_print(t_env *head)
+int	msh_env(t_env *head)
 {
 	if (head == NULL)
 		return (1);
 	while(head != NULL)
 	{
-		printf("name: %s\n", head->name);
-		printf("value: %s\n", head->value);
+		printf("%s=", head->name);
+		printf("%s\n", head->value);
 		head = head->next;
 	}
 	return (0);
@@ -70,7 +71,7 @@ void	env_free(t_env *head)
 		free(tmp);
 	}
 }
-/*
+
 int main(void)
 {
 	t_env *head = NULL;
@@ -81,7 +82,7 @@ int main(void)
 	env_add(&head, "test", "24");
 	env_add(&head, "something", "32");
 	env_add(&head, "neco", "84");
-	env_print(head);
+	msh_env(head);
 	env_free(head);
 	return (0);
-} */
+} 

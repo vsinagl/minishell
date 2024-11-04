@@ -104,6 +104,8 @@ int		msh_echo(int argc, char **argv);
 int		msh_pwd(void);
 int		msh_cd(int argc, char **argv);
 int		msh_export(int argc, char **argv, t_env **env);
+int 	msh_exit(int argc, char **argv);
+int		msh_env(t_env *head);
 
 
 //enviromental variables functions:

@@ -96,3 +96,4 @@ void	output_pipe(t_cmd *list, int fdd[2])
 }
 
 
+
