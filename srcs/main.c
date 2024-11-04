@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:54 by mmarek            #+#    #+#             */
-/*   Updated: 2024/11/04 17:38:39 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/04 17:41:13 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **env)
 		if (!line)
 			break ;
 		add_history(line);
-		executer(line, 0);
+		executer(line, 1);
 		free(line);
 	}
 

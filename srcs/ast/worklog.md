@@ -34,16 +34,6 @@ struct AstNode{
 
 # Norminette
 files to be norminetted:
-
-- [x] ast.c
-- [x] ast_utils.c
+ ast.h --> there is problem with structure names --> this would need to rename all structures across multiple files, that is fucking problem :/
 - [ ] ast.h
-- [x] executer.c
-- [x] executer_utils.c
-- [x] lexer.c
-- [x] lexer_utils.c
-- [ ] main.c
-- [x] parser.c
 - [ ] pipe.c
-- [x] print_ast.c
-- [x] print_ast_utils.c
