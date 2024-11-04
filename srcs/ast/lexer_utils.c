@@ -1,0 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/08/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ast.h"
+
+void	free_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i] != NULL)
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
+}
+
+/*
+depricated, tokens are now represented as linked list
+*/
+void	print_tokens_str(const char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i] != NULL)
+	{
+		printf("%s\n", tokens[i]);
+		i++;
+	}
+}
+
+void	print_token(struct Token *token)
+{
+	if (token->type == TOKEN_WORD)
+		printf("Word: %s\n", token->value.word);
+	else
+		printf("Operator: %d\n", token->value.op);
+}
+
+// helper function --> print all tokens in TokenStack !
+void	print_tokens(struct TokenQueue *tokens)
+{
+	struct Token	*current;
+
+	current = tokens->top;
+	while (current != NULL)
+	{
+		print_token(current);
+		current = current->next;
+	}
+}
