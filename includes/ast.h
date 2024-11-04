@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/08/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/04 17:31:18 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-# include "../../libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <stdint.h>
 
 // MACROS:
 # define MAX_TOKENS 1000
@@ -133,7 +134,7 @@ struct						PipeInfo
 };
 
 // lexer functions
-struct TokenQueue			*tokenizer(const char **str_tokens);
+struct TokenQueue			*tokenizer(char *readedline);
 struct ASTNode				*create_ast(struct TokenQueue *queue);
 char						**tokenize(char *input);
 struct Token				*pop_token(struct TokenQueue *tokens);

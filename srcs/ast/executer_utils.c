@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/08/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/04 16:01:32 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "../../includes/ast.h"
 
 /*
 - helper function that returns the legnth of array of arrays of characters

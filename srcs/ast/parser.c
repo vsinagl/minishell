@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/08/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/04 17:31:06 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "../../includes/ast.h"
 
 /*
 function that pops first element (the first added element) from stack
@@ -68,7 +68,7 @@ struct Token	*tokenize_and_identify(const char *str_token)
 
 	token = (struct Token *)malloc(sizeof(struct Token));
 	op_type = get_operator_type(str_token);
-	if (op_type != -1)
+	if ((int)op_type != -1)
 	{
 		token->type = TOKEN_OPERATOR;
 		token->value.op = op_type;
@@ -84,13 +84,15 @@ struct Token	*tokenize_and_identify(const char *str_token)
 /*
 creates a token queue from given array of string tokens
 */
-struct TokenQueue	*tokenizer(const char **str_tokens)
+struct TokenQueue	*tokenizer(char *readline)
 {
 	struct TokenQueue	*tokens;
 	struct Token		*token;
 	struct Token		*prev;
+	char				**str_tokens;
 	int					i;
 
+	str_tokens = tokenize(readline);
 	tokens = (struct TokenQueue *)malloc(sizeof(struct TokenQueue));
 	tokens->size = 0;
 	tokens->top = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmarek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:27:15 by mmarek            #+#    #+#             */
-/*   Updated: 2024/06/19 23:17:53 by mmarek           ###   ########.fr       */
+/*   Updated: 2024/11/04 16:00:38 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 //our libraries:
 # include "../libft/libft.h"
-
+# include "ast.h"
 typedef struct s_env t_env;
 //false = 0, true = 1
 enum e_bool

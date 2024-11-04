@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmarek <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:54 by mmarek            #+#    #+#             */
-/*   Updated: 2024/06/20 10:31:09 by mmarek           ###   ########.fr       */
+/*   Updated: 2024/11/04 17:38:39 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,36 @@
 
 // Clearing the shell using escape sequences
 #define clear() printf("\033[H\033[J")
+
+
+//function that encapsule ast parser, executor and creator:
+int	executer(char *readline, int verbose)
+{
+	struct	TokenQueue		*tokens;
+	struct	ASTNode			*root;
+
+	if (readline == NULL)
+		return 1;
+    tokens = tokenizer(readline);
+	if (verbose == 1)
+		print_tokens(tokens);
+	root = create_ast(tokens);
+	if (verbose == 1)
+	{
+    	printf("AST created:\n");
+    	print_ast_tree(root);
+    	printf("\n");
+    	printf("execute ast result:");
+	}
+    int result = execute_node_main(root);
+	if (verbose == 1)
+    	printf("ast executed with result: %i\n", result);
+
+    return 0; 
+}
+
+
+
 
 int	main(int argc, char **argv, char **env)
 {
@@ -30,9 +60,10 @@ int	main(int argc, char **argv, char **env)
 	using_history();
 	//info
 	printf("********* ************** **************\n");
-	printf("********* minishell v0.0 **************\n");
+	printf("********* MINISHELL v0.1 **************\n");
 	printf("\n");
-	printf("basic core, test basic function ls, ps, ls -l, ps -l ..etc");
+	printf("VERSION DESCRIPTION: ");
+	printf("abstract syntax tree parser and executer, no builtins");
 	printf("\n\n");
 	printf("Uzivatel: %s\n", getenv("USER"));
 	getcwd(pwd, sizeof(pwd));
@@ -40,32 +71,12 @@ int	main(int argc, char **argv, char **env)
 
 	while (1)
 	{
-		command = (t_cmd *)malloc(sizeof(t_cmd));
-		*command->cmd = (char *)calloc(10 , sizeof(char));
-		command->prev = NULL;
-		command->next = NULL;
-		command->type = 0;
-		//read command line
 		line = readline("\nminishell> ");
 		if (!line)
 			break ;
 		add_history(line);
-		//parse function
-		ft_parse(line, '|', command->cmd, command);
-
-		//execute function
-
-		//ft_execute(command);
-		//call_pipe(command, NULL);
-		input_pipe(command);
-
-		//add line to history
-		//add_history (line);
-		free (line);
-		//free command all
-		free_command(command);
-
-
+		executer(line, 0);
+		free(line);
 	}
 
 

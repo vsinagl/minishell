@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "../../includes/ast.h"
 
 /**
 * @brief Creates an AST node for a command.

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/08/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/04 16:11:34by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "../../includes/ast.h"
 
 void	print_whitespace(int n, char whitespace)
 {
@@ -66,9 +66,9 @@ void	print_astnode(struct ASTNode *node)
 	}
 	else if (node->type == BINARY || node->type == REDIRECTION)
 	{
-		print_operator((enum OperatorType)node->data);
-		if (node->type == REDIRECTION)
-			printf(" %s", (char *)node->args[0]);
+    	print_operator((enum OperatorType)(uintptr_t)node->data);
+    	if (node->type == REDIRECTION)
+        	printf(" %s", (char *)node->args[0]);
 	}
 	else if (node->type == ROOT)
 		printf("ROOT");

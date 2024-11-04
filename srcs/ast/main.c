@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "../../includes/ast.h"
 
 char *join_argv(char **argv) {
     if (argv == NULL) {
@@ -41,16 +41,14 @@ int main(int argc, char **argv) {
 
     struct TokenQueue *tokens;
     struct ASTNode    *root;
-    const char        **tokens_str;
     char              *str;
 
     str = join_argv(argv);
     // printf("str from argv: %s\n", str);
-    tokens_str = (const char **)tokenize(str);
     // for (int i = 0; tokens_str[i] != NULL; i++) {
     //   printf("Token %d: %s\n", i, tokens_str[i]);
     // }
-    tokens = tokenizer(tokens_str);
+    tokens = tokenizer(str);
     printf("tokens created:\n");
     print_tokens(tokens);
     // printf("Tokens created:\n");
@@ -60,9 +58,9 @@ int main(int argc, char **argv) {
     printf("AST created:\n");
     print_ast_tree(root);
     printf("\n");
-    printf("execute ast:");
-    execute_node_main(root);
-    printf("ast executed\n");
+    printf("execute ast result:");
+    int result = execute_node_main(root);
+    printf("ast executed with result: %i\n", result);
 
     return 0; 
     // execute_ast(root);
