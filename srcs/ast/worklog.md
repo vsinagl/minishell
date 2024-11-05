@@ -47,6 +47,10 @@ struct AstNode{
 - operators shoudl be handled as default type in lexical analysis, also, you don't need to have space between operators, for example `ls | grep test` is the same as `ls|grep test  
 	- **we need to addreess this problems in our parse.c and lexer.c**
 
+### [ ] executer error handling
+--> **VIKTOR**
+- better error handling when executing a command
+
 ### [ ] executing of builtins functions !
 
 ### [ ] init module
