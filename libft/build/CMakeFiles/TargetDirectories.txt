@@ -1,3 +1,0 @@
-/home/vsinagl/Code/42/minishell/minishell/libft/build/CMakeFiles/my_library.dir
-/home/vsinagl/Code/42/minishell/minishell/libft/build/CMakeFiles/edit_cache.dir
-/home/vsinagl/Code/42/minishell/minishell/libft/build/CMakeFiles/rebuild_cache.dir

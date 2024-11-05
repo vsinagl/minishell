@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:14 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/05 12:33:40 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ struct ASTNode	*ast_root(void)
 
 char	**create_args_new(char **original_args, struct ArgSizes *arr_parametrs)
 {
+	size_t	old_size;
 	char	**new_args;
 	size_t	i;
 
+	old_size = arr_parametrs->args_size;
 	arr_parametrs->args_size *= 2;
 	i = 0;
-	new_args = (char **)realloc(original_args, arr_parametrs->args_size
-			* sizeof(char *));
+	new_args = (char **)ft_realloc(original_args, sizeof(char *) * old_size,
+			arr_parametrs->args_size* sizeof(char *));
 	if (new_args == NULL)
 	{
 		while (i < arr_parametrs->args_count)

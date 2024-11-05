@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:50:06 by vsinagl           #+#    #+#             */
-/*   Updated: 2023/11/02 14:45:33 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/05 12:34:26 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,11 @@
 # include <ctype.h>
 # include <unistd.h>
 
-/*
- * REDEFINICE - V MINISHEL.H DEFINUJEME TAKE STRUKTURU LIST --> DAT TOMU KONKRETNEJSI NAZEV, NAPRIKLAD COMMAND LIST
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-*/
-
 size_t			ft_strlcpy(char *dst, const char *src, size_t size);
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 size_t			ft_strlen(const char *str);
 int				ft_strncmp(const char *s1,
-				const char *s2, size_t n);
+					const char *s2, size_t n);
 int				ft_isdigit(char str);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);
@@ -66,6 +57,7 @@ char			*ft_strtrim(char const *s1, char const *set);
 char			*ft_itoa(int n);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			**ft_split(char const *s, char c);
+void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 /*
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **lst, t_list *newl);

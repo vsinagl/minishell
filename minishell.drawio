@@ -1,0 +1,95 @@
+<mxfile host="65bd71144e">
+    <diagram id="IKrfSq8Q6Uk66QssIJCj" name="Page-1">
+        <mxGraphModel dx="983" dy="576" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="2" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="305" y="310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="&lt;b&gt;&lt;font color=&quot;#ff0000&quot;&gt;Minishell init&lt;br&gt;&lt;/font&gt;&lt;/b&gt;-------------------------------&lt;br&gt;- initialize enviromental variables from script&lt;br&gt;-initialize memory" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+                    <mxGeometry x="295" y="90" width="150" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="buitlins" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="130" width="170" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="MAIN SHELL LOOP" style="swimlane;startSize=0;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="305" width="260" height="635" as="geometry">
+                        <mxRectangle x="240" y="330" width="150" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="10" source="11" target="14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="&lt;b&gt;readline&lt;/b&gt;" style="whiteSpace=wrap;html=1;" parent="10" vertex="1">
+                    <mxGeometry x="22.5" y="75" width="207.5" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="10" source="14" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="&lt;b&gt;&lt;font color=&quot;#ff0000&quot;&gt;add_history&lt;/font&gt;&lt;/b&gt;" style="whiteSpace=wrap;html=1;" parent="10" vertex="1">
+                    <mxGeometry x="22.5" y="125" width="207.5" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="EXECUTER()" style="swimlane;startSize=0;" parent="10" vertex="1">
+                    <mxGeometry x="20" y="180" width="210" height="420" as="geometry">
+                        <mxRectangle x="20" y="185" width="110" height="30" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="TOKENIZER()" style="swimlane;startSize=0;" parent="18" vertex="1">
+                    <mxGeometry x="20" y="35" width="170" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="&lt;b&gt;parser&lt;/b&gt;&lt;br&gt;&lt;i&gt;generate struct tokens linked list&lt;/i&gt;" style="whiteSpace=wrap;html=1;" parent="26" vertex="1">
+                    <mxGeometry x="16.25" y="75" width="140" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="18" source="34" target="42" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="&lt;b&gt;create_ast (ast.c)&lt;/b&gt;&lt;br&gt;&lt;i&gt;create Abstract syntax tree&lt;/i&gt;" style="whiteSpace=wrap;html=1;" parent="18" vertex="1">
+                    <mxGeometry x="20" y="245" width="170" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="Linked list of tokens structure" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.493;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="18" source="26" target="34" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="110" y="190" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="42" value="&lt;b&gt;executer (executer.c)&lt;/b&gt;&lt;br&gt;&lt;i&gt;execute abstract syntax tree&lt;/i&gt;" style="whiteSpace=wrap;html=1;" parent="18" vertex="1">
+                    <mxGeometry x="10.620000000000001" y="325" width="188.75" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="12" target="11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="&lt;b&gt;print_cursor&lt;/b&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="330" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="27" target="28" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="&lt;b&gt;tokenize&lt;/b&gt;&lt;br&gt;&lt;i&gt;generate string tokens&lt;/i&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="540" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="" style="endArrow=none;dashed=1;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="42" target="7" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="530" y="830" as="sourcePoint"/>
+                        <mxPoint x="580" y="780" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="650" y="838"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="45" value="Executer execute buitlins commands&lt;br&gt;&lt;font color=&quot;#ff0000&quot;&gt;NOT IMPLEMENTED&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="44" vertex="1" connectable="0">
+                    <mxGeometry x="0.271" y="-3" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="46" value="create separtate process" style="whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FF0000;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="290" width="80" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
