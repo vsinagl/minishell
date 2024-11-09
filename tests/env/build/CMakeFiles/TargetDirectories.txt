@@ -1,3 +1,0 @@
-/home/vsinagl/Code/42/minishell/minishell/tests/env/build/CMakeFiles/gtest_env.dir
-/home/vsinagl/Code/42/minishell/minishell/tests/env/build/CMakeFiles/edit_cache.dir
-/home/vsinagl/Code/42/minishell/minishell/tests/env/build/CMakeFiles/rebuild_cache.dir

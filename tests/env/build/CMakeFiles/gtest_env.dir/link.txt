@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/gtest_env.dir/home/vsinagl/Code/42/minishell/minishell/srcs/msh_env_list.c.o CMakeFiles/gtest_env.dir/home/vsinagl/Code/42/minishell/minishell/srcs/builtins/msh_export.c.o CMakeFiles/gtest_env.dir/gtest_env.cpp.o -o gtest_env  -lgtest -lgtest_main ../../../libft/libft.a 

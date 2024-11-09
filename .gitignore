@@ -4,6 +4,7 @@ my_worknotes.md
 *.out
 minishell
 *.o
+__pycache__
 
 
 
