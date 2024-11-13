@@ -25,21 +25,6 @@ void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-/*
-depricated, tokens are now represented as linked list
-*/
-void	print_tokens_str(const char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		printf("%s\n", tokens[i]);
-		i++;
-	}
-}
-
 void	print_token(struct Token *token)
 {
 	if (token->type == TOKEN_WORD)

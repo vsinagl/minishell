@@ -57,18 +57,18 @@ void	print_astnode(struct ASTNode *node)
 	}
 	if (node->type == COMMAND)
 	{
-		printf("COMMAND: %s", (char *)node->data);
-		printf(" %s", (char *)node->args[0]);
-	}
-	else if (node->type == ARGUMENT)
-	{
-		printf("ARGUMENT: %s", (char *)node->data);
+		printf("COMMAND: %s ", (char *)node->data);
+		if (node->args != NULL)
+			print_args2(node->args);
 	}
 	else if (node->type == BINARY || node->type == REDIRECTION)
 	{
     	print_operator((enum OperatorType)(uintptr_t)node->data);
     	if (node->type == REDIRECTION)
-        	printf(" %s", (char *)node->args[0]);
+		{
+			if (node->args != NULL)
+        		printf(" %s", (char *)node->args[0]);
+		}
 	}
 	else if (node->type == ROOT)
 		printf("ROOT");

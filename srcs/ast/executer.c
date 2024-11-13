@@ -10,38 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ast.h"
-
-/*
-@node --> node to execute
-function that prepare arguments for execve function and execute this function
-*/
-int	my_exec(struct ASTNode *node)
-{
-	char	**args;
-	char	*command;
-	int		i;
-
-	command = ft_strjoin("/bin/", (char *)node->data);
-	args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args) + 2));
-	if (args == NULL)
-	{
-		perror("malloc");
-		exit(1);
-	}
-	args[0] = command;
-	i = 1;
-	while (node->args[i - 1] != NULL)
-	{
-		args[i] = node->args[i - 1];
-		i++;
-	}
-	args[i] = NULL;
-	execve(command, args, NULL);
-	free(args);
-	return (0);
-}
-
+#include "../../includes/minishell.h"
 /*
 subroutine for execute_command because norminette s*cks
 */
@@ -59,10 +28,9 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo)
 	}
 	if (my_exec(node) != 0)
 	{
-		perror("my_exec function error");
-		exit(1);
+		exit(-1);
 	}
-	exit(1);
+	exit(-2);
 }
 
 /*
@@ -74,6 +42,7 @@ parent process wait for child process to finish and then close it's pipes ends.
 int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 {
 	pid_t	pid;
+	int		status;
 
 	if (node == NULL || node->type != COMMAND)
 	{
@@ -83,12 +52,14 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
+		perror("fork not succesfull:");
 		exit(1);
 	}
 	if (pid == 0)
 		sub_routine_ec(node, pipeinfo);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	if (status != 0)
+		return (status);
 	if (pipeinfo.read_fd != -1)
 		close(pipeinfo.read_fd);
 	if (pipeinfo.write_fd != -1)
@@ -115,7 +86,8 @@ int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
 	}
 	else
 	{
-		perror("error in execute_node, wrong node\n");
+		printf("command i: %i\n", COMMAND);
+		ft_fprintf(STDERR_FILENO, "error in execute_node (%i), wrong node\n", node->type);	
 		return (-1);
 	}
 	return (0);

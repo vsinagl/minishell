@@ -50,17 +50,21 @@ int main(int argc, char **argv) {
     // }
     tokens = tokenizer(str);
     printf("tokens created:\n");
-    print_tokens(tokens);
+    // print_tokens(tokens);
     // printf("Tokens created:\n");
     // print_tokens(tokens);
     // printf("Now creating AST\n");
     root = create_ast(tokens);
-    printf("AST created:\n");
-    print_ast_tree(root);
+    // printf("AST created:\n");
+    // print_ast_tree(root);
     printf("\n");
     printf("execute ast result:");
-    int result = execute_node_main(root);
+    int result = -1;
+    result = execute_node_main(root);
     printf("ast executed with result: %i\n", result);
+    printf("-------- FREING AST --------\n");
+    free_ast(root);
+    free(str);
 
     return 0; 
     // execute_ast(root);

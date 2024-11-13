@@ -27,6 +27,7 @@
 
 //our libraries:
 # include "../libft/libft.h"
+# include "../ft_fprintf/ft_fprintf.h"
 # include "ast.h"
 typedef struct s_env t_env;
 //false = 0, true = 1

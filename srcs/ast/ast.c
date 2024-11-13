@@ -39,10 +39,12 @@ struct ASTNode	*ast_command(struct TokenQueue *queue, struct ASTNode *parent,
 		return (NULL);
 	node->parent = parent;
 	node->type = COMMAND;
+	node->args = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	node->data = (void *)strdup(token->value.word);
-	node->args = create_args(queue);
+	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
+		node->args = create_args(queue);
 	free_token(token);
 	return (node);
 }
@@ -99,10 +101,9 @@ struct ASTNode	*ast_binaryop(struct TokenQueue *queue, struct ASTNode *parent,
 	parent->parent->left = node;
 	parent->parent = node;
 	node->data = (void *)token->value.op;
-	if (queue->size > 0)
+	node->right = NULL;
+	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
 		node->right = ast_command(queue, node, pop_token(queue));
-	else
-		node->right = NULL;
 	free_token(token);
 	return (node);
 }
@@ -134,10 +135,9 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 	parent->parent->left = node;
 	parent->parent = node;
 	node->data = (void *)token->value.op;
-	if (queue->size > 0)
+	node->args = NULL;
+	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
 		node->args = create_args(queue);
-	else
-		node->args = NULL;
 	free_token(token);
 	return (node);
 }
@@ -179,7 +179,22 @@ struct ASTNode	*create_ast(struct TokenQueue *queue)
 		}
 		else if (token->type == TOKEN_WORD)
 			node = ast_command(queue, node, token);
-		printf("the queue size: %zu\n", queue->size);
 	}
+	free_token_queue(queue);
 	return (root);
+}
+
+void	free_ast(struct ASTNode *node)
+{
+	if (node == NULL)
+		return ;
+	if (node->left != NULL)
+		free_ast(node->left);
+	if (node->right != NULL)
+		free_ast(node->right);
+	if (node->args != NULL)
+		free_args(node->args);
+	if (node->data != NULL)
+		free(node->data);
+	free(node);
 }

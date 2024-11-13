@@ -36,6 +36,7 @@ SRCS := ft_atoi.c\
 			ft_tolower.c\
 			ft_toupper.c\
 			ft_realloc.c\
+			ft_strcat.c\
 #filter-out test.c, 
 BONUS_S := ft_lstnew.c\
 		ft_lstadd_front.c\

@@ -5,6 +5,8 @@ my_worknotes.md
 minishell
 *.o
 __pycache__
+.vscode
+test_ast
 
 
 

@@ -4,23 +4,24 @@ NAME = minishell
 CC = cc
 
 #CFLAGS = -Wall -Werror -Wextra
-CFLAGS = 
+CFLAGS =  -g -Wall  -Wextra 
 
-LFLAGS = -Llibft -lft -lreadline
+LFLAGS = -Llibft -Lft_fprintf -lftfprintf -lft -lreadline 
 
 SRCS = 	 srcs/main.c \
 		#  srcs/msh_env_list.c \
 
 AST =	ast_utils.c\
 		ast.c\
+		executer.c\
 		executer_utils.c\
 		lexer_utils.c\
 		lexer.c\
-		executer.c\
 		parser.c\
 		pipe.c\
 		print_ast_utils.c\
 		print_ast.c\
+		my_exec.c \
 
 BUILTINS =	msh_cd.c\
 			msh_echo.c \
@@ -33,6 +34,8 @@ TESTLIB = libminishell.so
 
 #adding folder prefix for ast files
 AST_SRCS = $(addprefix srcs/ast/, $(AST))
+AST_OBJS = $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast/%.o)
+
 
 BUILTINS_SRCS = $(addprefix srcs/builtins/, $(BUILTINS))
 BUILTINS_OBJS = $(BUILTINS_SRCS:srcs/ast/%.c=$(OBJ_DIR)/builtins/%.o)
@@ -72,6 +75,13 @@ test: $(TESTLIB)
 
 $(TESTLIB): $(OBJS_SO)
 	$(CC) $(CFLAGS) -shared -fPIC -o $(TESTLIB) $(OBJECTS_SO) $(LFLAGS)
+
+test_ast: $(OBJ_DIR) $(AST_OBJS)  obj/ast/main.o 
+	$(CC) $(CFLAGS) -g3 -O0 -o test_ast $(AST_OBJS) obj/ast/main.o $(LFLAGS)
+
+srcs/ast/main.o: srcs/ast/main.o
+	$(CC) $(CFLAGS) -c srcs/ast/main.c -o srcs/ast/main.o
+	mv srcs/ast/main.o $(OBJ_DIR)/ast/main.o
 
 clean:
 	rm -rf $(OBJ_DIR)

@@ -29,13 +29,28 @@ struct Token	*pop_token(struct TokenQueue *tokens)
 
 void	free_token(struct Token *token)
 {
+	printf("freeing token\n");
 	if (token->type == TOKEN_WORD)
 	{
-		printf("value word: %s\n", token->value.word);
 		if (token->value.word != NULL)
 			free(token->value.word);
 	}
 	free(token);
+}
+
+void	free_token_queue(struct TokenQueue *tokens)
+{
+	struct Token	*current;
+	struct Token	*next;
+
+	current = tokens->top;
+	while (current != NULL)
+	{
+		next = current->next;
+		free_token(current);
+		current = next;
+	}
+	free(tokens);
 }
 
 /*
@@ -81,6 +96,16 @@ struct Token	*tokenize_and_identify(const char *str_token)
 	return (token);
 }
 
+struct TokenQueue	*init_token_queue(void)
+{
+	struct TokenQueue	*queue;
+
+	queue = (struct TokenQueue *)malloc(sizeof(struct TokenQueue));
+	queue->size = 0;
+	queue->top = NULL;
+	return (queue);
+}
+
 /*
 creates a token queue from given array of string tokens
 */
@@ -93,14 +118,13 @@ struct TokenQueue	*tokenizer(char *readline)
 	int					i;
 
 	str_tokens = tokenize(readline);
-	tokens = (struct TokenQueue *)malloc(sizeof(struct TokenQueue));
-	tokens->size = 0;
-	tokens->top = NULL;
+	tokens = init_token_queue();
 	i = 0;
 	prev = NULL;
 	while (str_tokens[i] != NULL)
 	{
 		token = tokenize_and_identify(str_tokens[i]);
+		free(str_tokens[i]);
 		if (tokens->top == NULL)
 			tokens->top = token;
 		if (prev != NULL)
@@ -109,6 +133,7 @@ struct TokenQueue	*tokenizer(char *readline)
 		tokens->size++;
 		i++;
 	}
+	free(str_tokens);
 	token->next = NULL;
 	return (tokens);
 }

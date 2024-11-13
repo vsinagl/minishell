@@ -58,6 +58,7 @@ char			*ft_itoa(int n);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			**ft_split(char const *s, char c);
 void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+char 			*ft_strcat(char *dst, const char *src);
 /*
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **lst, t_list *newl);

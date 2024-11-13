@@ -57,23 +57,23 @@ struct ASTNode	*ast_root(void)
 char	**create_args_new(char **original_args, struct ArgSizes *arr_parametrs)
 {
 	size_t	old_size;
-	char	**new_args;
 	size_t	i;
+	char	**new_args;
 
 	old_size = arr_parametrs->args_size;
 	arr_parametrs->args_size *= 2;
-	i = 0;
 	new_args = (char **)ft_realloc(original_args, sizeof(char *) * old_size,
 			arr_parametrs->args_size* sizeof(char *));
 	if (new_args == NULL)
 	{
-		while (i < arr_parametrs->args_count)
-		{
-			free(original_args[i]);
-			i++;
-		}
-		free(original_args);
+		free_args(original_args);
 		return (NULL);
+	}
+	i = old_size;
+	while (i < arr_parametrs->args_size)
+	{
+		new_args[i] = NULL;
+		i++;
 	}
 	return (new_args);
 }
@@ -83,9 +83,12 @@ void	free_args(char **args)
 	size_t	i;
 
 	i = 0;
+	if (args == NULL)
+		return ;
 	while (args[i] != NULL)
 	{
 		free(args[i]);
+ 		args[i] = NULL; 
 		i++;
 	}
 	free(args);
@@ -99,11 +102,9 @@ char	**create_args(struct TokenQueue *queue)
 
 	arr_parametrs.args_count = 0;
 	arr_parametrs.args_size = 1;
-	args = (char **)malloc(arr_parametrs.args_size * sizeof(char *));
+	args = (char **)malloc((arr_parametrs.args_size + 1) * sizeof(char *));
 	if (args == NULL)
-	{
 		return (NULL);
-	}
 	while (queue->size > 0 && queue->top->type == TOKEN_WORD)
 	{
 		token = pop_token(queue);
@@ -111,9 +112,12 @@ char	**create_args(struct TokenQueue *queue)
 			args = create_args_new(args, &arr_parametrs);
 		args[arr_parametrs.args_count] = strdup(token->value.word);
 		if (args[arr_parametrs.args_count] == NULL)
+		{
 			free_args(args);
+			return (NULL);
+		}
 		arr_parametrs.args_count++;
-		free(token);
+		free_token(token);
 	}
 	args[arr_parametrs.args_count] = NULL;
 	return (args);

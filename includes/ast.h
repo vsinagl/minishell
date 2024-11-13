@@ -71,7 +71,6 @@ enum						NodeType
 {
 	ROOT = 0,
 	COMMAND,
-	ARGUMENT,
 	BINARY,
 	REDIRECTION,
 };
@@ -154,6 +153,7 @@ struct PipeInfo				create_child_pipe(struct PipeInfo pipeinfo,
 								int type);
 struct PipeInfo				create_empty_pipe(void);
 struct PipeInfo				create_pipe(void);
+int							my_exec(struct ASTNode *node);
 
 // executer utils
 int							ft_strarr_len(char **arr);
@@ -164,6 +164,9 @@ void						free_tokens(char **tokens);
 void						print_tokens_str(const char **tokens);
 void						print_tokens(struct TokenQueue *tokens);
 void						print_token(struct Token *token);
+
+//parser functions
+void	free_token_queue(struct TokenQueue *tokens);
 
 // printing ast
 void						print_whitespace(int n, char whitespace);
@@ -176,5 +179,6 @@ char						*concat_and_free(char *str1, char *str2);
 struct ASTNode				*ast_root(void);
 void						free_args(char **args);
 char						**create_args(struct TokenQueue *queue);
+void						free_ast(struct ASTNode *node);
 
 #endif

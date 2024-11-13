@@ -22,6 +22,8 @@ int	ft_strarr_len(char **arr)
 	int	i;
 
 	i = 0;
+	if (arr == NULL)
+		return (0);
 	while (arr[i] != NULL)
 		i++;
 	return (i);
@@ -36,6 +38,8 @@ void	print_args2(char **args)
 	int		i;
 
 	i = 0;
+	if (args == NULL)
+		return ;
 	while (args[i] != NULL)
 	{
 		printf("%s ", args[i]);
