@@ -160,13 +160,14 @@ int no_fork_builtins(struct ASTNode *node)
     int ret_value;
 	char	**args;
 
-	ret_value = -1;
+	ret_value = 0;
 	if (node->parent->type == BINARY)
-		return 0;
+		return -1;
 	if (node == NULL || node->type != COMMAND || node->data == NULL)
 	{
+		//BETTER ERROR HANDLING HERE: call exit builtin here, corupted ast !
 		fprintf(stderr, "Error my_exec.c: invalid node or node parametrs\n");
-		return (2);
+		return (10);
 	}
 	args = prepare_args(node);
     if (str_exact_match((char *)node->data, "cd"))
@@ -174,9 +175,9 @@ int no_fork_builtins(struct ASTNode *node)
     else if (str_exact_match((char *)node->data, "exit"))
         ret_value = msh_exit(node);
 	else
-		return ret_value;
+		return -1;
 	free_args(args);
-	return 0;
+	return ret_value;
 }
 
 

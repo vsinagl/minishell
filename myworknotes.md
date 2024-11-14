@@ -18,6 +18,8 @@
     - [x] add pwd
     - [x] add echo
 
+- [ ] BETTER PIPE HANDLING FOR BUILTINS !!O
+
 - [ ] add builtins executed in parent process:
     - [x]   cd
     - [x]   exit 

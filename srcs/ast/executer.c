@@ -23,7 +23,7 @@ if status  is -1, it tells function that command was builtin function
 You canot pipe these builtin functions, we are returning error 
 in this case for pipes !.
 */
-int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
+int	sub_routine_ec2(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 {
 	int		ret_value;
 
@@ -37,14 +37,40 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 		dup2(pipeinfo.write_fd, STDOUT_FILENO);
 		close(pipeinfo.write_fd);
 	}
-	//here logic for command without redirections ?
 	if (status == -1)
-		exit(0);
-	ret_value = my_exec(node);
-	printf("RET VALUE: %i\n", ret_value);
-	exit(ret_value);
+		return(0);
+	if (my_exec(node) != 0)
+		exit(2);
+	exit(1);
 }
 
+int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
+{
+	int		ret_value;
+
+	ret_value = 0;
+	if (pipeinfo.read_fd != -1)
+	{
+		dup2(pipeinfo.read_fd, STDIN_FILENO);
+		close(pipeinfo.read_fd);
+	}
+	if (pipeinfo.write_fd != -1)
+	{
+		dup2(pipeinfo.write_fd, STDOUT_FILENO);
+		close(pipeinfo.write_fd);
+	}
+	printf("status value: %i,\n", status);
+	if (status == -1)
+		return(0);
+	ret_value = my_exec(node);
+	return (ret_value);
+	
+	// if (my_exec(node) != 0)
+	// {
+	// 	exit(2);
+	// }
+	// exit(1);
+}
 /*
 @node --> current AST node to be executed
 @pipeinfo --> structure that holds file descriptors for pipe
@@ -55,20 +81,24 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 {
 	pid_t	pid;
 	int		status;
+	int		builtin_check;
 
-	if (node == NULL || node->type != COMMAND)
+	// if (node == NULL || node->type != COMMAND)
+	// {
+	// 	perror("error in execute_command, wrong node\n");
+	// 	exit(1);
+	// }
+	builtin_check = 0;
+	if (no_fork_builtins(node) >= 0)
 	{
-		perror("error in execute_command, wrong node\n");
-		exit(1);
+		sub_routine_ec(node, pipeinfo, -1);
+		return 0;
 	}
-	status = 0;
-	if (no_fork_builtins(node) == 0)
-		status = -1;
 	pid = fork();
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-		sub_routine_ec(node, pipeinfo, status);
+		sub_routine_ec(node, pipeinfo, 0);
 	waitpid(pid, &status, 0);
 	if (pipeinfo.read_fd != -1)
 		close(pipeinfo.read_fd);
