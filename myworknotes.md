@@ -12,8 +12,23 @@
 
 # buitlins
 
-- [ ] add builtins execution part for my_exec (is_builtin function)
-    - add some function like check_builtins, that will check if name of function corresponds to name of builtin function.
+- [x] add separete builtins executer for child and parrent process
+
+- [x] add builtins execution part for my_exec (is_builtin function)
+    - [x] add pwd
+    - [x] add echo
+
+- [ ] add builtins executed in parent process:
+    - [x]   cd
+    - [x]   exit 
+    - [ ]   export 
+    - [ ]   unset 
+    - [ ]   env 
+
+- [ ] create a minishell data structure
+    - [ ] implement history (saving lines as linked list)
+    - [ ] implement enviromental variables
+
 
 # exit handling
 - implement exit function

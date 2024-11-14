@@ -132,6 +132,8 @@ struct						PipeInfo
 	int						status;
 };
 
+
+int		no_fork_builtins(struct ASTNode *node);
 // lexer functions
 struct TokenQueue			*tokenizer(char *readedline);
 struct ASTNode				*create_ast(struct TokenQueue *queue);
@@ -180,5 +182,7 @@ struct ASTNode				*ast_root(void);
 void						free_args(char **args);
 char						**create_args(struct TokenQueue *queue);
 void						free_ast(struct ASTNode *node);
+
+
 
 #endif

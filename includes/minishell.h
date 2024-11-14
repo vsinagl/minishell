@@ -29,6 +29,10 @@
 # include "../libft/libft.h"
 # include "../ft_fprintf/ft_fprintf.h"
 # include "ast.h"
+
+# define MAX_PATH 2000
+
+
 typedef struct s_env t_env;
 //false = 0, true = 1
 enum e_bool
@@ -105,7 +109,7 @@ int		msh_echo(int argc, char **argv);
 int		msh_pwd(void);
 int		msh_cd(int argc, char **argv);
 int		msh_export(int argc, char **argv, t_env **env);
-int 	msh_exit(int argc, char **argv);
+int		msh_exit(struct ASTNode *node);
 int		msh_env(t_env *head);
 
 

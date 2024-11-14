@@ -19,6 +19,7 @@ int	msh_echo(int argc, char **argv)
 
 	newline = TRUE;
 	i = 1;
+	printf("number of argc: %i\n", argc);
 	if (argc <= 1)
 		return (1);
 	if (ft_strncmp("-n", argv[1], 2) == 0)

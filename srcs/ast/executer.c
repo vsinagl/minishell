@@ -11,11 +11,22 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+
 /*
 subroutine for execute_command because norminette s*cks
+ARGUMENTS:
+@status can be 0 or -1
+if status  is -1, it tells function that command was builtin function
+(like cd or exit) and was already handled in parent process.
+You canot pipe these builtin functions, we are returning error 
+in this case for pipes !.
 */
-int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo)
+int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 {
+	int		ret_value;
+
 	if (pipeinfo.read_fd != -1)
 	{
 		dup2(pipeinfo.read_fd, STDIN_FILENO);
@@ -26,11 +37,12 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo)
 		dup2(pipeinfo.write_fd, STDOUT_FILENO);
 		close(pipeinfo.write_fd);
 	}
-	if (my_exec(node) != 0)
-	{
-		exit(-1);
-	}
-	exit(-2);
+	//here logic for command without redirections ?
+	if (status == -1)
+		exit(0);
+	ret_value = my_exec(node);
+	printf("RET VALUE: %i\n", ret_value);
+	exit(ret_value);
 }
 
 /*
@@ -49,21 +61,21 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 		perror("error in execute_command, wrong node\n");
 		exit(1);
 	}
+	status = 0;
+	if (no_fork_builtins(node) == 0)
+		status = -1;
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork not succesfull:");
 		exit(1);
-	}
 	if (pid == 0)
-		sub_routine_ec(node, pipeinfo);
+		sub_routine_ec(node, pipeinfo, status);
 	waitpid(pid, &status, 0);
-	if (status != 0)
-		return (status);
 	if (pipeinfo.read_fd != -1)
 		close(pipeinfo.read_fd);
 	if (pipeinfo.write_fd != -1)
 		close(pipeinfo.write_fd);
+	if (status != 0)
+		return (status);
 	return (0);
 }
 
@@ -82,13 +94,13 @@ int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
 	else if (node->type == REDIRECTION)
 	{
 		perror("error in execute_node, rediretion not supported yet\n");
-		return (-1);
+		exit(16);
 	}
 	else
 	{
 		printf("command i: %i\n", COMMAND);
 		ft_fprintf(STDERR_FILENO, "error in execute_node (%i), wrong node\n", node->type);	
-		return (-1);
+		return (1);
 	}
 	return (0);
 }

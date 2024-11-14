@@ -24,5 +24,6 @@ int	msh_pwd(void)
 		return (1);
 	}
 	ft_putstr_fd(buff, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	return 0;
 }

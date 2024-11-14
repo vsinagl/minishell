@@ -1,25 +1,24 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_exit.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/09 14:33:51 by vsinagl          ###   ########.fr       */
+/*   Created: 2023/10/24 18:01:48 by vsinagl           #+#    #+#             */
+/*   Updated: 2023/10/24 19:26:27 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-int msh_exit(struct ASTNode *node)
+int ft_strcmp(const char *s1, const char *s2)
 {
-	while(node->parent != NULL)
-		node = node->parent;
-	free_ast(node);
-	/*better handling here, in nnode there should be actual pointer to datastruct DATA,
-	so we can free all other allocated memory (like bash history etc..).
-	*/
-	exit(0);
-	return(1);
+    while (*s1 && (*s1 == *s2))
+    {
+        s1++;
+        s2++;
+    }
+    return ((unsigned char)*s1 - (unsigned char)*s2);
 }

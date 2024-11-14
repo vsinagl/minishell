@@ -11,9 +11,34 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-//minishell data structure should contatin the head of the linked list, that will be first initialized to NULL.
-//the nodes are added to the begging, so newest nodes are the first ones
 
+/*
+/**
+ * @file msh_env_list.c
+ * @brief Environment List Management for Shell
+ *
+ * This file provides functions and data structures to manage the environment
+ * variables list for a shell program. It includes functionalities to create,
+ * modify, delete, and retrieve environment variables stored in a linked list.
+ *
+ * The main features provided by this file include:
+ * - Initialization and cleanup of the environment list.
+ * - Adding new environment variables to the list.
+ * - Removing environment variables from the list.
+ * - Searching for environment variables by name.
+ * - Updating the value of existing environment variables.
+ *
+ * The environment list is implemented as a linked list, where each node
+ * contains the name and value of an environment variable.
+ *
+ * Usage:
+ * - Initialize the environment list before using any other functions.
+ * - Use the provided functions to manipulate the environment variables.
+ * - Clean up the environment list when it is no longer needed.
+ *
+ * This file is part of a shell program and is intended to be used internally
+ * by the shell to manage its environment variables.
+ */
 t_env	*env_add(t_env **head, const char *name, const char *value)
 {
 	t_env	*new;

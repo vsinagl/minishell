@@ -28,7 +28,7 @@ BUILTINS =	msh_cd.c\
 			msh_export.c \
 			msh_pwd.c \
 			msh_env_list.c \
-			#msh_exit.c \
+			msh_exit.c \
 
 TESTLIB = libminishell.so
 
