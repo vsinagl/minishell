@@ -47,11 +47,7 @@ char	*env_getvalue(t_env *head, char *name)
 	while(head != NULL)
 	{
 		if (ft_strncmp(head->name, name, ft_strlen(name)) == 0)
-		{
-			char *wtf;
-			wtf = (char *)head->value;
 			return ((char *)(head->value));
-		}
 		head = head->next;
 	}
 	return (NULL);

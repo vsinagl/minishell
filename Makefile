@@ -51,6 +51,7 @@ all: $(OBJ_DIR) $(NAME)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/srcs
 	mkdir -p $(OBJ_DIR)/ast
+	mkdir -p $(OBJ_DIR)/builtins
 
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LFLAGS)
@@ -76,8 +77,8 @@ test: $(TESTLIB)
 $(TESTLIB): $(OBJS_SO)
 	$(CC) $(CFLAGS) -shared -fPIC -o $(TESTLIB) $(OBJECTS_SO) $(LFLAGS)
 
-test_ast: $(OBJ_DIR) $(AST_OBJS)  obj/ast/main.o 
-	$(CC) $(CFLAGS) -g3 -O0 -o test_ast $(AST_OBJS) obj/ast/main.o $(LFLAGS)
+test_ast: $(OBJ_DIR) $(AST_OBJS) $(BUILTINS_OBJS) obj/ast/main.o 
+	$(CC) $(CFLAGS) -g3 -O0 -o test_ast $(AST_OBJS) $(BUILTINS_OBJS) obj/ast/main.o $(LFLAGS)
 
 srcs/ast/main.o: srcs/ast/main.o
 	$(CC) $(CFLAGS) -c srcs/ast/main.c -o srcs/ast/main.o

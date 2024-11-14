@@ -116,6 +116,44 @@ char *find_executable(char *command)
     return NULL;
 }
 
+int	find_builtin(char *command, char **args)
+{
+	int		ret_value;
+
+	printf("start builtin find function: %s\n", command);
+	if (ft_strncmp(command, "echo", ft_strlen("echo")) == 0)
+	{
+		ret_value = msh_echo(ft_strarr_len(args), args);
+	}
+	else
+		return -1;
+	return ret_value;
+}
+
+char **prepare_args(struct ASTNode *node)
+{
+	char	**args;
+	int		i;
+
+	if (node->args == NULL)
+		args = NULL;
+	else
+	{
+		args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args) + 2));
+		if (args == NULL)
+	 	 	exit(1);
+		i = 1;
+		while (node->args[i - 1] != NULL)
+		{
+			args[i] = node->args[i - 1];
+			i++;
+		}
+		args[i] = NULL;
+	}
+	return args;
+}
+
+
 /*
 @node --> node to execute
 function that prepare arguments for execve function and execute this function
@@ -127,8 +165,13 @@ int	my_exec(struct ASTNode *node)
 	char	*command;
 	int		i;
 
-  // this is bullshit 
-	/*command = ft_strjoin("/bin/", (char *)node->data);*/
+	// args = prepare_args(node);
+	i = find_builtin((char *)node->data, node->args);
+	if (i != -1)
+	{
+		printf("builtin found and executed, returning: %i\n", i);
+		return i;
+	}
 	command = find_executable((char *)node->data);
 	if (!command)
 	{
@@ -141,8 +184,7 @@ int	my_exec(struct ASTNode *node)
 	{
 		args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args) + 2));
 		if (args == NULL)
-	  	exit(1);
-		args[0] = command;
+	 	 	exit(1);
 		i = 1;
 		while (node->args[i - 1] != NULL)
 		{

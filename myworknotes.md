@@ -5,11 +5,12 @@
 - [x] test executing files based on PATH variable.
 
 - [x] error handling rewrite ! :) working fine but could behave better
+
 - [x] check memory for ast and free memory after command is executed
 
-- [x] check valgrind erros and fix them
+- [x] check valgrind errors and fix them
 
-- [ ] add utils direcotry with utils function, add here free_string_arr() function
+# buitlins
 
 - [ ] add builtins execution part for my_exec (is_builtin function)
     - add some function like check_builtins, that will check if name of function corresponds to name of builtin function.
@@ -23,5 +24,6 @@
 
 # handling signals in minishell
 
+# norminette 
 
-
+- [ ] add utils directory with utils function, add here free_string_arr() function

@@ -3,12 +3,16 @@
 also, check the minishell.drawio for diagram of how each components is working
 
 ## init module
-- set the minishell
-- initialize PATH enviromental variables
-- read from .minishelrc and read variables from here
+- optional, custom minishell printing,
+<!-- - set the minishell
+- read from .minishelrc and read variables from here -->
 
-## main_shel_loop (implemented)
+## signal handler
+- how to handle signals in minishell ?
+
+## main_shel_loop (almost complete)
 - main shell loop where user can write inputs and his inputs are process (by executer)
+- history handling
 
 ## executer (almost complete)
 - executer that handle user input

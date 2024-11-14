@@ -28,18 +28,17 @@ int	ft_str_findchar(const char *str, char to_find)
 
 int	msh_export(int argc, char **argv, t_env **env) 
 {
-	int	border;
-	char	*str1;
-	char	*str2;
+	int		border;
+	// char	*str1;
+	// char	*str2;
 	
 	if (argc <= 1)
 		return 1;
 	border = ft_str_findchar(argv[1], '=');
 	if (border == 0)
 		return 2;
-	//check_input(argv[1]);
-	str1 = ft_substr(argv[1], 0, (size_t)(border));
-	str2 = ft_strdup(ft_strchr(argv[1], '=') + 1);
+	// str1 = ft_substr(argv[1], 0, (size_t)(border));
+	// str2 = ft_strdup(ft_strchr(argv[1], '=') + 1);
 	env_add(env, ft_substr(argv[1], 0, (size_t)(border)), ft_strdup(ft_strchr(argv[1], '=') + 1));
 	return (0);
 }
