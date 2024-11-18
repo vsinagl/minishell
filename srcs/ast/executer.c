@@ -63,7 +63,7 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 	if (status == -1)
 		return(0);
 	ret_value = my_exec(node);
-	return (ret_value);
+	exit(ret_value);
 	
 	// if (my_exec(node) != 0)
 	// {
@@ -71,6 +71,7 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 	// }
 	// exit(1);
 }
+
 /*
 @node --> current AST node to be executed
 @pipeinfo --> structure that holds file descriptors for pipe
@@ -83,17 +84,9 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 	int		status;
 	int		builtin_check;
 
-	// if (node == NULL || node->type != COMMAND)
-	// {
-	// 	perror("error in execute_command, wrong node\n");
-	// 	exit(1);
-	// }
 	builtin_check = 0;
-	if (no_fork_builtins(node) >= 0)
-	{
-		sub_routine_ec(node, pipeinfo, -1);
-		return 0;
-	}
+	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY && node->parent->type != REDIRECTION))
+		return (try_builtin(node, 0));
 	pid = fork();
 	if (pid == -1)
 		exit(1);

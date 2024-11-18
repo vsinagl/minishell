@@ -115,33 +115,38 @@ char	*find_executable(char *command)
 	return (NULL);
 }
 
-static int str_exact_match(const char *s1, const char *s2)
+static int	str_exact_match(const char *s1, const char *s2)
 {
-    return (ft_strlen(s1) == ft_strlen(s2) && ft_strncmp(s1, s2, ft_strlen(s2)) == 0);
+	return (ft_strlen(s1) == ft_strlen(s2) && ft_strncmp(s1, s2,
+			ft_strlen(s2)) == 0);
 }
 
-int find_builtin(char *command, char **args)
-{
-    int ret_value;
+// int	try_builtin(char *command, char **args)
+// {
+// 	int	ret_value;
 
-	ret_value = -1;
-    if (str_exact_match(command, "echo"))
-        ret_value = msh_echo(ft_strarr_len(args), args);
-    else if (str_exact_match(command, "pwd"))
-        ret_value = msh_pwd();
-    else 
-        return ret_value;
-    free_args(args);
-    exit(ret_value);
-}
+// 	ret_value = -1;
+// 	if (str_exact_match(command, "echo"))
+// 		ret_value = msh_echo(ft_strarr_len(args), args);
+// 	else if (str_exact_match(command, "pwd"))
+// 		ret_value = msh_pwd();
+// 	else if (str_exact_match(command, "cd"))
+// 		ret_value = msh_cd(ft_strarr_len(args), args);
+// 	//tady kurva by to pak potrebovalo jako parametr do funkce dat node a ne command
+// 	// else if (str_exact_match(command, "exit"))
+// 	// 	ret_value = msh_exit(node);
+// 	else
+// 		return (ret_value);
+// 	free_args(args);
+// 	exit(ret_value);
+// }
 
 static char	**prepare_args(struct ASTNode *node)
 {
 	char	**args;
 	int		i;
 
-	args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args)
-				+ 2));
+	args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args) + 2));
 	if (args == NULL)
 		exit(1);
 	args[0] = (char *)node->data;
@@ -155,31 +160,43 @@ static char	**prepare_args(struct ASTNode *node)
 	return (args);
 }
 
-int no_fork_builtins(struct ASTNode *node)
+int	is_builtin(char *command)
 {
-    int ret_value;
-	char	**args;
+	int	ret_val;
 
-	ret_value = 0;
-	if (node->parent->type == BINARY)
-		return -1;
-	if (node == NULL || node->type != COMMAND || node->data == NULL)
-	{
-		//BETTER ERROR HANDLING HERE: call exit builtin here, corupted ast !
-		fprintf(stderr, "Error my_exec.c: invalid node or node parametrs\n");
-		return (10);
-	}
-	args = prepare_args(node);
-    if (str_exact_match((char *)node->data, "cd"))
-        ret_value = msh_cd(ft_strarr_len(args), args);
-    else if (str_exact_match((char *)node->data, "exit"))
-        ret_value = msh_exit(node);
-	else
-		return -1;
-	free_args(args);
-	return ret_value;
+	if (command == NULL)
+		return (-1);
+	if (str_exact_match(command, "cd") || str_exact_match(command, "echo")
+		|| str_exact_match(command, "pwd") || str_exact_match(command, "export")
+		|| str_exact_match(command, "exit") || str_exact_match(command, "env")
+		|| str_exact_match (command, "unset"))
+		return (1);
+	return (0);
 }
 
+int	try_builtin(struct ASTNode *node, int option)
+{
+	int		ret_value;
+	char	**args;
+
+	args = prepare_args(node);
+	if (str_exact_match((char *)node->data, "cd"))
+		ret_value = msh_cd(ft_strarr_len(args), args);
+	else if (str_exact_match((char *)node->data, "exit"))
+		ret_value = msh_exit(node);
+	else if (str_exact_match((char *)node->data, "echo"))
+		ret_value = msh_echo(ft_strarr_len(args), args);
+	else if (str_exact_match((char *)node->data, "pwd"))
+		ret_value = msh_pwd();
+	else if (str_exact_match((char *)node->data, "cd"))
+		ret_value = msh_cd(ft_strarr_len(args), args);
+	else
+		return (-1);
+	free_args(args);
+	if (option == 1)
+		exit(ret_value);
+	return (ret_value);
+}
 
 /*
 @node --> node to execute
@@ -203,8 +220,7 @@ int	my_exec(struct ASTNode *node)
 		return (2);
 	}
 	args = prepare_args(node);
-	find_builtin((char *)node->data, args);
-	printf("BUILINTS NOT FOUND\n");
+	try_builtin(node, 1);
 	command = find_executable((char *)node->data);
 	if (!command)
 	{

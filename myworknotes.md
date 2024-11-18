@@ -18,7 +18,8 @@
     - [x] add pwd
     - [x] add echo
 
-- [ ] BETTER PIPE HANDLING FOR BUILTINS !!O
+- [x] BETTER PIPE HANDLING FOR BUILTINS !!O
+    - Pipes are handling the same but i little bit improve executing of builtins in execute_command function, so now the behavior is almost like in bash!
 
 - [ ] add builtins executed in parent process:
     - [x]   cd

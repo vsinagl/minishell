@@ -133,7 +133,9 @@ struct						PipeInfo
 };
 
 
-int		no_fork_builtins(struct ASTNode *node);
+
+int				try_builtin(struct ASTNode *node, int option);
+
 // lexer functions
 struct TokenQueue			*tokenizer(char *readedline);
 struct ASTNode				*create_ast(struct TokenQueue *queue);
@@ -184,5 +186,7 @@ char						**create_args(struct TokenQueue *queue);
 void						free_ast(struct ASTNode *node);
 
 
+//feature functions --> delete if not used !
+int	is_builtin(char *command);
 
 #endif
