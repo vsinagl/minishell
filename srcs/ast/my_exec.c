@@ -121,26 +121,6 @@ static int	str_exact_match(const char *s1, const char *s2)
 			ft_strlen(s2)) == 0);
 }
 
-// int	try_builtin(char *command, char **args)
-// {
-// 	int	ret_value;
-
-// 	ret_value = -1;
-// 	if (str_exact_match(command, "echo"))
-// 		ret_value = msh_echo(ft_strarr_len(args), args);
-// 	else if (str_exact_match(command, "pwd"))
-// 		ret_value = msh_pwd();
-// 	else if (str_exact_match(command, "cd"))
-// 		ret_value = msh_cd(ft_strarr_len(args), args);
-// 	//tady kurva by to pak potrebovalo jako parametr do funkce dat node a ne command
-// 	// else if (str_exact_match(command, "exit"))
-// 	// 	ret_value = msh_exit(node);
-// 	else
-// 		return (ret_value);
-// 	free_args(args);
-// 	exit(ret_value);
-// }
-
 static char	**prepare_args(struct ASTNode *node)
 {
 	char	**args;

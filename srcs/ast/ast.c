@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
 
 /**
@@ -157,13 +158,13 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 commands and operators.
 * @return A pointer to the root node of the constructed AST.
 */
-struct ASTNode	*create_ast(struct TokenQueue *queue)
+struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 {
 	struct ASTNode	*root;
 	struct ASTNode	*node;
 	struct Token	*token;
 
-	root = ast_root();
+	root = ast_root(data);
 	node = ast_command(queue, root, pop_token(queue));
 	root->left = node;
 	while (queue->size > 0)

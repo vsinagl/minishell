@@ -138,7 +138,7 @@ int				try_builtin(struct ASTNode *node, int option);
 
 // lexer functions
 struct TokenQueue			*tokenizer(char *readedline);
-struct ASTNode				*create_ast(struct TokenQueue *queue);
+// struct ASTNode				*create_ast(struct TokenQueue *queue);
 char						**tokenize(char *input);
 struct Token				*pop_token(struct TokenQueue *tokens);
 void						free_token(struct Token *token);
@@ -180,7 +180,6 @@ void						print_ast_tree(struct ASTNode *root);
 
 // ast utils
 char						*concat_and_free(char *str1, char *str2);
-struct ASTNode				*ast_root(void);
 void						free_args(char **args);
 char						**create_args(struct TokenQueue *queue);
 void						free_ast(struct ASTNode *node);

@@ -59,7 +59,6 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 		dup2(pipeinfo.write_fd, STDOUT_FILENO);
 		close(pipeinfo.write_fd);
 	}
-	printf("status value: %i,\n", status);
 	if (status == -1)
 		return(0);
 	ret_value = my_exec(node);

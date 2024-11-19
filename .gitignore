@@ -7,6 +7,7 @@ minishell
 __pycache__
 .vscode
 test_ast
+minishell
 
 
 

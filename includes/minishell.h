@@ -18,9 +18,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # include <readline/readline.h>
-# include <readline/history.h>
+// # include <readline/history.h>
 
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -31,14 +32,44 @@
 # include "ast.h"
 
 # define MAX_PATH 2000
+# define PROMPT_MAIN "minishell --> "
+# define PROMPT_CONTINUE "> "
 
+extern int g_command_executing;
 
 typedef struct s_env t_env;
+typedef struct s_shelldata t_shelldata;
+typedef struct s_history t_history;
 //false = 0, true = 1
 enum e_bool
 {
 	FALSE,
 	TRUE,
+};
+
+/*
+main shell data structure that holds all data that are used in shell
+*/
+typedef struct s_shelldata
+{
+	t_history	*history;
+	t_env		*env;
+} t_shelldata;
+
+typedef struct s_history{
+	char *data;
+	t_history *prev;
+}	t_history;
+
+/*
+enumerate used in get_complete_line function that
+symbolize actual completeness of line.
+*/
+enum e_linestatus {
+ 	LINE_COMPLETE,
+    LINE_INCOMPLETE_QUOTE,
+    LINE_INCOMPLETE_PIPE,
+    LINE_INCOMPLETE_BACKSLASH
 };
 
 typedef struct s_env
@@ -65,28 +96,13 @@ typedef struct s_list
 	struct s_cmd	*prev;
 }	t_list;
 
-//typedef struct s_redir
-//{
-//	int		type;
-//	char	*file;
-//	int		mode;
-//	int		fd;
-//}	t_redir;
-
-//typedef struct s_pipe
-//{
-//	int	type;
-//	struct cmd *left;
-//	struct cmd *right;
-//}	t_pipe;
-
-//struct s_slist
-//{
-//	int	type;
-//	struct cmd	*left;
-//	struct cmd	*right;
-//}	t_list;
-
+typedef struct s_gcl_data
+{
+	char *line;
+	char *tmp;
+	char *result;
+	enum e_linestatus status;
+} t_gcl_data;
 
 
 
@@ -99,6 +115,7 @@ void	input_pipe(t_cmd *list);
 void	output_pipe(t_cmd *list, int fdd[2]);
 void	middle_pipe(t_cmd *list, int fd[2]);
 void	free_command(t_cmd *cmd);
+char	*get_complete_line(void);
 
 
 //builtins
@@ -111,6 +128,7 @@ int		msh_cd(int argc, char **argv);
 int		msh_export(int argc, char **argv, t_env **env);
 int		msh_exit(struct ASTNode *node);
 int		msh_env(t_env *head);
+struct ASTNode	*ast_root(t_shelldata *data);
 
 
 //enviromental variables functions:
@@ -119,5 +137,20 @@ int		env_print(t_env *head);
 void	env_free(t_env *head);
 char	*env_getvalue(t_env *head, char *name);
 
+//signals
+void	setup_signal_handling(void);
+void	signal_handler(int signo);
+
+//history
+t_history	*history_add(t_shelldata *data, char *line);
+void	print_history(t_shelldata *data);
+void	free_history(t_shelldata *data);
+
+//handle this later
+t_history *history_add(t_shelldata *data, char *line);
+void print_history(t_shelldata *data);
+void free_history(t_shelldata *data);
+struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data);
+void free_data(t_shelldata *data);
 
 #endif

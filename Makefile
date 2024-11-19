@@ -8,8 +8,10 @@ CFLAGS =  -g -Wall  -Wextra
 
 LFLAGS = -Llibft -Lft_fprintf -lftfprintf -lft -lreadline 
 
-SRCS = 	 srcs/main.c \
-		#  srcs/msh_env_list.c \
+SRCS =	srcs/main.c \
+		srcs/readline.c \
+		srcs/signal.c \
+		srcs/history.c \
 
 AST =	ast_utils.c\
 		ast.c\

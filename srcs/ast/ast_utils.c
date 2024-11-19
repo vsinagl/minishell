@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
 
 char	*concat_and_free(char *str1, char *str2)
@@ -38,7 +39,7 @@ char	*concat_and_free(char *str1, char *str2)
 	return (new_str);
 }
 
-struct ASTNode	*ast_root(void)
+struct ASTNode	*ast_root(t_shelldata *data)
 {
 	struct ASTNode	*node;
 
@@ -46,6 +47,7 @@ struct ASTNode	*ast_root(void)
 	if (node == NULL)
 		return (NULL);
 	node->type = ROOT;
+	node->data = data;
 	node->parent = NULL;
 	node->left = NULL;
 	node->right = NULL;

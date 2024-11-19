@@ -29,7 +29,6 @@ struct Token	*pop_token(struct TokenQueue *tokens)
 
 void	free_token(struct Token *token)
 {
-	printf("freeing token\n");
 	if (token->type == TOKEN_WORD)
 	{
 		if (token->value.word != NULL)

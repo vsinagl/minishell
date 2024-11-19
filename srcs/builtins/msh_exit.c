@@ -14,12 +14,12 @@
 
 int msh_exit(struct ASTNode *node)
 {
-	while(node->parent != NULL)
+	while(node->type != ROOT)
+	{
 		node = node->parent;
+	}
 	free_ast(node);
-	/*better handling here, in nnode there should be actual pointer to datastruct DATA,
-	so we can free all other allocated memory (like bash history etc..).
-	*/
+	free_data((t_shelldata *)node->data);
 	exit(0);
 	return(1);
 }
