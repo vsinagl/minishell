@@ -23,27 +23,6 @@ if status  is -1, it tells function that command was builtin function
 You canot pipe these builtin functions, we are returning error 
 in this case for pipes !.
 */
-int	sub_routine_ec2(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
-{
-	int		ret_value;
-
-	if (pipeinfo.read_fd != -1)
-	{
-		dup2(pipeinfo.read_fd, STDIN_FILENO);
-		close(pipeinfo.read_fd);
-	}
-	if (pipeinfo.write_fd != -1)
-	{
-		dup2(pipeinfo.write_fd, STDOUT_FILENO);
-		close(pipeinfo.write_fd);
-	}
-	if (status == -1)
-		return(0);
-	if (my_exec(node) != 0)
-		exit(2);
-	exit(1);
-}
-
 int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 {
 	int		ret_value;
@@ -63,12 +42,6 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 		return(0);
 	ret_value = my_exec(node);
 	exit(ret_value);
-	
-	// if (my_exec(node) != 0)
-	// {
-	// 	exit(2);
-	// }
-	// exit(1);
 }
 
 /*
@@ -81,9 +54,7 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 {
 	pid_t	pid;
 	int		status;
-	int		builtin_check;
 
-	builtin_check = 0;
 	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY && node->parent->type != REDIRECTION))
 		return (try_builtin(node, 0));
 	pid = fork();

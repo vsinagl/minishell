@@ -13,7 +13,6 @@
 #include "../../includes/minishell.h"
 
 /*
-/**
  * @file msh_env_list.c
  * @brief Environment List Management for Shell
  *
@@ -92,6 +91,30 @@ void	env_free(t_env *head)
 		free(tmp);
 	}
 }
+
+t_env *init_env(void)
+{
+	char 	*main_vars[5];
+	t_env	*head;
+	int		i;
+
+	main_vars[0] = "HOME";
+	main_vars[1] = "PWD";
+	main_vars[2] = "USER";
+	main_vars[3] = "PATH";
+	main_vars[4] = NULL;
+	head = NULL;
+	i = 0;
+	while (main_vars[i] != NULL)
+	{
+		env_add(&head, main_vars[i], getenv(main_vars[i]));
+		i++;
+	}
+	// msh_env(head);
+	return (head);
+}
+
+
 
 // int main(void)
 // {

@@ -12,6 +12,7 @@ SRCS =	srcs/main.c \
 		srcs/readline.c \
 		srcs/signal.c \
 		srcs/history.c \
+		srcs/init.c \
 
 AST =	ast_utils.c\
 		ast.c\
@@ -31,6 +32,7 @@ BUILTINS =	msh_cd.c\
 			msh_pwd.c \
 			msh_env_list.c \
 			msh_exit.c \
+			msh_clear.c \
 
 TESTLIB = libminishell.so
 

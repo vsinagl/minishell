@@ -40,6 +40,8 @@ extern int g_command_executing;
 typedef struct s_env t_env;
 typedef struct s_shelldata t_shelldata;
 typedef struct s_history t_history;
+
+// typedef struct	s_TokenizeState t_TokenizeState;
 //false = 0, true = 1
 enum e_bool
 {
@@ -54,12 +56,25 @@ typedef struct s_shelldata
 {
 	t_history	*history;
 	t_env		*env;
+	int			last_status;
 } t_shelldata;
 
 typedef struct s_history{
 	char *data;
 	t_history *prev;
 }	t_history;
+
+//helper struct that keep track of tokenizing state variables use in 
+//tokenize function
+struct	t_TokenizeState
+{
+	char			**tokens;
+	int				token_count;
+	int				in_quotes;
+	int				in_token;
+	int				token_index;
+	t_shelldata		*data;
+};
 
 /*
 enumerate used in get_complete_line function that
@@ -128,6 +143,7 @@ int		msh_cd(int argc, char **argv);
 int		msh_export(int argc, char **argv, t_env **env);
 int		msh_exit(struct ASTNode *node);
 int		msh_env(t_env *head);
+int 	msh_clear();
 struct ASTNode	*ast_root(t_shelldata *data);
 
 
@@ -136,6 +152,10 @@ t_env	*env_add(t_env **head, const char *name, const char *value);
 int		env_print(t_env *head);
 void	env_free(t_env *head);
 char	*env_getvalue(t_env *head, char *name);
+t_env 	*init_env(void);
+
+//init
+void	init_data(t_shelldata *data);
 
 //signals
 void	setup_signal_handling(void);
@@ -145,6 +165,12 @@ void	signal_handler(int signo);
 t_history	*history_add(t_shelldata *data, char *line);
 void	print_history(t_shelldata *data);
 void	free_history(t_shelldata *data);
+
+//tokenize
+char	**tokenize(char *input, t_shelldata *data);
+
+//parser
+struct TokenQueue	*tokenizer(char *readline, t_shelldata *data);
 
 //handle this later
 t_history *history_add(t_shelldata *data, char *line);

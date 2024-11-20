@@ -32,7 +32,6 @@ struct	Token;
 struct	TokenQueue;
 struct	ASTNode;
 struct	PipeInfo;
-struct	TokenizeState;
 struct	tokenize_data;
 
 struct						tokenize_data
@@ -44,14 +43,7 @@ struct						tokenize_data
 	int						len;
 };
 
-struct						TokenizeState
-{
-	char					**tokens;
-	int						token_count;
-	int						in_quotes;
-	int						in_token;
-	int						token_index;
-};
+
 
 struct						ArgSizes
 {
@@ -136,10 +128,10 @@ struct						PipeInfo
 
 int				try_builtin(struct ASTNode *node, int option);
 
-// lexer functions
-struct TokenQueue			*tokenizer(char *readedline);
+
+// parser
 // struct ASTNode				*create_ast(struct TokenQueue *queue);
-char						**tokenize(char *input);
+// char						**tokenize(char *input);
 struct Token				*pop_token(struct TokenQueue *tokens);
 void						free_token(struct Token *token);
 

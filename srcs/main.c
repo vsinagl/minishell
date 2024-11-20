@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 #include <signal.h>
 
-g_command_executing = 0;
+int g_command_executing = 0;
 
 // function that encapsule ast parser, executor and creator:
 int	executer(char *readline, int verbose, t_shelldata *data)
@@ -24,7 +24,9 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 
 	if (readline == NULL)
 		return (1);
-	tokens = tokenizer(readline);
+	if (verbose == 1)
+		printf("parsing line: %s\n", readline);
+	tokens = tokenizer(readline, data);
 	if (verbose == 1)
 		print_tokens(tokens);
 	root = create_ast(tokens, data);
@@ -35,6 +37,7 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 		printf("\n");
 	}
 	result = execute_node_main(root);
+	data->last_status = result;
 	if (verbose == 1)
 		printf("ast executed with result: %i\n", result);
 	return (0);
@@ -45,7 +48,7 @@ void	print_info(void)
 	char	pwd[1024];
 
 	printf("********* ************** **************\n");
-	printf("********* MINISHELL v0.2 **************\n");
+	printf("********* MINISHELL v0.3 **************\n");
 	printf("\n");
 	printf("VERSION DESCRIPTION: ");
 	printf("abstract syntax tree parser and executer, no builtins");
@@ -55,11 +58,6 @@ void	print_info(void)
 	printf("Dir: %s\n", pwd);
 }
 
-void	init_data(t_shelldata *data)
-{
-	data->history = NULL;
-	data->env = NULL;
-}
 
 void	free_data(t_shelldata *data)
 {
@@ -83,7 +81,7 @@ int	run_minishell(t_shelldata *data)
 		}
 		history_add(data, line);
 		g_command_executing = 1;
-		if (executer(line, 0, data) != 0)
+		if (executer(line, 1, data) != 0)
 		{
 			fprintf(stderr, "Error in executing AST\n");
 			free(line);

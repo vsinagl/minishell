@@ -3,12 +3,11 @@
 also, check the minishell.drawio for diagram of how each components is working
 
 ## init module
-- optional, custom minishell printing,
-<!-- - set the minishell
-- read from .minishelrc and read variables from here -->
+- just basic setup for minishell variables
 
 ## signal handler
 - how to handle signals in minishell ?
+TODO: describe how minishell processes are working
 
 ## main_shel_loop (almost complete)
 - main shell loop where user can write inputs and his inputs are process (by executer)
@@ -51,29 +50,29 @@ struct AstNode{
 - operators shoudl be handled as default type in lexical analysis, also, you don't need to have space between operators, for example `ls | grep test` is the same as `ls|grep test  
 	- **we need to addreess this problems in our parse.c and lexer.c**
 
-### [ ] executer error handling
+### ✅ executer error handling
 --> **VIKTOR**
 - better error handling when executing a command
 
 ### [ ] executing of builtins functions !
 
-### [ ] init module
+### ✅ init module
 
-### [ ] clear command handling
+### ✅ clear command handling
 - clear command now produce this error:
 `TERM environment variable not set.`
 
-### [ ] path handling
+### ✅ path handling
 --> **VIKTOR**
 - handle correct $PATH variable when executing a command
 
-###  [ ] history
+### ✅ history
 --> 
 - create history
 - history should contains input lines that user type in minishell
 - store history as linked list 
 
-### [ ]  handling signals
+### ✅ handling signals
 - Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
 	- In interactive mode:
 	- ctrl-C displays a new prompt on a new line.

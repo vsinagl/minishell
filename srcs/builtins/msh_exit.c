@@ -19,7 +19,7 @@ int msh_exit(struct ASTNode *node)
 		node = node->parent;
 	}
 	free_ast(node);
-	free_data((t_shelldata *)node->data);
+	// free_data((t_shelldata *)node->data);
 	exit(0);
 	return(1);
 }

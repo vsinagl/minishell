@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
 
 /*
@@ -81,6 +82,8 @@ struct Token	*tokenize_and_identify(const char *str_token)
 	enum OperatorType	op_type;
 
 	token = (struct Token *)malloc(sizeof(struct Token));
+	if (token == NULL)
+		return NULL;
 	op_type = get_operator_type(str_token);
 	if ((int)op_type != -1)
 	{
@@ -90,7 +93,10 @@ struct Token	*tokenize_and_identify(const char *str_token)
 	else
 	{
 		token->type = TOKEN_WORD;
-		token->value.word = strdup(str_token);
+		if (str_token == NULL)
+    		token->value.word = NULL;
+		else
+    		token->value.word = ft_strdup(str_token);
 	}
 	return (token);
 }
@@ -108,7 +114,7 @@ struct TokenQueue	*init_token_queue(void)
 /*
 creates a token queue from given array of string tokens
 */
-struct TokenQueue	*tokenizer(char *readline)
+struct TokenQueue	*tokenizer(char *readline, t_shelldata *data)
 {
 	struct TokenQueue	*tokens;
 	struct Token		*token;
@@ -116,7 +122,13 @@ struct TokenQueue	*tokenizer(char *readline)
 	char				**str_tokens;
 	int					i;
 
-	str_tokens = tokenize(readline);
+	str_tokens = tokenize(readline, data);
+	// i = 0;
+	// while(str_tokens[i] != NULL)
+	// {
+	// 	printf("token %i: %s\n",i, str_tokens[i]);
+	// 	i++;
+	// }
 	tokens = init_token_queue();
 	i = 0;
 	prev = NULL;
@@ -128,11 +140,14 @@ struct TokenQueue	*tokenizer(char *readline)
 			tokens->top = token;
 		if (prev != NULL)
 			prev->next = token;
+		print_token(token);
 		prev = token;
 		tokens->size++;
 		i++;
 	}
 	free(str_tokens);
 	token->next = NULL;
+	// printf("tokens completed\n");
 	return (tokens);
 }
+

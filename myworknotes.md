@@ -21,11 +21,11 @@
 - [x] BETTER PIPE HANDLING FOR BUILTINS !!O
     - Pipes are handling the same but i little bit improve executing of builtins in execute_command function, so now the behavior is almost like in bash!
 
-- [ ] put ash.h into minishell.h !
+- [ ] put ash.h into minishell.h
     - na konci minishell.h mam nejake funkce ktere by bylo dobre lepe popsat
     - pridat data_structure.h nebo neco takoveho kde se budou separatne separovat struktury
 
-- [ ] check new process implementation
+- [x] check new process implementation
     - main loop ten jedu v procesu, prepsat a zformatovat nove funkce dle normy
     - prepsat main tak aby splnovala normu
     - ceknout ze historie a cleanovani funguje tak jak ma v child procesu !
@@ -43,20 +43,34 @@
 - [x] new line handling in minishell
     - added bash like handling for newlines, you cannot make newline directly but minishell can recognize that line is incomplete (for example when you miss command after pipe etc..)
 
-- [ ] create a minishell data structure
-    - [ ] implement history (saving lines as linked list)
-    - [ ] implement enviromental variables
+- [x] create a minishell data structure
+    - [x] implement history (saving lines as linked list)
+    - [x] implement enviromental variables
+
+
+# rewrite lexer to handle all subject cases 
+- [x] expand $
+- [x]  separte handling of $ in " and '
+- [x] handle $$
+- [x] handle $?
+- [ ] norminette like .c file
 
 
 # exit handling
 - implement exit function
 
-# write tests for ast_test part with python !
+# FUCK IT! write tests for ast_test part with python !
 
 # adding redirections
 
-# handling signals in minishell
+# DONE! handling signals in minishell
 
 # norminette 
 
 - [ ] add utils directory with utils function, add here free_string_arr() function
+
+# ERRORS !
+- [x]  echo "$PATH" --> got some malloc error, can't find why
+- [ ]  to consecutive binary operatros or redirections make shell crash
+    eg `ls | | grep test` terminate shell
+- [ ] bash parsing like echo|grep, in current implementation is threated as single command ls||grep test

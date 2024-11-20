@@ -142,8 +142,6 @@ static char	**prepare_args(struct ASTNode *node)
 
 int	is_builtin(char *command)
 {
-	int	ret_val;
-
 	if (command == NULL)
 		return (-1);
 	if (str_exact_match(command, "cd") || str_exact_match(command, "echo")
@@ -153,6 +151,22 @@ int	is_builtin(char *command)
 		return (1);
 	return (0);
 }
+
+t_env	*get_env_head(struct ASTNode * node)
+{
+	t_shelldata	*data;
+
+	while(node->type != ROOT)
+	{
+		node = node->parent;
+	}
+	data = (t_shelldata *)node->data;
+	if (data->env == NULL)
+		return NULL;
+	return (data->env);
+	
+}
+
 
 int	try_builtin(struct ASTNode *node, int option)
 {
@@ -170,6 +184,8 @@ int	try_builtin(struct ASTNode *node, int option)
 		ret_value = msh_pwd();
 	else if (str_exact_match((char *)node->data, "cd"))
 		ret_value = msh_cd(ft_strarr_len(args), args);
+	else if (str_exact_match((char *)node->data, "clear"))
+		ret_value = msh_clear();
 	else
 		return (-1);
 	free_args(args);
