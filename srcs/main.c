@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/09 14:33:51 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:00:45 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	run_minishell(t_shelldata *data)
 
 	// Setup signal handling for shell process
 	setup_signal_handling();
+	msh_env(NULL, data->env);
 	while (1)
 	{
 		g_command_executing = 0;

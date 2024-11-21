@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:35 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/21 15:14:01 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,7 @@ int	is_builtin(char *command)
 		return (-1);
 	if (str_exact_match(command, "cd") || str_exact_match(command, "echo")
 		|| str_exact_match(command, "pwd") || str_exact_match(command, "export")
-		|| str_exact_match(command, "exit") || str_exact_match(command, "env")
-		|| str_exact_match (command, "unset"))
+		|| str_exact_match(command, "exit") || str_exact_match (command, "unset"))
 		return (1);
 	return (0);
 }
@@ -186,6 +185,8 @@ int	try_builtin(struct ASTNode *node, int option)
 		ret_value = msh_cd(ft_strarr_len(args), args);
 	else if (str_exact_match((char *)node->data, "clear"))
 		ret_value = msh_clear();
+	else if (str_exact_match((char *)node->data, "env"))
+		ret_value = msh_env(node, NULL);
 	else
 		return (-1);
 	free_args(args);

@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:27:15 by mmarek            #+#    #+#             */
-/*   Updated: 2024/11/04 16:00:38 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/21 15:10:26 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int		msh_pwd(void);
 int		msh_cd(int argc, char **argv);
 int		msh_export(int argc, char **argv, t_env **env);
 int		msh_exit(struct ASTNode *node);
-int		msh_env(t_env *head);
+int		msh_env(struct ASTNode *node, t_env *p_head);
 int 	msh_clear();
 struct ASTNode	*ast_root(t_shelldata *data);
 

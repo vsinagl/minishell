@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/09 14:33:51 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:00:47 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int msh_exit(struct ASTNode *node)
 		node = node->parent;
 	}
 	free_ast(node);
-	// free_data((t_shelldata *)node->data);
+	free_data((t_shelldata *)node->data);
 	exit(0);
 	return(1);
 }

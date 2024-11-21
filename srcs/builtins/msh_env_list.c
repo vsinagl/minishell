@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:27:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/09 14:51:20 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/21 17:04:40 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,32 @@ t_env	*env_add(t_env **head, const char *name, const char *value)
 	return (new);
 }
 
-int	msh_env(t_env *head)
+int	msh_env(struct ASTNode *node, t_env *p_head)
 {
-	if (head == NULL)
+	t_env	*head;
+
+	printf("env executing\n");
+	head = NULL;
+	if (p_head == NULL && node == NULL)
 		return (1);
+	if (node == NULL)
+		head = p_head;
+	else if (p_head == NULL)
+	{
+		while(node->type != ROOT)
+		{
+			node = node->parent;
+		}
+		printf("test1\n");
+		t_shelldata *data = (t_shelldata *)node;
+		printf("data: initialized: %p\n", data);
+		head = data->env;
+		printf("head (data->env): %p\n", data->env);
+		// head = ((t_shelldata *)node->data)->env;
+	}
+	if (head == NULL)
+		return 69;
+	printf("head initialized\n");
 	while(head != NULL)
 	{
 		printf("%s=", head->name);
@@ -94,7 +116,7 @@ void	env_free(t_env *head)
 
 t_env *init_env(void)
 {
-	char 	*main_vars[5];
+	char 	*main_vars[6];
 	t_env	*head;
 	int		i;
 
@@ -102,7 +124,8 @@ t_env *init_env(void)
 	main_vars[1] = "PWD";
 	main_vars[2] = "USER";
 	main_vars[3] = "PATH";
-	main_vars[4] = NULL;
+	main_vars[4] = "HOME";
+	main_vars[5] = NULL;
 	head = NULL;
 	i = 0;
 	while (main_vars[i] != NULL)
@@ -110,7 +133,8 @@ t_env *init_env(void)
 		env_add(&head, main_vars[i], getenv(main_vars[i]));
 		i++;
 	}
-	// msh_env(head);
+	env_add(&head,("TERM"),("xterm-256color"));
+	env_add(&head,ft_strdup("SHELL"), ft_strdup("minishell"));
 	return (head);
 }
 
