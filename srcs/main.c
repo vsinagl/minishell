@@ -48,10 +48,11 @@ void	print_info(void)
 	char	pwd[1024];
 
 	printf("********* ************** **************\n");
-	printf("********* MINISHELL v0.3 **************\n");
+	printf("********* MINISHELL v0.5 **************\n");
 	printf("\n");
 	printf("VERSION DESCRIPTION: ");
-	printf("abstract syntax tree parser and executer, no builtins");
+	printf("abstract syntax tree parser with expanding $, pipes, input checking, signals etc..");
+	printf("missing: redirections");
 	printf("\n\n");
 	printf("Uzivatel: %s\n", getenv("USER"));
 	getcwd(pwd, sizeof(pwd));
