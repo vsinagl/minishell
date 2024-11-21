@@ -76,6 +76,12 @@ struct	t_TokenizeState
 	t_shelldata		*data;
 };
 
+typedef struct s_tokens
+{
+    char **tokens;
+    int count;
+} t_tokens;
+
 /*
 enumerate used in get_complete_line function that
 symbolize actual completeness of line.
