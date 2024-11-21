@@ -51,8 +51,8 @@ void	print_info(void)
 	printf("********* MINISHELL v0.5 **************\n");
 	printf("\n");
 	printf("VERSION DESCRIPTION: ");
-	printf("abstract syntax tree parser with expanding $, pipes, input checking, signals etc..");
-	printf("missing: redirections");
+	printf("abstract syntax tree parser with expanding $, pipes, input checking, signals etc..\n");
+	printf("MISSING: redirections");
 	printf("\n\n");
 	printf("Uzivatel: %s\n", getenv("USER"));
 	getcwd(pwd, sizeof(pwd));
@@ -104,7 +104,6 @@ int	main(void)
 	int status;
 
 	init_data(&data);
-	print_info();
 	// Parent process should ignore these signals
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -116,6 +115,7 @@ int	main(void)
 	}
 	if (shell_pid == 0)
 	{
+		print_info();
 		status = run_minishell(&data);
 		exit(status);
 	}
