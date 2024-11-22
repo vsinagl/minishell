@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:27:15 by mmarek            #+#    #+#             */
-/*   Updated: 2024/11/21 15:10:26 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:22:40 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ enum e_linestatus {
 
 typedef struct s_env
 {
-	const char	*name;
-	const char	*value;
+	char	*name;
+	char	*value;
 	t_env	*next;
 }	t_env;
 
@@ -146,19 +146,20 @@ char	*get_complete_line(void);
 int		msh_echo(int argc, char **argv);
 int		msh_pwd(void);
 int		msh_cd(int argc, char **argv);
-int		msh_export(int argc, char **argv, t_env **env);
+int		msh_export(int argc, char **argv, t_env *head);
 int		msh_exit(struct ASTNode *node);
-int		msh_env(struct ASTNode *node, t_env *p_head);
+int		msh_env(t_env *head);
 int 	msh_clear();
 struct ASTNode	*ast_root(t_shelldata *data);
 
 
 //enviromental variables functions:
-t_env	*env_add(t_env **head, const char *name, const char *value);
+t_env	*env_add(t_env *head, char *name, char *value);
 int		env_print(t_env *head);
 void	env_free(t_env *head);
 char	*env_getvalue(t_env *head, char *name);
 t_env 	*init_env(void);
+void	env_free_struct(t_env *env);
 
 //init
 void	init_data(t_shelldata *data);
@@ -177,6 +178,9 @@ char	**tokenize(char *input, t_shelldata *data);
 
 //parser
 struct TokenQueue	*tokenizer(char *readline, t_shelldata *data);
+
+//utils
+int	str_exact_match(const char *s1, const char *s2);
 
 //handle this later
 t_history *history_add(t_shelldata *data, char *line);

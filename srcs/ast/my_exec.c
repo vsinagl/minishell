@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/21 15:14:01 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/22 15:03:02 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	*find_executable(char *command)
 	return (NULL);
 }
 
-static int	str_exact_match(const char *s1, const char *s2)
+int	str_exact_match(const char *s1, const char *s2)
 {
 	return (ft_strlen(s1) == ft_strlen(s2) && ft_strncmp(s1, s2,
 			ft_strlen(s2)) == 0);
@@ -151,19 +151,11 @@ int	is_builtin(char *command)
 	return (0);
 }
 
-t_env	*get_env_head(struct ASTNode * node)
+t_env	*ast_get_env(struct ASTNode *node)
 {
-	t_shelldata	*data;
-
 	while(node->type != ROOT)
-	{
 		node = node->parent;
-	}
-	data = (t_shelldata *)node->data;
-	if (data->env == NULL)
-		return NULL;
-	return (data->env);
-	
+	return (((t_shelldata *)node->data)->env);
 }
 
 
@@ -186,9 +178,14 @@ int	try_builtin(struct ASTNode *node, int option)
 	else if (str_exact_match((char *)node->data, "clear"))
 		ret_value = msh_clear();
 	else if (str_exact_match((char *)node->data, "env"))
-		ret_value = msh_env(node, NULL);
+		ret_value = msh_env(ast_get_env(node));
+	else if (str_exact_match((char *)node->data, "export"))
+		ret_value = msh_export(ft_strarr_len(args), args, ast_get_env(node));
 	else
 		return (-1);
+	t_env *header = ast_get_env(node);
+	printf("reference pointer: %p \n", header);
+	printf("RETURNED HEAD: %s=%s\n", header->name, header->value);
 	free_args(args);
 	if (option == 1)
 		exit(ret_value);

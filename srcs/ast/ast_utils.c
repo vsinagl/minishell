@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/05 12:33:40 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/22 07:42:39 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ struct ASTNode	*ast_root(t_shelldata *data)
 	node->parent = NULL;
 	node->left = NULL;
 	node->right = NULL;
-	node->data = NULL;
 	node->args = NULL;
 	return (node);
 }

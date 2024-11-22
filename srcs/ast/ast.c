@@ -165,6 +165,10 @@ struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 	struct Token	*token;
 
 	root = ast_root(data);
+	printf("root data: \n");
+	printf("env data: %p, env pointer: %p\n", data, data->env);
+	printf("root data: %p, root->env pointer: %p\n", root->data, ((t_shelldata *)(root->data))->env);
+	printf("\n");
 	node = ast_command(queue, root, pop_token(queue));
 	root->left = node;
 	while (queue->size > 0)
