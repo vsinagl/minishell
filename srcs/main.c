@@ -123,12 +123,14 @@ int	main(void)
 	{
 		print_info();
 		status = run_minishell(&data);
+		free_data(&data);
 		exit(status);
 	}
 	else
 	{
 		// Parent process waits for shell to finish
 		waitpid(shell_pid, &status, 0);
+		free_data(&data);
 		return (WEXITSTATUS(status));
 	}
 }

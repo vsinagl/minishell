@@ -74,4 +74,8 @@
 - [ ]  to consecutive binary operatros or redirections make shell crash
     eg `ls | | grep test` terminate shell
 - [ ] bash parsing like echo|grep, in current implementation is threated as single command ls||grep test
-- [ ] invalid pointer on exit, probably in free msh_exit free function
+- [x] invalid pointer on exit, probably in free msh_exit free function
+    - **solved**: it was double freeing data-> move free_data(for root).
+    - so free_ast don't free root->data, as there is pointer to data iself !!
+    
+    

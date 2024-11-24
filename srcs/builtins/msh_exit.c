@@ -15,6 +15,7 @@
 int msh_exit(struct ASTNode *node)
 {
 	struct ASTNode *root;
+	t_shelldata *data;
 
 	if (node == NULL)
 	{
@@ -29,7 +30,9 @@ int msh_exit(struct ASTNode *node)
 	root = node;
 	while(root->type != ROOT)
 		root = root->parent;
+	data = root->data;
 	free_ast(root);
+	free_data(data);
 	exit(0);
 	return(0);
 }
