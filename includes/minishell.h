@@ -150,6 +150,7 @@ int		msh_export(int argc, char **argv, t_env *head);
 int		msh_exit(struct ASTNode *node);
 int		msh_env(t_env *head);
 int 	msh_clear();
+int		msh_unset(int argc, char **argv, t_env **head);
 struct ASTNode	*ast_root(t_shelldata *data);
 
 

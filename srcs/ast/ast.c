@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
+#include "../../includes/minishell.h"
 
 /**
 * @brief Creates an AST node for a command.
-* 
+*
 * This function creates an AST node for a command based on the given token.
 * The created node will have the type COMMAND and will store the command's data.
 * The left and right child nodes will be set to NULL.
 Command is leaf node and dont have any childs.
 * It's a last instance in tree
-* The function also creates arguments for the command by calling 
-the create_args() function in tokenqueue.
+* The function also creates arguments for the command by calling
+the	create_args(void) function in tokenqueue.
  *
  * @param queue The token queue containing the tokens.
  * @param parent The parent node of the command node.
@@ -64,16 +64,16 @@ the parent of this node will become the left child of the new binary (pipe node)
  from parser we will have following tokesn: ls, |, wc, -l
  before creating AST node of pipe, the current as will look like this:
 
- 			ROOT
+			ROOT
 			/
- 			ls         <--- pipe token
+			ls         <--- pipe token
 
  AFTER CREATING AST PIPE NODE:
- 			ROOT
- 			/
- 		pipe
- 		/	\
- 		ls	wc
+			ROOT
+			/
+		pipe
+		/	\
+		ls	wc
 
 ! notice that ls become a ls was pass as parrent to ast_binaryop function
 (parent of pipe token) but after this function
@@ -167,7 +167,8 @@ struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 	root = ast_root(data);
 	printf("root data: \n");
 	printf("env data: %p, env pointer: %p\n", data, data->env);
-	printf("root data: %p, root->env pointer: %p\n", root->data, ((t_shelldata *)(root->data))->env);
+	printf("root data: %p, root->env pointer: %p\n", root->data,
+		((t_shelldata *)(root->data))->env);
 	printf("\n");
 	node = ast_command(queue, root, pop_token(queue));
 	root->left = node;
@@ -199,7 +200,12 @@ void	free_ast(struct ASTNode *node)
 		free_ast(node->right);
 	if (node->args != NULL)
 		free_args(node->args);
-	if (node->data != NULL)
-		free(node->data);
+	if (node->type == COMMAND)
+	{
+		if (node->data != NULL)
+			free(node->data);
+	}
+	if (node->type == ROOT)
+		free_data((t_shelldata *)node->data);
 	free(node);
 }

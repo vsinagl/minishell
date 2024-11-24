@@ -181,6 +181,11 @@ int	try_builtin(struct ASTNode *node, int option)
 		ret_value = msh_env(ast_get_env(node));
 	else if (str_exact_match((char *)node->data, "export"))
 		ret_value = msh_export(ft_strarr_len(args), args, ast_get_env(node));
+	else if (str_exact_match((char *)node->data, "unset"))
+	{
+		t_env *env = ast_get_env(node);
+		ret_value = msh_unset(ft_strarr_len(args), args, &env);
+	}
 	else
 		return (-1);
 	t_env *header = ast_get_env(node);

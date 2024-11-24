@@ -14,12 +14,22 @@
 
 int msh_exit(struct ASTNode *node)
 {
-	while(node->type != ROOT)
+	struct ASTNode *root;
+
+	if (node == NULL)
 	{
-		node = node->parent;
+		ft_fprintf(STDERR_FILENO, "Error in msh_exit, ASTNode is (null)\n");
+		return (1);
 	}
-	free_ast(node);
-	free_data((t_shelldata *)node->data);
+	if (node->data == NULL)
+	{
+		ft_fprintf(STDERR_FILENO, "Error in msh_exit, root->data is (null)\n");
+		return(1);
+	}
+	root = node;
+	while(root->type != ROOT)
+		root = root->parent;
+	free_ast(root);
 	exit(0);
-	return(1);
+	return(0);
 }

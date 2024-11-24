@@ -33,6 +33,7 @@ BUILTINS =	msh_cd.c\
 			msh_env_list.c \
 			msh_exit.c \
 			msh_clear.c \
+			msh_unset.c \
 
 TESTLIB = libminishell.so
 

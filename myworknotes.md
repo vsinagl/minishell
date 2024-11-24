@@ -33,12 +33,12 @@
 - [x] implementace signalu
     - signalu ted handluju stejnym zpusobem jako  bash
 
-- [ ] add builtins executed in parent process:
+- [x] add builtins executed in parent process:
     - [x]   cd
     - [x]   exit 
-    - [ ]   export 
-    - [ ]   unset 
-    - [ ]   env 
+    - [x]   export 
+    - [x]   unset 
+    - [x]   env 
 
 - [x] new line handling in minishell
     - added bash like handling for newlines, you cannot make newline directly but minishell can recognize that line is incomplete (for example when you miss command after pipe etc..)
@@ -74,3 +74,4 @@
 - [ ]  to consecutive binary operatros or redirections make shell crash
     eg `ls | | grep test` terminate shell
 - [ ] bash parsing like echo|grep, in current implementation is threated as single command ls||grep test
+- [ ] invalid pointer on exit, probably in free msh_exit free function

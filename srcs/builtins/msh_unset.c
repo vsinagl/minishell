@@ -10,16 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
-int	msh_unset(int argc, char **argv, t_env **head)
+/*
+function to unset an enviroment variable
+- if variable is not foud, return: 0
+-  in case of error: return 1
+
+*/
+static void	search_through_envlist(t_env **head, char *value)
 {
 	t_env	*p_prev;
 	t_env	*current;
 	t_env	*tmp;
-	char 	*value;
 
-	printf("unset argc: %i\n");
+	current = *head;
+	if (str_exact_match(current->name, value))
+	{
+		*head = current->next;
+		free(current);
+		return ;
+	}
+	p_prev = current;
+	current = current->next;
+	while(current != NULL)
+	{
+		if (str_exact_match(current->name, value))
+		{
+			tmp = current;
+			p_prev->next = current->next;
+			free(tmp);
+			return ;
+		}
+		p_prev = current;
+		current = current->next;
+	}
+}
+
+
+static void	arg_loop(int argc, char **argv, t_env **head)
+{
+	int 	i;
+	char	*value;
+
+	i = 1;
+	while (i < argc)
+	{
+		value = argv[i];
+		search_through_envlist(head, value);
+		i++;
+	}
+}
+
+int	msh_unset(int argc, char **argv, t_env **head)
+{
 	if (argc <= 1)
 	{
 		ft_fprintf(STDERR_FILENO, "unset: not enough arguments\n");
@@ -30,19 +74,6 @@ int	msh_unset(int argc, char **argv, t_env **head)
 		ft_fprintf(STDERR_FILENO, "unset: pointer to t_env * is (null)\n");
 		return (1);
 	}
-	current = *head;
-	value = argv[1];
-	if (str_exact_match(current->name, value))
-	{
-		tmp = head;
-		head = current->next;
-		free(tmp);
-		return (0);
-	}
-	p_prev = head;
-	current = current->next;
-	while(str_exact_match(current->name, value))
-	{
-
-	}
+	arg_loop(argc, argv, head);
+	return (0);
 }

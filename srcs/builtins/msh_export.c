@@ -52,7 +52,7 @@ int	msh_export(int argc, char **argv, t_env *head)
 				return 2;
 			str1 = ft_substr(argv[i], 0, (size_t)(border));
 			str2 = ft_strdup(ft_strchr(argv[i], '=') + 1);
-			t_env *header = env_add(head, str1, str2);
+			env_add(head, str1, str2);
 			i++;
 		}
 	}

@@ -62,7 +62,13 @@ void	print_info(void)
 
 void	free_data(t_shelldata *data)
 {
+	if (data == NULL)
+	{
+		ft_fprintf(STDERR_FILENO, "Error in free_data, data is (null)\n");
+		return ;
+	}
 	free_history(data);
+	env_free(data->env);
 }
 
 int	run_minishell(t_shelldata *data)
