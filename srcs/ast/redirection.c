@@ -13,12 +13,35 @@
 #include "../../includes/minishell.h"
 
 
+static int create_fd_heredoc(char *eof)
+{
+	int		pipe_fd[2];
+	char	*line;
+
+	if (pipe(pipe_fd) == -1)
+		return (-1);
+	line = readline("heredoc> ");
+	while(line != NULL && ft_strcmp(line, eof) != 0)
+	{
+		ft_putstr_fd(line, pipe_fd[1]);
+		write(pipe_fd[1], "\n", 1);
+		free(line);
+		line = readline("heredoc> ");
+	}
+	close(pipe_fd[1]);
+	return(pipe_fd[0]);
+}
+
+
+
 static int get_fd(char *filename, enum NodeType nodetype)
 {
 	int		fd;
 
 	if (nodetype == REDIRECTION_OUT)
         fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (nodetype == REDIRECTION_HEREDOC)
+		fd = create_fd_heredoc(filename);
     else if (nodetype == REDIRECTION_APPEND)
         fd = open(filename, O_WRONLY | O_CREAT | O_APPEND);
     else if (nodetype == REDIRECTION_IN)
@@ -54,9 +77,9 @@ int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
 	file_fd = get_fd(file_name, node->type);
 	if (file_fd == -1)
 		return (1);
-    if (node->type == REDIRECTION_IN)
-    	left_pipe = init_pipe(file_fd, parent_pipe.write_fd);
-    else
+    if (node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC)
+		left_pipe = init_pipe(file_fd, parent_pipe.write_fd);
+	else
         left_pipe = init_pipe(parent_pipe.read_fd, file_fd);
 	if (execute_node(node->left, left_pipe))
 	{

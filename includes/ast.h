@@ -68,8 +68,10 @@ enum						NodeType
 	REDIRECTION_IN,
 	REDIRECTION_OUT,
 	REDIRECTION_APPEND,
+	REDIRECTION_HEREDOC,
 	AND,
 	OR,
+
 };
 
 enum						TokenType
@@ -86,6 +88,7 @@ enum						OperatorType
 	OP_REDIRECT_OUT,
 	OP_REDIRECT_IN,
 	OP_REDIRECT_APPEND,
+	OP_HEREDOC,
 	OP_AND,
 	OP_OR,
 };

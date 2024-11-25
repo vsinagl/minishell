@@ -14,7 +14,8 @@
 
 enum e_bool	is_redirection(struct ASTNode *node)
 {
-	if (node->type == REDIRECTION_APPEND || node->type == REDIRECTION_IN || node->type == REDIRECTION_OUT)
+	if (node->type == REDIRECTION_APPEND || node->type == REDIRECTION_IN
+		|| node->type == REDIRECTION_OUT || node->type == REDIRECTION_HEREDOC)
 		return (TRUE);
 	return (FALSE);
 }
@@ -25,12 +26,12 @@ ARGUMENTS:
 @status can be 0 or -1
 if status  is -1, it tells function that command was builtin function
 (like cd or exit) and was already handled in parent process.
-You canot pipe these builtin functions, we are returning error 
+You canot pipe these builtin functions, we are returning error
 in this case for pipes !.
 */
 int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 {
-	int		ret_value;
+	int	ret_value;
 
 	ret_value = 0;
 	if (pipeinfo.read_fd != -1)
@@ -44,7 +45,7 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 		close(pipeinfo.write_fd);
 	}
 	if (status == -1)
-		return(0);
+		return (0);
 	ret_value = my_exec(node);
 	exit(ret_value);
 }
@@ -60,7 +61,9 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 	pid_t	pid;
 	int		status;
 
-	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY && is_redirection(node->parent) == FALSE)) //node->parent->type != REDIRECTION))
+	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY
+				&& is_redirection(node->parent) == FALSE))
+		// node->parent->type != REDIRECTION))
 		return (try_builtin(node, 0));
 	pid = fork();
 	if (pid == -1)
@@ -94,7 +97,8 @@ int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
 	else
 	{
 		printf("command i: %i\n", COMMAND);
-		ft_fprintf(STDERR_FILENO, "error in execute_node (%i), wrong node\n", node->type);	
+		ft_fprintf(STDERR_FILENO, "error in execute_node (%i), wrong node\n",
+			node->type);
 		return (1);
 	}
 	return (0);

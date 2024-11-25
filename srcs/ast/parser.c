@@ -66,6 +66,8 @@ enum OperatorType	get_operator_type(const char *token)
 		return (OP_REDIRECT_IN);
 	if (strcmp(token, ">>") == 0)
 		return (OP_REDIRECT_APPEND);
+	if (strcmp(token, "<<") == 0)
+		return (OP_HEREDOC);
 	if (strcmp(token, "&&") == 0)
 		return (OP_AND);
 	if (strcmp(token, "||") == 0)
@@ -123,12 +125,6 @@ struct TokenQueue	*tokenizer(char *readline, t_shelldata *data)
 	int					i;
 
 	str_tokens = tokenize(readline, data);
-	// i = 0;
-	// while(str_tokens[i] != NULL)
-	// {
-	// 	printf("token %i: %s\n",i, str_tokens[i]);
-	// 	i++;
-	// }
 	tokens = init_token_queue();
 	i = 0;
 	prev = NULL;

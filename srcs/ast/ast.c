@@ -119,6 +119,8 @@ enum NodeType	get_redirection_nodetype(enum OperatorType op)
 		type = REDIRECTION_APPEND;
 	else if (op == OP_REDIRECT_IN)
 		type = REDIRECTION_IN;
+	else if (op == OP_HEREDOC)
+		type = REDIRECTION_HEREDOC;
 	return (type);
 }
 
