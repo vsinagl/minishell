@@ -25,6 +25,7 @@ AST =	ast_utils.c\
 		print_ast_utils.c\
 		print_ast.c\
 		my_exec.c \
+		redirection.c \
 
 BUILTINS =	msh_cd.c\
 			msh_echo.c \

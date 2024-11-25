@@ -110,7 +110,6 @@ int	main(void)
 	int status;
 
 	init_data(&data);
-	// Parent process should ignore these signals
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	shell_pid = fork();
@@ -128,7 +127,6 @@ int	main(void)
 	}
 	else
 	{
-		// Parent process waits for shell to finish
 		waitpid(shell_pid, &status, 0);
 		free_data(&data);
 		return (WEXITSTATUS(status));

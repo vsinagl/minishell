@@ -12,7 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-
+enum e_bool	is_redirection(struct ASTNode *node)
+{
+	if (node->type == REDIRECTION_APPEND || node->type == REDIRECTION_IN || node->type == REDIRECTION_OUT)
+		return (TRUE);
+	return (FALSE);
+}
 
 /*
 subroutine for execute_command because norminette s*cks
@@ -55,7 +60,7 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 	pid_t	pid;
 	int		status;
 
-	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY && node->parent->type != REDIRECTION))
+	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY && is_redirection(node->parent) == FALSE)) //node->parent->type != REDIRECTION))
 		return (try_builtin(node, 0));
 	pid = fork();
 	if (pid == -1)
@@ -84,11 +89,8 @@ int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
 		return (execute_command(node, pipeinfo));
 	else if (node->type == BINARY)
 		return (execute_pipe(node, pipeinfo));
-	else if (node->type == REDIRECTION)
-	{
-		perror("error in execute_node, rediretion not supported yet\n");
-		exit(16);
-	}
+	else if (is_redirection(node) == TRUE)
+		return (execute_redirection(node, pipeinfo));
 	else
 	{
 		printf("command i: %i\n", COMMAND);

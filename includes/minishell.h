@@ -153,6 +153,9 @@ int 	msh_clear();
 int		msh_unset(int argc, char **argv, t_env **head);
 struct ASTNode	*ast_root(t_shelldata *data);
 
+//redirections
+int 		execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe);
+enum e_bool	is_redirection(struct ASTNode *node);
 
 //enviromental variables functions:
 t_env	*env_add(t_env *head, char *name, char *value);

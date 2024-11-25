@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ast.h"
 #include "../../includes/minishell.h"
 
 /**
@@ -109,6 +108,20 @@ struct ASTNode	*ast_binaryop(struct TokenQueue *queue, struct ASTNode *parent,
 	return (node);
 }
 
+
+enum NodeType	get_redirection_nodetype(enum OperatorType op)
+{
+	enum NodeType	type;
+
+	if (op == OP_REDIRECT_OUT)
+		type = REDIRECTION_OUT;
+	else if (op == OP_REDIRECT_APPEND)
+		type = REDIRECTION_APPEND;
+	else if (op == OP_REDIRECT_IN)
+		type = REDIRECTION_IN;
+	return (type);
+}
+
 /**
 * @brief Creates an redirection AST node.
 *
@@ -129,16 +142,18 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 	node = (struct ASTNode *)malloc(sizeof(struct ASTNode));
 	if (node == NULL)
 		return (NULL);
-	node->type = REDIRECTION;
+	node->type = get_redirection_nodetype(token->value.op);
 	node->right = NULL;
 	node->left = parent;
 	node->parent = parent->parent;
 	parent->parent->left = node;
 	parent->parent = node;
-	node->data = (void *)token->value.op;
-	node->args = NULL;
+	node->data = NULL;
 	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
-		node->args = create_args(queue);
+		node->data = (void *)strdup(pop_token(queue)->value.word);
+	// node->args = NULL;
+	// if (queue->size > 0 && queue->top->type == TOKEN_WORD)
+	// 	node->args = create_args(queue);
 	free_token(token);
 	return (node);
 }
@@ -165,11 +180,6 @@ struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 	struct Token	*token;
 
 	root = ast_root(data);
-	printf("root data: \n");
-	printf("env data: %p, env pointer: %p\n", data, data->env);
-	printf("root data: %p, root->env pointer: %p\n", root->data,
-		((t_shelldata *)(root->data))->env);
-	printf("\n");
 	node = ast_command(queue, root, pop_token(queue));
 	root->left = node;
 	while (queue->size > 0)

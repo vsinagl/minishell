@@ -59,12 +59,17 @@ struct						QueueNode
 	struct QueueNode		*next;
 };
 
+//binary = pipe operator
 enum						NodeType
 {
 	ROOT = 0,
 	COMMAND,
 	BINARY,
-	REDIRECTION,
+	REDIRECTION_IN,
+	REDIRECTION_OUT,
+	REDIRECTION_APPEND,
+	AND,
+	OR,
 };
 
 enum						TokenType
@@ -166,7 +171,7 @@ void	free_token_queue(struct TokenQueue *tokens);
 
 // printing ast
 void						print_whitespace(int n, char whitespace);
-void						print_operator(enum OperatorType op);
+// void						print_operator(enum OperatorType op);
 void						print_astnode(struct ASTNode *node);
 void						print_ast_tree(struct ASTNode *root);
 

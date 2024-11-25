@@ -1,4 +1,4 @@
-# PATH handling in myexec
+# ✅ PATH handling in myexec
 ## tasks:
 - [x] rewrite Makefile for compaling the AST files with ast/main.c to one executable for testing :)
 
@@ -10,7 +10,7 @@
 
 - [x] check valgrind errors and fix them
 
-# buitlins
+# ✅ buitlins
 
 - [x] add separete builtins executer for child and parrent process
 
@@ -21,9 +21,6 @@
 - [x] BETTER PIPE HANDLING FOR BUILTINS !!O
     - Pipes are handling the same but i little bit improve executing of builtins in execute_command function, so now the behavior is almost like in bash!
 
-- [ ] put ash.h into minishell.h
-    - na konci minishell.h mam nejake funkce ktere by bylo dobre lepe popsat
-    - pridat data_structure.h nebo neco takoveho kde se budou separatne separovat struktury
 
 - [x] check new process implementation
     - main loop ten jedu v procesu, prepsat a zformatovat nove funkce dle normy
@@ -48,22 +45,28 @@
     - [x] implement enviromental variables
 
 
-# rewrite lexer to handle all subject cases 
+# ✅ rewrite lexer to handle all subject cases 
 - [x] expand $
 - [x]  separte handling of $ in " and '
 - [x] handle $$
 - [x] handle $?
-- [ ] norminette like .c file
+- [x] norminette like .c file
 
 
-# exit handling
-- implement exit function
+# ✅ exit handling
+- [x] implement exit function
 
-# FUCK IT! write tests for ast_test part with python !
+# .h handling
+- [ ] put ash.h into minishell.h
+    - na konci minishell.h mam nejake funkce ktere by bylo dobre lepe popsat
+    - pridat data_structure.h nebo neco takoveho kde se budou separatne separovat struktury
+
+- [ ] rename structures for norminette
+    - probably use clion for that ?
 
 # adding redirections
 
-# DONE! handling signals in minishell
+# ✅ handling signals in minishell
 
 # norminette 
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/ast.h"
+#include "../../includes/minishell.h"
 
 void	print_whitespace(int n, char whitespace)
 {
@@ -27,19 +27,19 @@ void	print_whitespace(int n, char whitespace)
 /*
 
 */
-void	print_operator(enum OperatorType op)
+void	print_operator(enum NodeType op)
 {
-	if (op == OP_PIPE)
+	if (op == BINARY)
 		printf("PIPE");
-	else if (op == OP_REDIRECT_OUT)
+	else if (op == REDIRECTION_OUT)
 		printf("REDIRECT_OUT");
-	else if (op == OP_REDIRECT_IN)
+	else if (op == REDIRECTION_IN)
 		printf("REDIRECT_IN");
-	else if (op == OP_REDIRECT_APPEND)
+	else if (op == REDIRECTION_APPEND)
 		printf("REDIRECT_APPEND");
-	else if (op == OP_AND)
+	else if (op == AND)
 		printf("AND");
-	else if (op == OP_OR)
+	else if (op == OR)
 		printf("OR");
 }
 
@@ -61,11 +61,12 @@ void	print_astnode(struct ASTNode *node)
 		if (node->args != NULL)
 			print_args2(node->args);
 	}
-	else if (node->type == BINARY || node->type == REDIRECTION)
+	else if (node->type == BINARY || is_redirection(node) == TRUE)
 	{
-    	print_operator((enum OperatorType)(uintptr_t)node->data);
-    	if (node->type == REDIRECTION)
+    	print_operator(node->type);
+    	if (is_redirection(node) == TRUE)
 		{
+
 			if (node->args != NULL)
         		printf(" %s", (char *)node->args[0]);
 		}
