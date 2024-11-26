@@ -13,6 +13,9 @@ SRCS =	srcs/main.c \
 		srcs/signal.c \
 		srcs/history.c \
 		srcs/init.c \
+		srcs/prompt.c \
+		get_next_line/get_next_line_bonus.c \
+		get_next_line/get_next_line_utils_bonus.c \
 
 AST =	ast_utils.c\
 		ast.c\

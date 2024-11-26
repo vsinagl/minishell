@@ -70,7 +70,7 @@ int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
 
 	if (node == NULL || is_redirection(node) == FALSE || node->data == NULL)
 	{
-		ft_fprintf(STDERR_FILENO, "Currupted node passed to execute_redirection\n");
+		ft_fprintf(STDERR_FILENO, "Syntax error: EOF not provided\n");
 		return (1);
 	}
 	file_name = (char *)node->data;

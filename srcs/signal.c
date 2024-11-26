@@ -82,8 +82,8 @@ void    sig_int(int code)
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
     if (g_sig_n == 0)  // At shell prompt
     {
-        printf("\b\b  ");
-		printf("\n%s", PROMPT_MAIN);
+		printf("\n%s", PROMPT);
+        g_sig_n = SIGINT;
     }
     else
         ft_putstr_fd("\n", STDERR_FILENO);
@@ -115,30 +115,12 @@ using struct termios term;
 */
 void	setup_signal_handling(void)
 {
-    // Remove sigaction struct and use signal() directly
     signal(SIGINT, sig_int);
     signal(SIGQUIT, sig_quit);
     
     // Set up terminal to not echo control characters
-    struct termios term;
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag &= ~(ECHOCTL);
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+    // struct termios term;
+    // tcgetattr(STDIN_FILENO, &term);
+    // term.c_lflag &= ~(ECHOCTL);
+    // tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
-/*
-void    setup_signal_handling(void)
-{
-    struct sigaction    sa;
-
-    ft_memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = sig_int;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-
-    sa.sa_handler = sig_quit;
-    sigaction(SIGQUIT, &sa, NULL);
-    
-    rl_catch_signals = 0;
-}
-*/

@@ -33,17 +33,17 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	int					result;
 
 	if (readline == NULL || ft_strlen(readline) <= 0)
-		return (1);
+		return (-1);
 	if (verbose == 1)
 		printf("parsing line: %s\n", readline);
 	tokens = tokenizer(readline, data);
 	if (tokens == NULL)
-		return (1);
+		return (-1);
 	if (verbose == 1)
 		print_tokens(tokens);
 	root = create_ast(tokens, data);
 	if (root == NULL)
-		return (1);
+		return (-1);
 	if (verbose == 1)
 	{
 		printf("AST created:\n");
@@ -54,7 +54,7 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	data->last_status = result;
 	if (verbose == 1)
 		printf("ast executed with result: %i\n", result);
-	return (0);
+	return (result);
 }
 
 void	print_info(void)
@@ -86,23 +86,47 @@ void	free_data(t_shelldata *data)
 	env_free(data->env);
 }
 
+enum e_bool line_ok(char *line)
+{
+	int empty;
+
+	empty = 0;
+	if (ft_strlen(line) == 0)
+		return (FALSE);
+	while(*line != '\0')
+	{
+		if (ft_isalnum(*line))
+			empty = 1;;
+		line++;
+	}
+	if (empty == 0)
+		return (FALSE);
+	return TRUE;
+}
+
 int	run_minishell(t_shelldata *data)
 {
 	char	*line;
+	int		exit_status;
 
+	exit_status = 0;
 	while (1)
 	{
 		sig_init();
-		line = get_complete_line();
+		line = get_complete_line(exit_status);
 		if (line == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
 		}
-		if (ft_strlen(line) == 0)
+		if (line_ok(line) == FALSE)
+		{
+			free(line);
 			continue;
+		}
 		history_add(data, line);
-		if (executer(line, check_verbose(data), data) != 0)
+		exit_status = executer(line, check_verbose(data), data);
+		if (exit_status < 0)
 		{
 			fprintf(stderr, "Error in executing AST\n");
 			free(line);

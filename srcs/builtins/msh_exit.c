@@ -27,6 +27,7 @@ int msh_exit(struct ASTNode *node)
 		ft_fprintf(STDERR_FILENO, "Error in msh_exit, root->data is (null)\n");
 		return(1);
 	}
+	printf("exit\n");
 	root = node;
 	while(root->type != ROOT)
 		root = root->parent;

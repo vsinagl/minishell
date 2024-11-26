@@ -1,1 +1,23 @@
-3
+total 348
+-rw-rw-r-- 1 vsinagl vsinagl   2135 Nov 25 14:56 Makefile
+-rw-rw-r-- 1 vsinagl vsinagl     42 Jun 14 20:29 README.md
+-rw-rw-r-- 1 vsinagl vsinagl   4260 Jun 28 22:37 Session.vim
+-rw-rw-r-- 1 vsinagl vsinagl   3392 Nov 12 21:38 ast_utils.o
+-rw-rw-r-- 1 vsinagl vsinagl     12 Nov 25 17:26 bash.txt
+drwxrwxr-x 2 vsinagl vsinagl   4096 Nov 21 14:44 ft_fprintf
+drwxrwxr-x 2 vsinagl vsinagl   4096 Nov  4 15:05 get_next_line
+drwxrwxr-x 3 vsinagl vsinagl   4096 Nov 10 16:14 google_test
+drwxrwxr-x 2 vsinagl vsinagl   4096 Nov 24 15:42 includes
+drwxrwxr-x 2 vsinagl vsinagl   4096 Nov 20 16:52 libft
+-rwxrwxr-x 1 vsinagl vsinagl  16720 Nov 10 16:14 libminishell.so
+-rwxrwxr-x 1 vsinagl vsinagl  93488 Nov 26 16:06 minishell
+-rw-rw-r-- 1 vsinagl vsinagl   7681 Nov  8 21:21 minishell.drawio
+-rw-rw-r-- 1 vsinagl vsinagl    946 Oct  7 11:48 my_worknotes.md
+-rw-rw-r-- 1 vsinagl vsinagl   3381 Nov 26 16:22 myworknotes.md
+-rw-rw-r-- 1 vsinagl vsinagl      0 Nov  8 21:21 norm.md
+drwxrwxr-x 5 vsinagl vsinagl   4096 Nov 26 16:06 obj
+-rw-r--r-- 1 vsinagl vsinagl      0 Nov 26 16:25 out.txt
+drwxrwxr-x 4 vsinagl vsinagl   4096 Nov 24 15:42 srcs
+-rwxrwxr-x 1 vsinagl vsinagl 163168 Nov 20 17:51 test_ast
+drwxrwxr-x 4 vsinagl vsinagl   4096 Nov 10 16:14 tests
+-rw-rw-r-- 1 vsinagl vsinagl   3166 Nov 25 21:58 worklog.md

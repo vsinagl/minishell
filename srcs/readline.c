@@ -64,15 +64,17 @@ static enum e_linestatus is_line_incomplete(const char *line)
 
 
 // Modified get_complete_line function using the new checker
-char	*get_complete_line(void)
+char	*get_complete_line(int exit_status)
 {
 	t_gcl_data	fdata;
 
-	fdata.result = readline(PROMPT_MAIN);
+    print_prompt(exit_status);
+	fdata.result = get_next_line(STDOUT_FILENO);
 	while (fdata.result
 		&& (fdata.status = is_line_incomplete(fdata.result)) != LINE_COMPLETE)
 	{
-		fdata.tmp = readline(PROMPT_CONTINUE);
+        print_prompt(exit_status);
+		fdata.tmp = get_next_line(STDOUT_FILENO);
 		if (!fdata.tmp)
 			break ;
 		fdata.line = fdata.result;

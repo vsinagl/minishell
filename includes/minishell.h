@@ -28,12 +28,16 @@
 
 //our libraries:
 # include "../libft/libft.h"
+# include "../get_next_line/get_next_line_bonus.h"
 # include "../ft_fprintf/ft_fprintf.h"
 # include "ast.h"
 
 # define MAX_PATH 2000
-# define PROMPT_MAIN "minishell --> "
-# define PROMPT_CONTINUE "> "
+# define PROMPT "➜  "
+# define PROMPT_OK "\033[0;32m"
+# define PROMPT_ERROR "\033[0;31m"
+# define PROMPT_RESET "\033[0m"
+# define PROMPT_USER "\033[34m"
 
 
 
@@ -146,7 +150,7 @@ void	input_pipe(t_cmd *list);
 void	output_pipe(t_cmd *list, int fdd[2]);
 void	middle_pipe(t_cmd *list, int fd[2]);
 void	free_command(t_cmd *cmd);
-char	*get_complete_line(void);
+char	*get_complete_line(int exit_status);
 
 
 //builtins
@@ -202,5 +206,8 @@ void print_history(t_shelldata *data);
 void free_history(t_shelldata *data);
 struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data);
 void free_data(t_shelldata *data);
+
+//visual functions
+void	print_prompt(int exit_status);
 
 #endif
