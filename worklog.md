@@ -54,7 +54,7 @@ struct AstNode{
 --> **VIKTOR**
 - better error handling when executing a command
 
-### [ ] executing of builtins functions !
+### [✅] executing of builtins functions !
 
 ### ✅ init module
 

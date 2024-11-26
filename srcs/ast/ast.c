@@ -153,9 +153,6 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 	node->data = NULL;
 	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
 		node->data = (void *)strdup(pop_token(queue)->value.word);
-	// node->args = NULL;
-	// if (queue->size > 0 && queue->top->type == TOKEN_WORD)
-	// 	node->args = create_args(queue);
 	free_token(token);
 	return (node);
 }
@@ -217,7 +214,7 @@ void	free_ast(struct ASTNode *node)
 		if (node->data != NULL)
 			free(node->data);
 	}
-	if (node->type == ROOT)
-		free_data((t_shelldata *)node->data);
+	// if (node->type == ROOT)
+	// 	free_data((t_shelldata *)node->data);
 	free(node);
 }

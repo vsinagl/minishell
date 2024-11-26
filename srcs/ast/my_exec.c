@@ -188,9 +188,6 @@ int	try_builtin(struct ASTNode *node, int option)
 	}
 	else
 		return (-1);
-	t_env *header = ast_get_env(node);
-	printf("reference pointer: %p \n", header);
-	printf("RETURNED HEAD: %s=%s\n", header->name, header->value);
 	free_args(args);
 	if (option == 1)
 		exit(ret_value);

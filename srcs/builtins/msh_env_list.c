@@ -37,10 +37,6 @@
  *
  * This file is part of a shell program and is intended to be used internally
  * by the shell to manage its environment variables.
- */
-
-/*
-append a new enviromental variable to linked list
 */
 t_env	*env_find_dup(t_env *head, const char *name)
 {
@@ -89,7 +85,6 @@ int	msh_env(t_env *head)
 		ft_fprintf(STDERR_FILENO, "Error in msh_env, t_env head is (null)");
 		return (1);
 	}
-	printf("head initialized\n");
 	while (head != NULL)
 	{
 		printf("%s=", head->name);
@@ -153,22 +148,5 @@ t_env	*init_env(void)
 		env_add(head, main_vars[i], value);
 		i++;
 	}
-	// env_add(head,"TERM","xterm-256color");
-	// env_add(head,"SHELL","minishell");
 	return (head);
 }
-
-// int main(void)
-// {
-// 	t_env *head = NULL;
-
-// 	env_add(&head, "test", "24");
-// 	env_add(&head, "something", "32");
-// 	env_add(&head, "neco", "84");
-// 	env_add(&head, "test", "24");
-// 	env_add(&head, "something", "32");
-// 	env_add(&head, "neco", "84");
-// 	msh_env(head);
-// 	env_free(head);
-// 	return (0);
-// }

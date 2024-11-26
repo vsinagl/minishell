@@ -30,7 +30,7 @@ int msh_exit(struct ASTNode *node)
 	root = node;
 	while(root->type != ROOT)
 		root = root->parent;
-	data = root->data;
+	data = (t_shelldata *)root->data;
 	free_ast(root);
 	free_data(data);
 	exit(0);

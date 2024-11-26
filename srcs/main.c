@@ -13,7 +13,17 @@
 #include "../includes/minishell.h"
 #include <signal.h>
 
-int g_command_executing = 0;
+t_sig g_sig;
+
+int	check_verbose(t_shelldata *data)
+{
+	char	*env_value;
+
+	env_value = env_getvalue(data->env, "VERBOSE");
+	if (env_value == NULL)
+		return (0);
+	return (ft_atoi(env_value));
+}
 
 // function that encapsule ast parser, executor and creator:
 int	executer(char *readline, int verbose, t_shelldata *data)
@@ -22,14 +32,19 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	struct ASTNode		*root;
 	int					result;
 
-	if (readline == NULL)
+	printf("ft_strlen(readline): %lu\n", ft_strlen(readline));
+	if (readline == NULL || ft_strlen(readline) <= 0)
 		return (1);
 	if (verbose == 1)
 		printf("parsing line: %s\n", readline);
 	tokens = tokenizer(readline, data);
+	if (tokens == NULL)
+		return (1);
 	if (verbose == 1)
 		print_tokens(tokens);
 	root = create_ast(tokens, data);
+	if (root == NULL)
+		return (1);
 	if (verbose == 1)
 	{
 		printf("AST created:\n");
@@ -57,6 +72,7 @@ void	print_info(void)
 	printf("Uzivatel: %s\n", getenv("USER"));
 	getcwd(pwd, sizeof(pwd));
 	printf("Dir: %s\n", pwd);
+	printf("SIGINT: %i, SIGQUIT: %i\n", SIGINT, SIGQUIT);
 }
 
 
@@ -75,34 +91,50 @@ int	run_minishell(t_shelldata *data)
 {
 	char	*line;
 
-	// Setup signal handling for shell process
-	setup_signal_handling();
 	while (1)
 	{
-		g_command_executing = 0;
+		sig_init();
+		printf("main program pid: %i\n", g_sig.pid);
 		line = get_complete_line();
 		if (line == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
 		}
+		if (ft_strlen(line) == 0)
+			continue;
 		history_add(data, line);
-		g_command_executing = 1;
-		if (executer(line, 1, data) != 0)
+		if (executer(line, check_verbose(data), data) != 0)
 		{
 			fprintf(stderr, "Error in executing AST\n");
 			free(line);
 			return (1);
 		}
 	}
-	print_history(data);
-	free_history(data);
 	return (0);
 }
 
+int main(void)
+{
+	t_shelldata data;
+	int status;
+
+	init_data(&data);
+   	sig_init();                    // Initialize signal structure first
+    signal(SIGINT, SIG_IGN);      // Parent process ignores signals
+    signal(SIGQUIT, SIG_IGN);
+	print_info();
+    setup_signal_handling();  
+	status = run_minishell(&data);
+	print_history(&data);
+	free_history(&data);
+	// free_data(&data);
+	return (status);
+}
 /*
 signal(SIGINT, SIG_IGN): parent process should ignore these signals !
 */
+/* OLD VERSION
 int	main(void)
 {
 	t_shelldata data;
@@ -120,6 +152,9 @@ int	main(void)
 	}
 	if (shell_pid == 0)
 	{
+	    // signal(SIGINT, SIG_DFL);
+        // signal(SIGQUIT, SIG_DFL);
+		setup_signal_handler();
 		print_info();
 		status = run_minishell(&data);
 		free_data(&data);
@@ -132,3 +167,4 @@ int	main(void)
 		return (WEXITSTATUS(status));
 	}
 }
+*/

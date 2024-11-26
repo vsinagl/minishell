@@ -136,14 +136,12 @@ struct TokenQueue	*tokenizer(char *readline, t_shelldata *data)
 			tokens->top = token;
 		if (prev != NULL)
 			prev->next = token;
-		print_token(token);
 		prev = token;
 		tokens->size++;
 		i++;
 	}
 	free(str_tokens);
 	token->next = NULL;
-	// printf("tokens completed\n");
 	return (tokens);
 }
 

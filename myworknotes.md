@@ -64,7 +64,9 @@
 - [ ] rename structures for norminette
     - probably use clion for that ?
 
-# adding redirections
+ 
+# ✅ adding redirections
+
 
 # ✅ handling signals in minishell
 
@@ -81,4 +83,5 @@
     - **solved**: it was double freeing data-> move free_data(for root).
     - so free_ast don't free root->data, as there is pointer to data iself !!
     
+- [x] I change singal handling to met requirement of global variable and now it's broken and idk why
     

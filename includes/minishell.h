@@ -35,7 +35,17 @@
 # define PROMPT_MAIN "minishell --> "
 # define PROMPT_CONTINUE "> "
 
-extern int g_command_executing;
+
+
+typedef struct s_sig
+{
+    int     sigint;
+    int     sigquit;
+    int     exit_status;
+    pid_t   pid;
+}  t_sig;
+
+extern t_sig g_sig;
 
 typedef struct s_env t_env;
 typedef struct s_shelldata t_shelldata;
@@ -169,8 +179,8 @@ void	env_free_struct(t_env *env);
 void	init_data(t_shelldata *data);
 
 //signals
+void    sig_init(void);
 void	setup_signal_handling(void);
-void	signal_handler(int signo);
 
 //history
 t_history	*history_add(t_shelldata *data, char *line);

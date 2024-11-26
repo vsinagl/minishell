@@ -33,6 +33,7 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 {
 	int	ret_value;
 
+	g_sig.pid = 0;
 	ret_value = 0;
 	if (pipeinfo.read_fd != -1)
 	{
@@ -70,6 +71,7 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 		exit(1);
 	if (pid == 0)
 		sub_routine_ec(node, pipeinfo, 0);
+	g_sig.pid = pid;
 	waitpid(pid, &status, 0);
 	if (pipeinfo.read_fd != -1)
 		close(pipeinfo.read_fd);
