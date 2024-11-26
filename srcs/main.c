@@ -13,7 +13,7 @@
 #include "../includes/minishell.h"
 #include <signal.h>
 
-t_sig g_sig;
+int g_sig_n;
 
 int	check_verbose(t_shelldata *data)
 {
@@ -32,7 +32,6 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	struct ASTNode		*root;
 	int					result;
 
-	printf("ft_strlen(readline): %lu\n", ft_strlen(readline));
 	if (readline == NULL || ft_strlen(readline) <= 0)
 		return (1);
 	if (verbose == 1)
@@ -94,7 +93,6 @@ int	run_minishell(t_shelldata *data)
 	while (1)
 	{
 		sig_init();
-		printf("main program pid: %i\n", g_sig.pid);
 		line = get_complete_line();
 		if (line == NULL)
 		{
@@ -120,8 +118,8 @@ int main(void)
 	int status;
 
 	init_data(&data);
-   	sig_init();                    // Initialize signal structure first
-    signal(SIGINT, SIG_IGN);      // Parent process ignores signals
+   	sig_init();
+    signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, SIG_IGN);
 	print_info();
     setup_signal_handling();  

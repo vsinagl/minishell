@@ -76,10 +76,11 @@ CTRL+C - SIGINT
 
 
 
-void    sig_int()
+void    sig_int(int code)
 {
+    (void)code;
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
-    if (g_sig.pid == 0)  // At shell prompt
+    if (g_sig_n == 0)  // At shell prompt
     {
         printf("\b\b  ");
 		printf("\n%s", PROMPT_MAIN);
@@ -88,10 +89,11 @@ void    sig_int()
         ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-void    sig_quit()
+void    sig_quit(int code)
 {
+    (void)code;
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
-    if (g_sig.pid == 0)  // Only handle during command execution
+    if (g_sig_n == 0)  // Only handle during command execution
     {
         // printf("\033[E");
         // printf("\033[A");
@@ -103,16 +105,7 @@ void    sig_quit()
 
 void    sig_init(void)
 {
-    g_sig.pid = 0;
-    g_sig.exit_status = 0;
-}
-
-void signal_handler(int code)
-{
-    if (code == SIGINT)
-        sig_int();
-    else if (code == SIGQUIT)
-        sig_quit();
+    g_sig_n = 0;
 }
 
 /*

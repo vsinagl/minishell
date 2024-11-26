@@ -45,7 +45,7 @@ typedef struct s_sig
     pid_t   pid;
 }  t_sig;
 
-extern t_sig g_sig;
+extern int g_sig_n;
 
 typedef struct s_env t_env;
 typedef struct s_shelldata t_shelldata;
