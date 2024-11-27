@@ -104,6 +104,7 @@ ls > out.txt > text.txt
 bash: out.txt empty, text.txt have content of ls
 msh: naopak, out.txt content a text.txt je empty
 
+
 - [ ] tabulator a backspace --> divne chovani
 - handlovat a printovat user input separatne ? Musel bych na to vytvorit novy modul.
 

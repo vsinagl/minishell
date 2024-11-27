@@ -65,6 +65,21 @@ struct AstNode{
 - [ ] << double redirections:
 cat << oef << std
 we haven't closed redirection
+> acutal solution is working, but we have problem that cat command end before we close our last file descriptor. So nothing is printed.
+> bash output: cat << ex1 << ex2
+>ex1
+>hello
+>ex2
+>hello (is printed by cat)
+>
+> minishell: cat << ex1 << ex2
+>ex1
+>hello
+>ex2
+>
+>hello printed by bash is missing
+
+- [ ] cat << ex1 >> out.txt problem
 
 
 ### refactor .h files
