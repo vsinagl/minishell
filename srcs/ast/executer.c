@@ -113,5 +113,6 @@ int	execute_node_main(struct ASTNode *node)
 	struct PipeInfo	pipeinfo;
 
 	pipeinfo = init_pipe(-1, -1);
+	g_sig_n = 1;
 	return (execute_node(node, pipeinfo));
 }

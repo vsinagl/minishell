@@ -83,12 +83,13 @@
     - **solved**: it was double freeing data-> move free_data(for root).
     - so free_ast don't free root->data, as there is pointer to data iself !!
     
-- [-] I change singal handling to met requirement of global variable and now it's broken and idk why
-
 - [x] spaces --segfault
 
 - [x] ctrl - \ problem, should print nothing, our cursor jump to line begining
 - [x]  ctrl -c not behave like bash and not printing new line on every ctrl -c click
+- [x] now we face multiple printing of prompt
+
+- [ ] **SIGNAL GLOBAL VARIABLE ???**
 
 - [ ] Unset the $PATH and ensure commands are not working anymore.
 Set the $PATH to a multiple directory value (directory1:directory2) and ensure that directories are checked in order from left to right.
@@ -96,5 +97,13 @@ Set the $PATH to a multiple directory value (directory1:directory2) and ensure t
 - [x] cat << prints error message, bash prints
 syntax error near unexpected token `newline'
 
-- [ ] cat | cat | ls --> should behave like in bash
+- [x] cat | cat | ls --> should behave like in bash
     
+- [ ] double redirection:
+ls > out.txt > text.txt
+bash: out.txt empty, text.txt have content of ls
+msh: naopak, out.txt content a text.txt je empty
+
+- [ ] tabulator a backspace --> divne chovani
+
+- [ ] 

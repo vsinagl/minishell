@@ -32,6 +32,7 @@ int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
 	int				pipe_fd[2];
 	struct PipeInfo	left_pipe;
 	struct PipeInfo	right_pipe;
+	int				status;
 
 	if (node == NULL || node->type != BINARY)
 	{
@@ -43,14 +44,34 @@ int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
 		ft_fprintf(STDERR_FILENO, "Error in creating pipe-> pipe.c/execute_pipe\n");
 		return(1);
 	}
-	if (node->left->type == BINARY)
-		left_pipe = init_pipe(pipe_fd[0], pipe_fd[1]);
-	else
-		left_pipe = init_pipe(-1, pipe_fd[1]);
+	left_pipe = init_pipe(-1, pipe_fd[1]);
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
-	if (execute_node(node->left, left_pipe))
+	pid_t pid_left = fork();
+	if (pid_left == -1)
 		return (1);
-	if (execute_node(node->right, right_pipe))
-	 	return (2);
-	return (0);
+	if (pid_left == 0)
+	{
+		close(pipe_fd[0]);
+		exit(execute_node(node->left, left_pipe));
+	}
+	pid_t pid_right = fork();
+	if (pid_right == -1)
+		return (1);
+	if (pid_right == 0)
+	{
+		close(pipe_fd[1]);
+		exit(execute_node(node->right, right_pipe));
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid_left, &status, 0);
+	waitpid(pid_right, &status, 0);
+	return status;
+	// printf("executiing left node: %s\n", (char*)(node->left->data));
+	// if (execute_node(node->left, left_pipe))
+	// 	return (1);
+	// printf("executing right node: %s\n", (char*)(node->right->data));
+	// if (execute_node(node->right, right_pipe))
+	//  	return (2);
+	// return (0);
 }

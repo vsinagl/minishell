@@ -14,78 +14,17 @@
 #include <signal.h>
 #include <termios.h>
 
-/*
-process ending signal that prints output on terminal based on received signal from 
-command. 
-*/
-// int process_pending_signal(int is_executing)
-// {
-//     printf("g_received_signal: %d\n, is_executing: %i\n", g_received_signal, is_executing); // debugging
-//     if (g_received_signal == 0)
-//         return (0);
-//     else if (g_received_signal == SIGINT)
-//     {
-//         write(STDOUT_FILENO, "\n> ", 1);
-//         g_received_signal = 0;
-// 		return (0);
-//     }
-//     else if (g_received_signal == SIGQUIT)
-//     {
-//         if (is_executing)
-//             write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
-//         // else
-//         // {
-//         //     write(STDOUT_FILENO, "\n", 1);
-//         //     write(STDOUT_FILENO, PROMPT_MAIN, ft_strlen(PROMPT_MAIN));
-//         // }
-//         g_received_signal = 0;
-//         return (0);
-//     }
-//     return (0);
-// }
-
-
-/*
-@brief: Signal handler for minishell signals
-CTRL+C - SIGINT
-*/
-// void    signal_handler2(int signo)
-// {
-//     g_received_signal = signo;
-// }
-
-/**
- * @brief Sets up signal handling for the minishell.
- *
- * This function configures the necessary signal handlers to ensure that
- * the minishell application can handle various signals appropriately.
- * It is typically called during the initialization phase of the application.
- */
-// void	setup_signal_handling(void)
-// {
-// 	struct sigaction	sa;
-
-// 	sa.sa_handler = signal_handler2;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = 0;
-// 	sigaction(SIGINT, &sa, NULL);
-// 	sigaction(SIGQUIT, &sa, NULL);
-// }
-
-//TEST !!!
-
-
 
 void    sig_int(int code)
 {
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
-    write(1, "\n", 1);
-    print_prompt(code);
-    // if (g_sig_n == 0)  // At shell prompt
-    // {
-	// 	printf("\n%s", PROMPT);
-    //     g_sig_n = SIGINT;
-    // }
+    // print_prompt(code);
+    if (g_sig_n == 0)  // At shell prompt
+    {
+        write(1, "\n", 1);
+        print_prompt(code);
+        // g_sig_n = code;
+    }
     // else
     // {
     //     print_prompt(code);
@@ -95,11 +34,8 @@ void    sig_int(int code)
 void    sig_quit(int code)
 {
     (void)code;
-    // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
-    if (g_sig_n == 0)  // Only handle during command execution
-    {
+    if (g_sig_n == 0) // shell prompt
         return ;
-    }
     else
         ft_fprintf(STDERR_FILENO, "Quit: (core dumped)\n");
 }
@@ -112,7 +48,7 @@ void    sig_init(void)
 /*
 function that setups specific handling for sig_int and sig_quit signals
 it also set up terminal to not echo control characters, this is done
-using struct termios term;
+using struct termios term structure and c.lfglag flag;
 */
 void	setup_signal_handling(void)
 {

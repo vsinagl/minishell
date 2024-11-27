@@ -96,7 +96,7 @@ enum e_bool line_ok(char *line)
 	while(*line != '\0')
 	{
 		if (ft_isalnum(*line))
-			empty = 1;;
+			empty = 1;
 		line++;
 	}
 	if (empty == 0)
