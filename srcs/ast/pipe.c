@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:57 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:08:54 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
 	}
 	left_pipe = init_pipe(-1, pipe_fd[1]);
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
+
 	pid_t pid_left = fork();
 	if (pid_left == -1)
 		return (1);
@@ -75,3 +76,4 @@ int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
 	//  	return (2);
 	// return (0);
 }
+
