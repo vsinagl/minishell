@@ -78,15 +78,18 @@ CTRL+C - SIGINT
 
 void    sig_int(int code)
 {
-    (void)code;
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
-    if (g_sig_n == 0)  // At shell prompt
-    {
-		printf("\n%s", PROMPT);
-        g_sig_n = SIGINT;
-    }
-    else
-        ft_putstr_fd("\n", STDERR_FILENO);
+    write(1, "\n", 1);
+    print_prompt(code);
+    // if (g_sig_n == 0)  // At shell prompt
+    // {
+	// 	printf("\n%s", PROMPT);
+    //     g_sig_n = SIGINT;
+    // }
+    // else
+    // {
+    //     print_prompt(code);
+    // }
 }
 
 void    sig_quit(int code)
@@ -95,8 +98,6 @@ void    sig_quit(int code)
     // printf("sig quit, code: %i, g_sig.pid: %i\n", code, g_sig.pid); // debugging
     if (g_sig_n == 0)  // Only handle during command execution
     {
-        // printf("\033[E");
-        // printf("\033[A");
         return ;
     }
     else
@@ -119,8 +120,8 @@ void	setup_signal_handling(void)
     signal(SIGQUIT, sig_quit);
     
     // Set up terminal to not echo control characters
-    // struct termios term;
-    // tcgetattr(STDIN_FILENO, &term);
-    // term.c_lflag &= ~(ECHOCTL);
-    // tcsetattr(STDIN_FILENO, TCSANOW, &term);
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~(ECHOCTL);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

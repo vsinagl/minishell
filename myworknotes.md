@@ -87,13 +87,13 @@
 
 - [x] spaces --segfault
 
-- [ ] ctrl - \ problem, should print nothing, our cursor jump to line begining
-- [ ]  ctrl -c not behave like bash and not printing new line on every ctrl -c click
+- [x] ctrl - \ problem, should print nothing, our cursor jump to line begining
+- [x]  ctrl -c not behave like bash and not printing new line on every ctrl -c click
 
 - [ ] Unset the $PATH and ensure commands are not working anymore.
 Set the $PATH to a multiple directory value (directory1:directory2) and ensure that directories are checked in order from left to right.
 
-- [ ] cat << prints error message, bash prints
+- [x] cat << prints error message, bash prints
 syntax error near unexpected token `newline'
 
 - [ ] cat | cat | ls --> should behave like in bash
