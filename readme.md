@@ -1,30 +1,7 @@
-# Minishell structure
-*here are desribed parts (modules) of minishell**
-also, check the minishell.drawio for diagram of how each components is working
+# Documentation:
+todo:
 
-## init module
-- just basic setup for minishell variables
-
-## signal handler
-- how to handle signals in minishell ?
-TODO: describe how minishell processes are working
-
-## main_shel_loop (almost complete)
-- main shell loop where user can write inputs and his inputs are process (by executer)
-- history handling
-
-## executer (almost complete)
-- executer that handle user input
-
-## builtins (almost complete)
-
-
-## signal handling module
-- module that can handle signals for minishell etc...
-
-
-
-# TODO:
+# WORKLOG:
 
 ### ✅ new ASTNode
 - rewrite ASTNode structure, modif args to be a command arguments, where first arg is the name of the command
@@ -41,26 +18,20 @@ struct AstNode{
 - probably create a new function that return the right output of args!!
 - also, create a separte function for executing execve !
 
+
 ### ✅ Realloc 
 - write realloc function to libft, i use realloc in creating arguments. Arguments is double array of string. For array, i use dynamic array (automatically resizing when the array is full and creating double new array with double the size, then copying new elements into this array) --> **we need to implemented realloc in libft**
 
-### [ ] checking right bash syntax when creating tokens linked list:
---> **VIKTOR**
+### Lexing & parsing:
 - we need to check if the syntax is correct in our minishell. For example, there coul be not two pipes operator after one another `ls -la | | grep a
 - operators shoudl be handled as default type in lexical analysis, also, you don't need to have space between operators, for example `ls | grep test` is the same as `ls|grep test  
 	- **we need to addreess this problems in our parse.c and lexer.c**
 
+
 ### ✅ executer error handling
---> **VIKTOR**
 - better error handling when executing a command
 
-### [✅] executing of builtins functions !
-
-### ✅ init module
-
-### ✅ clear command handling
-- clear command now produce this error:
-`TERM environment variable not set.`
+### ✅ BUILTINS !
 
 ### ✅ path handling
 --> **VIKTOR**
@@ -72,24 +43,34 @@ struct AstNode{
 - history should contains input lines that user type in minishell
 - store history as linked list 
 
-### ✅ handling signals
-- Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
+###  handling signals
+
+- [ ] **Global variable ?**
+	- idk if our actual implementation is allowed by subject
+
+- [x] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
 	- In interactive mode:
 	- ctrl-C displays a new prompt on a new line.
 	- ctrl-D exits the shell.
 	- ctrl-\ does nothing
 -> also, nice would be if user can use arrows for searching in history as in **Bash**
 
-### [ ] executer testing
-*testing of executer module*
-- check that inputs are behave like bash
-- check for segmentations faults
-> exectuer testing shoud be tested after executer is finished
+
+### executing of commands
+- [x] **double redirection**:
+	ls > out.txt > text.txt
+	bash: out.txt empty, text.txt have content of ls
+	msh: naopak, out.txt content a text.txt je empty
+
+- [ ] << double redirections:
+cat << oef << std
+we haven't closed redirection
 
 
-
-
-
+### refactor .h files
+- use just minishell.h and defines.h
+- in defines.h structures will be declared
+- rename structures for norminet, eg ASTNode is not correct name accepted by norminette
 
 
 # features to add:
@@ -99,6 +80,3 @@ struct AstNode{
 
 # Norminette
 files to be norminetted:
- ast.h --> there is problem with structure names --> this would need to rename all structures across multiple files, that is fucking problem :/
-- [ ] ast.h
-- [ ] pipe.c

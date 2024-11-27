@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 15:03:02 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/27 15:20:37 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*search_path(char **paths, char *command)
 @param command: Name of the command to find
 @return: Full path to executable if found, NULL if not found or error
 */
-char	*find_executable(char *command)
+char	*find_executable(char *command, t_env *env)
 {
 	char	*path;
 	char	*executable_path;
@@ -102,7 +102,7 @@ char	*find_executable(char *command)
 			return (strdup(command));
 		return (NULL);
 	}
-	path = getenv("PATH");
+	path = env_getvalue(env, "PATH");
 	if (!path)
 		return (NULL);
 	paths = ft_split(path, ':');
@@ -217,7 +217,7 @@ int	my_exec(struct ASTNode *node)
 	}
 	args = prepare_args(node);
 	try_builtin(node, 1);
-	command = find_executable((char *)node->data);
+	command = find_executable((char *)node->data, ast_get_env(node));
 	if (!command)
 	{
 		ft_fprintf(STDERR_FILENO, "Minishell: %s: no such file or directory\n",
