@@ -39,9 +39,13 @@
 # define PROMPT_ERROR "\033[0;31m"
 # define PROMPT_RESET "\033[0m"
 # define PROMPT_USER "\033[34m"
+# define ARROW_UP    "\033[A"
+# define ARROW_DOWN  "\033[B"
+# define ARROW_RIGHT "\033[C"
+# define ARROW_LEFT  "\033[D"
 # define CTRL_C  3
 # define CTRL_D  4
-
+# define ENTER 10
 
 
 typedef struct s_sig
@@ -67,6 +71,22 @@ enum e_bool
 };
 
 /*
+termcap -> structure for manuipulating with terminal capabality
+helps to manipulate with moving cursor, deleting written lines on
+terminal etc..
+*/
+typedef struct s_termcap
+{
+	
+	char	*del_l;
+	char	*move_s;
+	char 	*buffer;
+	struct termios new_term;
+	struct termios old_term;
+}	t_termcap;
+
+
+/*
 main shell data structure that holds all data that are used in shell
 */
 typedef struct s_shelldata
@@ -74,11 +94,13 @@ typedef struct s_shelldata
 	t_history	*history;
 	t_env		*env;
 	int			last_status;
+	t_termcap	*termcap;
 } t_shelldata;
 
 typedef struct s_history{
 	char *data;
 	t_history *prev;
+	t_history *next;
 }	t_history;
 
 //helper struct that keep track of tokenizing state variables use in 
@@ -156,6 +178,10 @@ void	free_command(t_cmd *cmd);
 char	*get_complete_line(int exit_status);
 
 
+
+//tokenization
+enum e_bool	tokens_check(struct TokenQueue *tokens);
+
 //builtins
 /* echo --nevim jak se presne bude pasovat do echa. Zakladni echo jsem udelal tak ze funguje jako kdyby to byla executable, takze ./echo "ahoj svete" nebo ./echo ahoj svete
 * --- proto pouzivam argv a argc jako input parametry.
@@ -190,9 +216,6 @@ void    sig_init(void);
 void	setup_signal_handling(void);
 
 //history
-t_history	*history_add(t_shelldata *data, char *line);
-void	print_history(t_shelldata *data);
-void	free_history(t_shelldata *data);
 
 //tokenize
 char	**tokenize(char *input, t_shelldata *data);
@@ -203,14 +226,20 @@ struct TokenQueue	*tokenizer(char *readline, t_shelldata *data);
 //utils
 int	str_exact_match(const char *s1, const char *s2);
 
+// history
+t_history	*history_add(t_shelldata *data, char *line);
+t_history	*move_head(t_history *head, int direction);
+int			print_history(t_shelldata *data);
+void		free_history(t_shelldata *data);
+
 //handle this later
-t_history *history_add(t_shelldata *data, char *line);
-void print_history(t_shelldata *data);
-void free_history(t_shelldata *data);
 struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data);
 void free_data(t_shelldata *data);
 
 //visual functions
 void	print_prompt(int exit_status);
+
+//terminal
+void	msh_set_term(struct termios *term);
 
 #endif

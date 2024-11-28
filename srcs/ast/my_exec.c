@@ -158,6 +158,13 @@ t_env	*ast_get_env(struct ASTNode *node)
 	return (((t_shelldata *)node->data)->env);
 }
 
+t_shelldata	*ast_get_root_data(struct ASTNode *node)
+{
+	while(node->type != ROOT)
+		node = node->parent;
+	return ((t_shelldata *)node->data);
+}
+
 
 int	try_builtin(struct ASTNode *node, int option)
 {
@@ -176,11 +183,13 @@ int	try_builtin(struct ASTNode *node, int option)
 	else if (str_exact_match((char *)node->data, "cd"))
 		ret_value = msh_cd(ft_strarr_len(args), args);
 	else if (str_exact_match((char *)node->data, "clear"))
-		ret_value = msh_clear();
+		ret_value = msh_clear(ft_strarr_len(args));
 	else if (str_exact_match((char *)node->data, "env"))
 		ret_value = msh_env(ast_get_env(node));
 	else if (str_exact_match((char *)node->data, "export"))
 		ret_value = msh_export(ft_strarr_len(args), args, ast_get_env(node));
+	else if (str_exact_match((char *)node->data, "history"))
+		ret_value = print_history(ast_get_root_data(node));
 	else if (str_exact_match((char *)node->data, "unset"))
 	{
 		t_env *env = ast_get_env(node);

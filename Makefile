@@ -6,7 +6,7 @@ CC = cc
 #CFLAGS = -Wall -Werror -Wextra
 CFLAGS =  -g -Wall  -Wextra 
 
-LFLAGS = -Llibft -Lft_fprintf -lftfprintf -lft -lreadline 
+LFLAGS = -Llibft -Lft_fprintf -lftfprintf -lft -lreadline  -lncurses -ltinfo
 
 SRCS =	srcs/main.c \
 		srcs/readline.c \
@@ -29,6 +29,7 @@ AST =	ast_utils.c\
 		print_ast.c\
 		my_exec.c \
 		redirection.c \
+		token_check.c \
 
 BUILTINS =	msh_cd.c\
 			msh_echo.c \
