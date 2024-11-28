@@ -320,11 +320,13 @@ Parameters:
   - write_fd: The file descriptor to write data to.
 Returns: 0 on success, -1 on failure.
 */
+
 static int	handle_heredoc_append(int read_fd, int write_fd)
 {
 	char	buffer[1024];
 	ssize_t	bytes_read;
 
+	printf("copying, read: %i || write: %i\n", read_fd, write_fd);
 	while ((bytes_read = read(read_fd, buffer, sizeof(buffer))) > 0)
 	{
 		if (write(write_fd, buffer, bytes_read) != bytes_read)
@@ -361,30 +363,48 @@ static int	get_fd(char *filename, enum NodeType nodetype)
 	return (fd);
 }
 
+
 // Function: execute_heredoc_append
 // Description: Handles heredoc followed by append redirection. Reads heredoc data
 // and appends it to the specified file.
 // Parameters:
 //   - node: The current AST node containing redirection information.
 // Returns: 0 on success, 1 on failure.
-static int	execute_heredoc_append(struct ASTNode *node)
+static int	execute_heredoc_append(struct ASTNode *node, struct PipeInfo parent_pipe)
 {
-	int	heredoc_fd;
-	int	append_fd;
+	// int	heredoc_fd;
+	// int	append_fd;
 
-	heredoc_fd = create_fd_heredoc((char *)node->data);
-	if (heredoc_fd == -1)
-		return (1);
-	append_fd = open(node->parent->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (append_fd == -1)
-	{
-		close(heredoc_fd);
-		return (1);
-	}
-	handle_heredoc_append(heredoc_fd, append_fd);
-	close(heredoc_fd);
-	close(append_fd);
-	return (0);
+	// heredoc_fd = create_fd_heredoc((char *)node->data);
+	// if (heredoc_fd == -1)
+	// 	return (1);
+	// append_fd = open(node->parent->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	// if (append_fd == -1)
+	// {
+	// 	close(heredoc_fd);
+	// 	return (1);
+	// }
+	// handle_heredoc_append(heredoc_fd, append_fd);
+	// close(heredoc_fd);
+	// close(append_fd);
+	// return (0);
+    int heredoc_fd;
+    int append_fd;
+
+    heredoc_fd = create_fd_heredoc((char *)node->data);
+    if (heredoc_fd == -1)
+        return (1);
+    
+    append_fd = parent_pipe.write_fd;
+    if (append_fd == -1)
+    {
+        close(heredoc_fd);
+        return (1);
+    }
+    
+    handle_heredoc_append(heredoc_fd, append_fd);
+    close(heredoc_fd);
+    return (0);
 }
 
 /*
@@ -448,11 +468,11 @@ int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
 
 	if (handle_error(node) == FALSE)
 		return (1);
-	printf("node: %s\n", (char *)node->data);
+	ft_fprintf(STDOUT_FILENO,"node: %s\n", (char *)node->data);
 	file_name = (char *)node->data;
 	if (node->type == REDIRECTION_HEREDOC && node->parent
 		&& node->parent->type == REDIRECTION_APPEND)
-		return (execute_heredoc_append(node));
+		return (execute_heredoc_append(node, parent_pipe));
 	file_fd = handle_correct_fd(node, file_fd, parent_pipe, file_name);
 	if (node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC)
 		left_pipe = init_pipe(file_fd, parent_pipe.write_fd);
@@ -461,9 +481,9 @@ int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
 	if (node->left)
 	{
 
-		if (is_redirection(node->left))
-			return (execute_redirection(node->left, left_pipe));
-		else
+		// if (is_redirection(node->left))
+		// 	return (execute_redirection(node->left, left_pipe));
+		// else
 		{
 			printf("executing with pipe: read: %i || write: %i\n",
 				left_pipe.read_fd, left_pipe.write_fd);
