@@ -17,7 +17,7 @@ void	print_prompt(int exit_status)
 	char *user;
 
 	user = getenv("USER");
-	printf("%smsh:%s ", PROMPT_USER, user);
+	printf("%smsh:%s", PROMPT_USER, user);
 	if (exit_status == 0)
 	{
 		printf(PROMPT_OK);

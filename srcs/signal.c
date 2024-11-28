@@ -54,10 +54,4 @@ void	setup_signal_handling(void)
 {
     signal(SIGINT, sig_int);
     signal(SIGQUIT, sig_quit);
-    
-    // Set up terminal to not echo control characters
-    struct termios term;
-    tcgetattr(STDIN_FILENO, &term);
-    term.c_lflag &= ~(ECHOCTL);
-    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

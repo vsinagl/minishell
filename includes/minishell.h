@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <termios.h>
 
 # include <readline/readline.h>
 // # include <readline/history.h>
@@ -33,11 +34,13 @@
 # include "ast.h"
 
 # define MAX_PATH 2000
-# define PROMPT "➜  "
+# define PROMPT "$ "
 # define PROMPT_OK "\033[0;32m"
 # define PROMPT_ERROR "\033[0;31m"
 # define PROMPT_RESET "\033[0m"
 # define PROMPT_USER "\033[34m"
+# define CTRL_C  3
+# define CTRL_D  4
 
 
 

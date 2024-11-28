@@ -12,6 +12,10 @@
 
 #include "../includes/minishell.h"
 
+/* 
+DEPRICATED FILE, I DON'T USE IT ANYMORE
+handling input and reading line  with custom buffer
+*/
 
 /*
 function that checks if line is complete or not
@@ -68,7 +72,7 @@ char	*get_complete_line(int exit_status)
 {
 	t_gcl_data	fdata;
 
-    print_prompt(exit_status);
+    // print_prompt(exit_status);
 	fdata.result = get_next_line(STDOUT_FILENO);
 	while (fdata.result
 		&& (fdata.status = is_line_incomplete(fdata.result)) != LINE_COMPLETE)

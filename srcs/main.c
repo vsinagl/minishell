@@ -104,20 +104,86 @@ enum e_bool line_ok(char *line)
 	return TRUE;
 }
 
+
+char *read_input(void)
+{
+
+	char buff[BUFSIZ];
+	int	i;
+	int bytes_read;
+
+	i = 0;
+	ft_bzero(buff, BUFSIZ);
+	while (!ft_strchr(buff, '\n'))
+	{
+		bytes_read = read(STDIN_FILENO, &buff[i], BUFSIZ - i);
+		//handling backsapce
+		if (buff[i] == 127)
+   		{
+        	if (i > 0)
+        	{
+            	write(STDOUT_FILENO, "\b \b", 3);
+            	i--;
+        	}
+        	continue;
+   		}
+		else if (buff[i] ==  CTRL_C)
+		{
+			//save status in structure and change it's value here
+			//exit_status = 130;
+			return NULL;
+		}
+		else if (buff[i] ==  CTRL_D)
+		{
+			//not implemented yet
+			continue;
+		}
+		//handling whitespaces
+		else if (buff[i] >= 9 && buff[i] <= 13)
+			continue;
+			
+		//other charac
+		else
+			i += write(STDOUT_FILENO, &buff[i], bytes_read);
+	}
+	char *line = ft_strdup(buff);
+	ft_bzero(buff, BUFSIZ);
+	if (line == NULL)
+		return NULL;
+	return line;
+
+}
+
 int	run_minishell(t_shelldata *data)
 {
 	char	*line;
 	int		exit_status;
 
+	//terminal settings
+	struct termios term;
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ICANON;  // Disable canonical mode
+	term.c_lflag &= ~ECHO;  // Disable printing input
+	term.c_cc[VMIN] = 1;      // Read minimum 1 character
+	term.c_cc[VTIME] = 0;     // No timeout
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+
 	exit_status = 0;
 	while (1)
 	{
 		sig_init();
-		line = get_complete_line(exit_status);
+
+
+		//we need to get rid  of fflush inside this function, flush not allowed function!
+    	print_prompt(exit_status);
+		// line = get_complete_line(exit_status);
+		line = read_input();
+		printf("   readed line: %s", line);
 		if (line == NULL)
 		{
-			write(STDOUT_FILENO, "exit\n", 5);
-			break ;
+			continue;
+			// write(STDOUT_FILENO, "exit\n", 5);
+			// break ;
 		}
 		if (line_ok(line) == FALSE)
 		{
