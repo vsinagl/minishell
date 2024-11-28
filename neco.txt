@@ -26,5 +26,3 @@ srcs
 tasks.md
 test_ast
 tests
-ahoj
-svetre

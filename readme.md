@@ -79,7 +79,10 @@ we haven't closed redirection
 >
 >hello printed by bash is missing
 
-- [ ] cat << ex1 >> out.txt problem
+- [x] cat << ex1 >> out.txt problem
+
+- [ ] cat << ex > out.txt
+ - problem execute_heredoc
 
 
 ### refactor .h files
