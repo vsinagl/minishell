@@ -285,8 +285,8 @@ int	run_minishell(t_shelldata *data)
     	print_prompt(exit_status);
 		// line = get_complete_line(exit_status);
 		line = get_input(data);
+		write(STDOUT_FILENO, "\n", 1);
 		msh_set_term(&(data->termcap->old_term));
-		printf("readline: %s\n", line);
 		if (line == NULL)
 		{
 			continue;

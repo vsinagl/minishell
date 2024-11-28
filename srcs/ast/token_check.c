@@ -96,7 +96,6 @@ enum e_bool	tokens_check(struct TokenQueue *tokens)
 	int operator;
 
 
-	printf("here we go\n");
 	operator= 0;
 	cur_token = tokens->top;
 	if (check_consencutive_op(cur_token, &operator) == FALSE)
