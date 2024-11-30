@@ -104,6 +104,11 @@ static enum e_bool	handle_error(t_astnode *node)
 		ft_fprintf(STDERR_FILENO, "Syntax error: EOF not provided\n");
 		return (FALSE);
 	}
+	if (node->left == NULL)
+	{
+		ft_fprintf(STDERR_FILENO, "Missing left part of redirection\n");
+		return (FALSE);
+	}
 	return (TRUE);
 }
 

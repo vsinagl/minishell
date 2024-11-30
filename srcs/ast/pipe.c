@@ -75,7 +75,6 @@ int	execute_pipe(t_astnode *node, t_pipeinfo parent_pipe)
 	}
 	left_pipe = init_pipe(-1, pipe_fd[1]);
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
-
 	status = pipe_process(node, left_pipe, right_pipe, pipe_fd);
 	return WEXITSTATUS(status);
 }

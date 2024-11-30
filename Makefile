@@ -26,6 +26,7 @@ AST =	ast_utils.c\
 		lexer_utils.c\
 		lexer.c\
 		parser.c\
+		parser_utils.c\
 		pipe.c\
 		print_ast_utils.c\
 		print_ast.c\

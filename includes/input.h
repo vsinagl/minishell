@@ -32,7 +32,7 @@ typedef enum e_signal
 
 enum e_bool	is_ctrl(char c);
 enum e_bool	is_arrow(char *buff);
-void		handle_backspace(char *buff, int *i);
+void		handle_backspace(int *i);
 t_signal	handle_ctrl_c(char *buff, t_shelldata *data);
 t_signal	handle_ctrl_d(char *buff, t_shelldata *data);
 void		inpt_handle_quotes(char *buff, int *quote_char, int *i,

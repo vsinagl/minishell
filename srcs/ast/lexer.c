@@ -160,6 +160,14 @@ int	handle_quotes(const char *input, int i, char **current_token,
 			j++;
 		}
 	}
+	// printf("len cur token: %lu\n", strlen(*current_token));
+	// printf("test function: %i\n", is_string_operator(*current_token));
+	printf("input[i + j + 1] is: %c\n", input[i + j + 1]);
+	if (is_string_operator(*current_token) == TRUE && (input[i + j + 1] == '\0' || input[i + j + 1] == ' '))
+		(*current_token) = append_char_to_string((*current_token), ' ');
+	// printf("j is: %i\n", j);
+	// printf("input[i + j] is: %c\n", input[i + j]);
+	// printf("*current_token is: %s\n", *current_token);
 	return (j + 1);
 }
 

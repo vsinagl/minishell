@@ -24,7 +24,7 @@ enum e_bool is_ctrl(char c)
 	return FALSE;
 }
 
-void handle_backspace(char *buff, int *i)
+void handle_backspace(int *i)
 {
     if (*i > 0)
     {
@@ -50,6 +50,7 @@ t_signal	handle_ctrl_d(char *buff, t_shelldata *data)
     return (S_ERROR);
 }
 
+//!depricated, quotes are checked after we get the line (read it)
 void inpt_handle_quotes(char *buff, int *quote_char, int *i, int bytes_read)
 {
     if (*quote_char == 0)

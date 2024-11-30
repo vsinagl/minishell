@@ -12,12 +12,40 @@
 
 #include "../includes/minishell.h"
 
+static enum e_bool	check_quotes(char *line)
+{
+	int quote_char;
+
+	quote_char = 0;
+	while (*line)
+	{
+		if (*line == '\'' || *line == '\"')
+		{
+			if (quote_char == 0)
+				quote_char = *line;
+			else if (quote_char == *line)
+				quote_char = 0;
+		}
+		line++;
+	}
+	if (quote_char == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 enum e_bool line_ok(char *line)
 {
 	int empty;
 
 	empty = 0;
-	if (ft_strlen(line) == 0)
+	if (check_quotes(line) == FALSE)
+	{
+		ft_fprintf(STDERR_FILENO, "minishell: syntax error: unclosed quotes\n");
+		return (FALSE);
+	}
+	if (ft_strlen(line) == 0 )
+		return (FALSE);
+	else if (ft_strlen(line) == 1 && line[0] == ' ')
 		return (FALSE);
 	return TRUE;
 }

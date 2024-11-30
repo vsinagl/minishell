@@ -142,6 +142,7 @@ void						print_token(t_token *token);
 
 // parser functions
 void						free_token_queue(t_tokenqueue *tokens);
+enum e_operatortype			get_operator_type(const char *token);
 
 // printing ast
 void						print_whitespace(int n, char whitespace);
@@ -159,5 +160,7 @@ int							is_builtin(char *command);
 int							try_builtin(t_astnode *node, int option);
 t_token						*pop_token(t_tokenqueue *tokens);
 void						free_token(t_token *token);
+enum e_bool					is_string_operator(char *str);
+enum e_bool					is_char_operator(char c);
 
 #endif

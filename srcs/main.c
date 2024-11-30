@@ -84,6 +84,7 @@ int	run_minishell(t_shelldata *data)
 	while (1)
 	{
 		line = get_input(data);
+		printf("input line: %s\n", line);
 		if (line == NULL)
 			continue;
 		if (line_ok(line) == FALSE)

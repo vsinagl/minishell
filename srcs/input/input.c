@@ -24,13 +24,11 @@ int ft_putint(int c)
 static t_signal process_char(char *buff, int *i, int *quote_char, 
                         t_shelldata *data, t_history **h_head, int bytes_read)
 {
-    t_signal    result;
 
-    result = S_CONTINUE;
     if (is_arrow(&buff[*i]))
         *h_head = handle_arrow(buff, data, *h_head, i);
     else if (buff[*i] == 127)
-        handle_backspace(buff, i);
+        handle_backspace(i);
     else if (buff[*i] == ENTER)
         return (handle_enter(buff, *quote_char));
     else if (buff[*i] == CTRL_C)
@@ -41,8 +39,6 @@ static t_signal process_char(char *buff, int *i, int *quote_char,
         ft_bzero(&buff[*i], BUFSIZ - *i);
     else if (buff[*i] >= 9 && buff[*i] <= 13)
         return (S_CONTINUE);
-    else if (buff[*i] == '\'' || buff[*i] == '"')
-        inpt_handle_quotes(buff, quote_char, i, bytes_read);
     else
         *i += write(STDOUT_FILENO, &buff[*i], bytes_read);
     return (S_CONTINUE);

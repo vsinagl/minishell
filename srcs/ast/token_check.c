@@ -98,6 +98,11 @@ enum e_bool	tokens_check(t_tokenqueue *tokens)
 
 	operator= 0;
 	cur_token = tokens->top;
+	if (cur_token->type == TOKEN_OPERATOR)
+	{
+		err_print_operator(cur_token->u_value.op);
+		return (FALSE);
+	}
 	if (check_consencutive_op(cur_token, &operator) == FALSE)
 		return (FALSE);
 	if (check_ending_op(cur_token, operator) == FALSE)
