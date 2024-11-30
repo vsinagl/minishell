@@ -33,9 +33,10 @@ void handle_backspace(char *buff, int *i)
     }
 }
 
-t_signal	handle_ctrl_c(char *buff)
+t_signal	handle_ctrl_c(char *buff, t_shelldata *data)
 {
     write(STDOUT_FILENO, "^C", 2);
+	data->last_status = 130;
     ft_bzero(buff, BUFSIZ);
     return (S_BREAK);
 }
@@ -44,6 +45,7 @@ t_signal	handle_ctrl_d(char *buff, t_shelldata *data)
 {
     ft_putstr_fd("\nexit", 1);
     ft_bzero(buff, BUFSIZ);
+	data->last_status = 0;
     exit_program(data);
     return (S_ERROR);
 }

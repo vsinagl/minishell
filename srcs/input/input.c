@@ -21,7 +21,6 @@ int ft_putint(int c)
     return (write(STDOUT_FILENO, &c, 1));
 }
 
-
 static t_signal process_char(char *buff, int *i, int *quote_char, 
                         t_shelldata *data, t_history **h_head, int bytes_read)
 {
@@ -35,7 +34,7 @@ static t_signal process_char(char *buff, int *i, int *quote_char,
     else if (buff[*i] == ENTER)
         return (handle_enter(buff, *quote_char));
     else if (buff[*i] == CTRL_C)
-        return (handle_ctrl_c(buff));
+        return (handle_ctrl_c(buff, data));
     else if (buff[*i] == CTRL_D)
         return (handle_ctrl_d(buff, data));
     else if (is_ctrl(buff[*i]))
@@ -83,8 +82,7 @@ char *get_input(t_shelldata *data)
     char    *line;
 
 	msh_set_term(&(data->termcap->new_term));
-    //exit status here
-    print_prompt(0);
+    print_prompt(data->last_status);
 	line = process_input(data);
 	write(STDOUT_FILENO, "\n", 1);
 	msh_set_term(&(data->termcap->old_term));

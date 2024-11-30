@@ -49,7 +49,7 @@ static int pipe_process(t_astnode *node, t_pipeinfo left_pipe, t_pipeinfo right_
 	close(pipe_fd[1]);
 	waitpid(pid_left, &status, 0);
 	waitpid(pid_right, &status, 0);
-	return (status);
+	return (WEXITSTATUS(status));
 }
 
 /*
@@ -77,6 +77,6 @@ int	execute_pipe(t_astnode *node, t_pipeinfo parent_pipe)
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
 
 	status = pipe_process(node, left_pipe, right_pipe, pipe_fd);
-	return status;
+	return WEXITSTATUS(status);
 }
 

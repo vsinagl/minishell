@@ -23,3 +23,13 @@ void	free_data(t_shelldata *data)
 	env_free(data->env);
 }
 
+void exit_program(t_shelldata *data)
+{
+
+	write(STDOUT_FILENO, "\n", 1);
+	msh_set_term(&(data->termcap->old_term));
+	free_data(data);
+	free_history(data);
+	exit(0);
+}
+

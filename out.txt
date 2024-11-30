@@ -1,5 +1,4 @@
-google_test
-test.txt
-test2.txt
-test_ast
-tests
+ahoj
+jak
+se
+mas

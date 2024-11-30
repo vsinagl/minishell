@@ -192,7 +192,7 @@ t_env						*init_env(void);
 void						env_free_struct(t_env *env);
 
 // init
-void						init_data(t_shelldata *data);
+int						init_data(t_shelldata *data);
 
 // signals
 void						sig_init(void);

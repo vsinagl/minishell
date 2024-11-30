@@ -75,8 +75,10 @@ int	execute_command(t_astnode *node, t_pipeinfo pipeinfo)
 		close(pipeinfo.read_fd);
 	if (pipeinfo.write_fd != -1)
 		close(pipeinfo.write_fd);
-	if (status != 0)
-		return (status);
+	if (WEXITSTATUS(status))
+	{
+		return (WEXITSTATUS(status));
+	}
 	return (0);
 }
 
