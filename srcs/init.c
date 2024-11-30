@@ -31,6 +31,7 @@ t_termcap *init_term()
 		return NULL;
 	}
 	termcap->new_term = termcap->old_term;
+	termcap->new_term.c_lflag &= ~ISIG;
 	termcap->new_term.c_lflag &= ~ICANON;  // Disable canonical mode
 	termcap->new_term.c_lflag &= ~ECHO;  // Disable printing input
 	termcap->new_term.c_cc[VMIN] = 1;      // Read minimum 1 character

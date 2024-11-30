@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-int msh_exit(struct ASTNode *node)
+int msh_exit(t_astnode *node)
 {
-	struct ASTNode *root;
+	t_astnode *root;
 	t_shelldata *data;
 
 	if (node == NULL)

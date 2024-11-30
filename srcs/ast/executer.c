@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-enum e_bool	is_redirection(struct ASTNode *node)
+enum e_bool	is_redirection(t_astnode *node)
 {
 	if (node->type == REDIRECTION_APPEND || node->type == REDIRECTION_IN
 		|| node->type == REDIRECTION_OUT || node->type == REDIRECTION_HEREDOC)
@@ -29,7 +29,7 @@ if status  is -1, it tells function that command was builtin function
 You canot pipe these builtin functions, we are returning error
 in this case for pipes !.
 */
-int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
+int	sub_routine_ec(t_astnode *node, t_pipeinfo pipeinfo, int status)
 {
 	int	ret_value;
 
@@ -56,7 +56,7 @@ int	sub_routine_ec(struct ASTNode *node, struct PipeInfo pipeinfo, int status)
 command is executed in child process.
 parent process wait for child process to finish and then close it's pipes ends.
 */
-int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
+int	execute_command(t_astnode *node, t_pipeinfo pipeinfo)
 {
 	pid_t	pid;
 	int		status;
@@ -70,7 +70,6 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 		exit(1);
 	if (pid == 0)
 		sub_routine_ec(node, pipeinfo, 0);
-	g_sig_n = pid;
 	waitpid(pid, &status, 0);
 	if (pipeinfo.read_fd != -1)
 		close(pipeinfo.read_fd);
@@ -85,7 +84,7 @@ int	execute_command(struct ASTNode *node, struct PipeInfo pipeinfo)
 main executing loop --> base on case (type of AST node),
 	function call proper function for handling pipes, commands or redirections
 */
-int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
+int	execute_node(t_astnode *node, t_pipeinfo pipeinfo)
 {
 	if (node->type == ROOT)
 		node = node->left;
@@ -108,11 +107,10 @@ int	execute_node(struct ASTNode *node, struct PipeInfo pipeinfo)
 /*
 stats exectuion of AST
 */
-int	execute_node_main(struct ASTNode *node)
+int	execute_node_main(t_astnode *node)
 {
-	struct PipeInfo	pipeinfo;
+	t_pipeinfo	pipeinfo;
 
 	pipeinfo = init_pipe(-1, -1);
-	g_sig_n = 1;
 	return (execute_node(node, pipeinfo));
 }

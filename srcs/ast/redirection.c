@@ -34,7 +34,7 @@ static int	create_fd_heredoc(char *eof)
 }
 
 
-static int	get_fd(char *filename, enum NodeType nodetype)
+static int	get_fd(char *filename, enum e_NodeType nodetype)
 {
 	int	fd;
 
@@ -62,10 +62,10 @@ static int	get_fd(char *filename, enum NodeType nodetype)
 
 /*
 //working function, but it's too long so i try to refactor it
-int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
+int	execute_redirection(struct ASTNode *node, t_pipeinfo parent_pipe)
 {
 	int				file_fd;
-	struct PipeInfo	left_pipe;
+	t_pipeinfo	left_pipe;
 	char			*file_name;
 	int				ret;
 		int     pipe_fd[2];
@@ -178,7 +178,7 @@ static int	handle_heredoc_append(int read_fd, int write_fd)
 	return (0);
 }
 
-static int	get_fd(char *filename, enum NodeType nodetype)
+static int	get_fd(char *filename, enum e_NodeType nodetype)
 {
 	int	fd;
 
@@ -203,10 +203,10 @@ static int	get_fd(char *filename, enum NodeType nodetype)
 	return (fd);
 }
 
-int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
+int	execute_redirection(struct ASTNode *node, t_pipeinfo parent_pipe)
 {
 	int				file_fd;
-	struct PipeInfo	left_pipe;
+	t_pipeinfo	left_pipe;
 	char			*file_name;
 	int				ret;
 	int				heredoc_fd;
@@ -341,7 +341,7 @@ static int	handle_heredoc_append(int read_fd, int write_fd)
 //   - filename: The name of the file to open or create.
 //   - nodetype: The type of redirection (e.g., input, output, append, heredoc).
 // Returns: The file descriptor, or -1 on failure.
-static int	get_fd(char *filename, enum NodeType nodetype)
+static int	get_fd(char *filename, enum e_nodetype nodetype)
 {
 	int	fd;
 
@@ -359,7 +359,10 @@ static int	get_fd(char *filename, enum NodeType nodetype)
 		return (-1);
 	}
 	if (fd == -1)
-		ft_fprintf(STDERR_FILENO, "Error opening file for redirection\n");
+	{
+		ft_fprintf(STDERR_FILENO, "Error in oppening file\n");
+		return (-1);
+	}
 	return (fd);
 }
 
@@ -370,7 +373,7 @@ static int	get_fd(char *filename, enum NodeType nodetype)
 // Parameters:
 //   - node: The current AST node containing redirection information.
 // Returns: 0 on success, 1 on failure.
-static int	execute_heredoc_append(struct ASTNode *node, struct PipeInfo parent_pipe)
+static int	execute_heredoc_append(t_astnode *node, t_pipeinfo parent_pipe)
 {
 	// int	heredoc_fd;
 	// int	append_fd;
@@ -423,12 +426,12 @@ For other redirections, it uses the write end of the parent pipe.
 
 Return: The adjusted file descriptor, or 1 if an error occurs.
  */
-static int	handle_correct_fd(struct ASTNode *node, int file_fd,
-		struct PipeInfo parent_pipe, char *file_name)
+static int	handle_correct_fd(t_astnode *node, int file_fd,
+		t_pipeinfo parent_pipe, char *file_name)
 {
 	file_fd = get_fd(file_name, node->type);
 	if (file_fd == -1)
-		return (1);
+		return (-1);
 	// file_fd = handle_parent_fd(node, file_fd, parent_pipe);
 	if (node->parent && is_redirection(node->parent))
 	{
@@ -443,7 +446,7 @@ static int	handle_correct_fd(struct ASTNode *node, int file_fd,
 	return (file_fd);
 }
 
-static enum e_bool	handle_error(struct ASTNode *node)
+static enum e_bool	handle_error(t_astnode *node)
 {
 	if (node == NULL || is_redirection(node) == FALSE || node->data == NULL)
 	{
@@ -460,10 +463,10 @@ static enum e_bool	handle_error(struct ASTNode *node)
 //   - node: The current AST node to process.
 //   - parent_pipe: The pipe information from the parent process.
 // Returns: 0 on success, 1 on failure.
-int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
+int	execute_redirection(t_astnode *node, t_pipeinfo parent_pipe)
 {
 	int file_fd;
-	struct PipeInfo left_pipe;
+	t_pipeinfo left_pipe;
 	char *file_name;
 
 	if (handle_error(node) == FALSE)
@@ -474,16 +477,15 @@ int	execute_redirection(struct ASTNode *node, struct PipeInfo parent_pipe)
 		&& node->parent->type == REDIRECTION_APPEND)
 		return (execute_heredoc_append(node, parent_pipe));
 	file_fd = handle_correct_fd(node, file_fd, parent_pipe, file_name);
+	if (file_fd < 0)
+		return (1);
+	printf("file_fd: %i\n", file_fd);
 	if (node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC)
 		left_pipe = init_pipe(file_fd, parent_pipe.write_fd);
 	else
 		left_pipe = init_pipe(parent_pipe.read_fd, file_fd);
 	if (node->left)
 	{
-
-		// if (is_redirection(node->left))
-		// 	return (execute_redirection(node->left, left_pipe));
-		// else
 		{
 			printf("executing with pipe: read: %i || write: %i\n",
 				left_pipe.read_fd, left_pipe.write_fd);

@@ -14,6 +14,8 @@ SRCS =	srcs/main.c \
 		srcs/history.c \
 		srcs/init.c \
 		srcs/prompt.c \
+		srcs/main_utils.c \
+		srcs/exit.c \
 		get_next_line/get_next_line_bonus.c \
 		get_next_line/get_next_line_utils_bonus.c \
 
@@ -40,18 +42,25 @@ BUILTINS =	msh_cd.c\
 			msh_clear.c \
 			msh_unset.c \
 
+INPUT = input.c \
+		input_utils.c \
+		input_utils2.c \
+
 TESTLIB = libminishell.so
 
 #adding folder prefix for ast files
 AST_SRCS = $(addprefix srcs/ast/, $(AST))
 AST_OBJS = $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast/%.o)
 
+INPUT_SRCS = $(addprefix srcs/input/, $(INPUT))
+INPUT_OBJS = $(INPUT_SRCS:srcs/input/%.c=$(OBJ_DIR)/input/%.o)
+
 
 BUILTINS_SRCS = $(addprefix srcs/builtins/, $(BUILTINS))
 BUILTINS_OBJS = $(BUILTINS_SRCS:srcs/ast/%.c=$(OBJ_DIR)/builtins/%.o)
 
 OBJ_DIR = obj
-OBJECTS = $(SRCS:srcs/%.c=$(OBJ_DIR)/%.o) $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast/%.o) $(BUILTINS_OBJS)
+OBJECTS = $(SRCS:srcs/%.c=$(OBJ_DIR)/%.o) $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast/%.o) $(BUILTINS_OBJS) $(INPUT_OBJS)
 
 OBJECTS_SO =  $(BUILTINS_OBJS)
 
@@ -62,6 +71,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/srcs
 	mkdir -p $(OBJ_DIR)/ast
 	mkdir -p $(OBJ_DIR)/builtins
+	mkdir -p $(OBJ_DIR)/input
 
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LFLAGS)

@@ -13,9 +13,9 @@
 #include "../../includes/minishell.h"
 #include "../../includes/ast.h"
 
-struct PipeInfo	init_pipe(int read_fd, int write_fd)
+t_pipeinfo	init_pipe(int read_fd, int write_fd)
 {
-	struct PipeInfo	pipe;
+	t_pipeinfo	pipe;
 
 	pipe.read_fd = read_fd;
 	pipe.write_fd = write_fd;
@@ -23,15 +23,44 @@ struct PipeInfo	init_pipe(int read_fd, int write_fd)
 	return (pipe);
 }
 
+static int pipe_process(t_astnode *node, t_pipeinfo left_pipe, t_pipeinfo right_pipe, int *pipe_fd)
+{
+	pid_t	pid_left;
+	pid_t	pid_right;
+	int		status;
+
+	pid_left = fork();
+	if (pid_left == -1)
+		return (1);
+	if (pid_left == 0)
+	{
+		close(pipe_fd[0]);
+		exit(execute_node(node->left, left_pipe));
+	}
+	pid_right = fork();
+	if (pid_right == -1)
+		return (1);
+	if (pid_right == 0)
+	{
+		close(pipe_fd[1]);
+		exit(execute_node(node->right, right_pipe));
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid_left, &status, 0);
+	waitpid(pid_right, &status, 0);
+	return (status);
+}
+
 /*
 creating and handling pipes. Pipes are handled according to parent_pipe and
 left child of current root.
 */
-int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
+int	execute_pipe(t_astnode *node, t_pipeinfo parent_pipe)
 {
 	int				pipe_fd[2];
-	struct PipeInfo	left_pipe;
-	struct PipeInfo	right_pipe;
+	t_pipeinfo	left_pipe;
+	t_pipeinfo	right_pipe;
 	int				status;
 
 	if (node == NULL || node->type != BINARY)
@@ -47,33 +76,7 @@ int	execute_pipe(struct ASTNode *node, struct PipeInfo parent_pipe)
 	left_pipe = init_pipe(-1, pipe_fd[1]);
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
 
-	pid_t pid_left = fork();
-	if (pid_left == -1)
-		return (1);
-	if (pid_left == 0)
-	{
-		close(pipe_fd[0]);
-		exit(execute_node(node->left, left_pipe));
-	}
-	pid_t pid_right = fork();
-	if (pid_right == -1)
-		return (1);
-	if (pid_right == 0)
-	{
-		close(pipe_fd[1]);
-		exit(execute_node(node->right, right_pipe));
-	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	waitpid(pid_left, &status, 0);
-	waitpid(pid_right, &status, 0);
+	status = pipe_process(node, left_pipe, right_pipe, pipe_fd);
 	return status;
-	// printf("executiing left node: %s\n", (char*)(node->left->data));
-	// if (execute_node(node->left, left_pipe))
-	// 	return (1);
-	// printf("executing right node: %s\n", (char*)(node->right->data));
-	// if (execute_node(node->right, right_pipe))
-	//  	return (2);
-	// return (0);
 }
 

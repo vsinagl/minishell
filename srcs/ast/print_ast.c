@@ -15,7 +15,7 @@
 /*
  * Function that return height of the tree (number of levels)
  */
-int	get_max_height(struct ASTNode *node)
+int	get_max_height(t_astnode *node)
 {
 	int	left_height;
 	int	right_height;
@@ -35,9 +35,9 @@ int	get_max_height(struct ASTNode *node)
 }
 
 // dequeue function, that get top element from queue
-struct QueueNode	*dequeue(struct QueueNode **head)
+t_queuenode	*dequeue(t_queuenode **head)
 {
-	struct QueueNode	*temp;
+	t_queuenode	*temp;
 
 	if (*head == NULL)
 	{
@@ -49,18 +49,18 @@ struct QueueNode	*dequeue(struct QueueNode **head)
 }
 
 /**
- * Enqueues (přidá do queue) an ASTNode into a queue.
+ * Enqueues (přidá do queue) an t_ASTNode into a queue.
  *
  * @param head Pointer to the head of the queue.
- * @param node The ASTNode to enqueue.
+ * @param node The t_ASTNode to enqueue.
  * @param level The level of the node in the AST.
  */
-void	enqueue(struct QueueNode **head, struct ASTNode *node, int level)
+void	enqueue(t_queuenode **head, t_astnode *node, int level)
 {
-	struct QueueNode	*new_node;
-	struct QueueNode	*temp;
+	t_queuenode	*new_node;
+	t_queuenode	*temp;
 
-	new_node = (struct QueueNode *)malloc(sizeof(struct QueueNode));
+	new_node = (t_queuenode *)malloc(sizeof(t_queuenode));
 	new_node->node = node;
 	new_node->level = level;
 	new_node->next = NULL;
@@ -90,10 +90,10 @@ they are enqueued with an incremented level.
  * @param max_level The maximum level of the tree.
  * @param current_level A pointer to the current level.
  */
-void	process_queue_node(struct QueueNode **queue, int max_level,
+void	process_queue_node(t_queuenode **queue, int max_level,
 		int *current_level)
 {
-	struct QueueNode	*qnode;
+	t_queuenode	*qnode;
 
 	qnode = dequeue(queue);
 	if (qnode->level > *current_level)
@@ -119,12 +119,12 @@ void	process_queue_node(struct QueueNode **queue, int max_level,
  * function that print AST in breadth first traversal way:
  * The function uses a queue to manage the nodes as it traverses the tree.
  * It initializes the queue with the root node and sets the initial level to 0.
- * The queue is implemented using a custom QueueNode structure,
+ * The queue is implemented using a custom t_queuenode structure,
 	which stores the AST node and its level in the tree.
  */
-void	print_ast_tree(struct ASTNode *root)
+void	print_ast_tree(t_astnode *root)
 {
-	struct QueueNode	*queue;
+	t_queuenode	*queue;
 	int					max_level;
 	int					current_level;
 

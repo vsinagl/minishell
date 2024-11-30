@@ -39,8 +39,8 @@ int main(int argc, char **argv) {
     // printf("Input command: %s\n", argv[1]);
     // printf("====================================\n");
 
-    struct TokenQueue *tokens;
-    struct ASTNode    *root;
+    t_tokenqueue *tokens;
+    t_astnode    *root;
     char              *str;
 
     str = join_argv(argv);

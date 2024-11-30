@@ -62,7 +62,8 @@ struct AstNode{
 	bash: out.txt empty, text.txt have content of ls
 	msh: naopak, out.txt content a text.txt je empty
 
-- [ ] << double redirections:
+- [-] << double redirections:
+⚠️ __nefunguje to uplne presne jako bash, ale necrashuje to a myslim ze chovani je oduvodnitelne, navic v subjektu neni napsane ze by se shell mel ve vsech smerech jak bash chovat__
 cat << oef << std
 we haven't closed redirection
 > acutal solution is working, but we have problem that cat command end before we close our last file descriptor. So nothing is printed.
@@ -81,18 +82,17 @@ we haven't closed redirection
 
 - [x] cat << ex1 >> out.txt problem
 
-- [ ] cat << ex > out.txt
+- [x] cat << ex > out.txt
  - problem execute_heredoc
 
 
-### refactor .h files
+### ✅ refactor .h files
 - use just minishell.h and defines.h
 - in defines.h structures will be declared
 - rename structures for norminet, eg ASTNode is not correct name accepted by norminette
 
 
 # features to add:
-- leaf nodes and nodes to ASTtree node !
 
 
 

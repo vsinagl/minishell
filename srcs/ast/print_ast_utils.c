@@ -27,7 +27,7 @@ void	print_whitespace(int n, char whitespace)
 /*
 
 */
-void	print_operator(enum NodeType op)
+void	print_operator(enum e_nodetype op)
 {
 	if (op == BINARY)
 		printf("PIPE");
@@ -48,7 +48,7 @@ void	print_operator(enum NodeType op)
 		etc..)
  * , data, arguments)
  */
-void	print_astnode(struct ASTNode *node)
+void	print_astnode(t_astnode *node)
 {
 	if (node == NULL)
 	{

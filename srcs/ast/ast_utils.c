@@ -39,11 +39,11 @@ char	*concat_and_free(char *str1, char *str2)
 	return (new_str);
 }
 
-struct ASTNode	*ast_root(t_shelldata *data)
+t_astnode	*ast_root(t_shelldata *data)
 {
-	struct ASTNode	*node;
+	t_astnode	*node;
 
-	node = (struct ASTNode *)malloc(sizeof(struct ASTNode));
+	node = (t_astnode *)malloc(sizeof(t_astnode));
 	if (node == NULL)
 		return (NULL);
 	node->type = ROOT;
@@ -55,7 +55,7 @@ struct ASTNode	*ast_root(t_shelldata *data)
 	return (node);
 }
 
-char	**create_args_new(char **original_args, struct ArgSizes *arr_parametrs)
+char	**create_args_new(char **original_args, t_argsizes *arr_parametrs)
 {
 	size_t	old_size;
 	size_t	i;
@@ -95,10 +95,10 @@ void	free_args(char **args)
 	free(args);
 }
 
-char	**create_args(struct TokenQueue *queue)
+char	**create_args(t_tokenqueue *queue)
 {
-	struct Token	*token;
-	struct ArgSizes	arr_parametrs;
+	t_token	*token;
+	t_argsizes	arr_parametrs;
 	char			**args;
 
 	arr_parametrs.args_count = 0;
@@ -111,7 +111,7 @@ char	**create_args(struct TokenQueue *queue)
 		token = pop_token(queue);
 		if (arr_parametrs.args_count >= arr_parametrs.args_size)
 			args = create_args_new(args, &arr_parametrs);
-		args[arr_parametrs.args_count] = strdup(token->value.word);
+		args[arr_parametrs.args_count] = strdup(token->u_value.word);
 		if (args[arr_parametrs.args_count] == NULL)
 		{
 			free_args(args);

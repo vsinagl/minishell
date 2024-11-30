@@ -25,18 +25,18 @@ void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-void	print_token(struct Token *token)
+void	print_token(t_token *token)
 {
 	if (token->type == TOKEN_WORD)
-		printf("Word: %s\n", token->value.word);
+		printf("Word: %s\n", token->u_value.word);
 	else
-		printf("Operator: %d\n", token->value.op);
+		printf("Operator: %d\n", token->u_value.op);
 }
 
 // helper function --> print all tokens in TokenStack !
-void	print_tokens(struct TokenQueue *tokens)
+void	print_tokens(t_tokenqueue *tokens)
 {
-	struct Token	*current;
+	t_token	*current;
 
 	current = tokens->top;
 	while (current != NULL)

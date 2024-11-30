@@ -14,53 +14,32 @@
 # define AST_H
 
 # include "../libft/libft.h"
+# include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <stdint.h>
 
 // MACROS:
 # define MAX_TOKENS 1000
 # define MAX_TOKEN_LENGTH 1000
 
-enum	TokenType;
-enum	OperatorType;
-enum	NodeType;
-struct	Token;
-struct	TokenQueue;
-struct	ASTNode;
-struct	PipeInfo;
-struct	tokenize_data;
+// enum	e_tokentype;
+// enum	e_operatortype;
+// enum	e_nodetype;
+// struct	s_tokenqueue;
+// struct	s_astnode;
+// struct	s_pipeinfo;
+// struct t_tokenize_data;
 
-struct						tokenize_data
-{
-	int						token_count;
-	int						in_quotes;
-	int						in_token;
-	int						token_index;
-	int						len;
-};
-
-
-
-struct						ArgSizes
+typedef struct s_ArgSizes
 {
 	size_t					args_size;
 	size_t					args_count;
-};
+}							t_argsizes;
 
-// helper struct for AST tree printing module
-struct						QueueNode
-{
-	struct ASTNode			*node;
-	int						level;
-	struct QueueNode		*next;
-};
-
-//binary = pipe operator
-enum						NodeType
+enum						e_nodetype
 {
 	ROOT = 0,
 	COMMAND,
@@ -71,18 +50,16 @@ enum						NodeType
 	REDIRECTION_HEREDOC,
 	AND,
 	OR,
-
 };
 
-enum						TokenType
+enum						e_tokentype
 {
 	TOKEN_WORD = 0,
 	TOKEN_OPERATOR,
 	TOKEN_END,
-	// ... other types ...
 };
 
-enum						OperatorType
+enum						e_operatortype
 {
 	OP_PIPE,
 	OP_REDIRECT_OUT,
@@ -93,71 +70,65 @@ enum						OperatorType
 	OP_OR,
 };
 
-struct						Token
+typedef struct s_token
 {
-	enum TokenType			type;
+	enum e_tokentype		type;
 	union
 	{
 		char				*word;
-		enum OperatorType	op;
-	} value;
-	struct Token			*next;
-};
+		enum e_operatortype	op;
+	} u_value;
+	struct s_token			*next;
+}							t_token;
 
-struct						TokenQueue
+typedef struct s_tokenqueue
 {
-	struct Token			*top;
+	t_token					*top;
 	size_t					size;
-};
+}							t_tokenqueue;
 
-struct						ASTNode
+typedef struct s_astnode
 {
-	enum NodeType			type;
-	struct ASTNode			*parent;
-	struct ASTNode			*left;
-	struct ASTNode			*right;
+	enum e_nodetype			type;
+	struct s_astnode		*parent;
+	struct s_astnode		*left;
+	struct s_astnode		*right;
 	void					*data;
 	char					**args;
-};
+}							t_astnode;
+
+typedef struct s_queuenode
+{
+	t_astnode				*node;
+	int						level;
+	struct s_queuenode		*next;
+}							t_queuenode;
 
 /*
 	@read_fd: pipe read end file descriptor
 	@write_fd: pipe write end file descriptor
 	@status: -1 = error, 0 = success
 */
-struct						PipeInfo
+typedef struct s_pipeinfo
 {
 	int						read_fd;
 	int						write_fd;
 	int						status;
-};
-
-
-
-int				try_builtin(struct ASTNode *node, int option);
-
-
-// parser
-// struct ASTNode				*create_ast(struct TokenQueue *queue);
-// char						**tokenize(char *input);
-struct Token				*pop_token(struct TokenQueue *tokens);
-void						free_token(struct Token *token);
+}							t_pipeinfo;
 
 // executer functions and piping functions
-int							execute_ast(struct ASTNode *root);
-int							execute_node_main(struct ASTNode *node);
-int							execute_node(struct ASTNode *node,
-								struct PipeInfo pipeinfo);
-int							execute_pipe(struct ASTNode *node,
-								struct PipeInfo parent_pipe);
-int							execute_command(struct ASTNode *node,
-								struct PipeInfo pipeinfo);
-struct PipeInfo				init_pipe(int read_fd, int write_fd);
-struct PipeInfo				create_child_pipe(struct PipeInfo pipeinfo,
-								int type);
-struct PipeInfo				create_empty_pipe(void);
-struct PipeInfo				create_pipe(void);
-int							my_exec(struct ASTNode *node);
+int							execute_ast(t_astnode *root);
+int							execute_node_main(t_astnode *node);
+int							execute_node(t_astnode *node, t_pipeinfo pipeinfo);
+int							execute_pipe(t_astnode *node,
+								t_pipeinfo parent_pipe);
+int							execute_command(t_astnode *node,
+								t_pipeinfo pipeinfo);
+t_pipeinfo					init_pipe(int read_fd, int write_fd);
+t_pipeinfo					create_child_pipe(t_pipeinfo pipeinfo, int type);
+t_pipeinfo					create_empty_pipe(void);
+t_pipeinfo					create_pipe(void);
+int							my_exec(t_astnode *node);
 
 // executer utils
 int							ft_strarr_len(char **arr);
@@ -166,26 +137,27 @@ void						print_args2(char **args);
 // lexer utils
 void						free_tokens(char **tokens);
 void						print_tokens_str(const char **tokens);
-void						print_tokens(struct TokenQueue *tokens);
-void						print_token(struct Token *token);
+void						print_tokens(t_tokenqueue *tokens);
+void						print_token(t_token *token);
 
-//parser functions
-void	free_token_queue(struct TokenQueue *tokens);
+// parser functions
+void						free_token_queue(t_tokenqueue *tokens);
 
 // printing ast
 void						print_whitespace(int n, char whitespace);
-// void						print_operator(enum OperatorType op);
-void						print_astnode(struct ASTNode *node);
-void						print_ast_tree(struct ASTNode *root);
+void						print_astnode(t_astnode *node);
+void						print_ast_tree(t_astnode *root);
 
 // ast utils
 char						*concat_and_free(char *str1, char *str2);
 void						free_args(char **args);
-char						**create_args(struct TokenQueue *queue);
-void						free_ast(struct ASTNode *node);
+char						**create_args(t_tokenqueue *queue);
+void						free_ast(t_astnode *node);
 
-
-//feature functions --> delete if not used !
-int	is_builtin(char *command);
+// utils
+int							is_builtin(char *command);
+int							try_builtin(t_astnode *node, int option);
+t_token						*pop_token(t_tokenqueue *tokens);
+void						free_token(t_token *token);
 
 #endif

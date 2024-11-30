@@ -14,7 +14,7 @@
 
 /*
  */
-static void	err_print_operator(enum OperatorType op_type)
+static void	err_print_operator(enum e_operatortype op_type)
 {
 	if (op_type == OP_PIPE)
 		ft_fprintf(STDERR_FILENO,
@@ -47,21 +47,21 @@ operator in the end!
 	- operator -> because of norminette, i need to declare as function argument,
 		need to be 0!!
 */
-static enum e_bool	check_consencutive_op(struct Token *cur_token,
+static enum e_bool	check_consencutive_op(t_token *cur_token,
 		int *operator)
 {
 	while (cur_token != NULL)
 	{
 		if (cur_token->type == TOKEN_OPERATOR)
 		{
-			if (cur_token->value.op == OP_AND || cur_token->value.op == OP_OR)
+			if (cur_token->u_value.op == OP_AND || cur_token->u_value.op == OP_OR)
 			{
 				ft_fprintf(STDERR_FILENO, "msh: unssuported operator '&&' or '||' \n");
 				return (FALSE);
 			}
 			if (*operator == 1)
 			{
-				err_print_operator(cur_token->value.op);
+				err_print_operator(cur_token->u_value.op);
 				return (FALSE);
 			}
 			*operator= 1;
@@ -73,15 +73,15 @@ static enum e_bool	check_consencutive_op(struct Token *cur_token,
 	return (TRUE);
 }
 
-static enum e_bool	check_ending_op(struct Token *token, int operator)
+static enum e_bool	check_ending_op(t_token *token, int operator)
 {
 	while(token->next != NULL)
 		token = token->next;
 	if (operator == 1)
 	{
-		if (token->value.op == OP_PIPE || token->value.op == OP_OR
-			|| token->value.op == OP_AND)
-			err_print_operator(token->value.op);
+		if (token->u_value.op == OP_PIPE || token->u_value.op == OP_OR
+			|| token->u_value.op == OP_AND)
+			err_print_operator(token->u_value.op);
 		else
 			ft_fprintf(STDERR_FILENO,
 				"minishell: syntax error near unexpected token 'newline'\n");
@@ -90,9 +90,9 @@ static enum e_bool	check_ending_op(struct Token *token, int operator)
 	return (TRUE);
 }
 
-enum e_bool	tokens_check(struct TokenQueue *tokens)
+enum e_bool	tokens_check(t_tokenqueue *tokens)
 {
-	struct Token *cur_token;
+	t_token *cur_token;
 	int operator;
 
 

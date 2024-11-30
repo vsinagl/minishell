@@ -51,7 +51,6 @@ static char	*get_target_path(int argc, char **argv)
 	char	*path;
 
 	path = NULL;
-	printf("argc: %i\n", argc);
 	if (argc == 1)
 	{
 		home = getenv("HOME");
@@ -72,10 +71,10 @@ static char	*get_target_path(int argc, char **argv)
 		}
 		printf("%s\n", path);
 	}
-	else if (argc == 2)
+	else// if (argc == 2)
 		path = argv[1];
-	else
-		ft_fprintf(STDERR_FILENO, "cd: too many arguments\n");
+	// else
+	// 	ft_fprintf(STDERR_FILENO, "cd: too many arguments\n");
 	return (path);
 }
 

@@ -121,7 +121,7 @@ int	str_exact_match(const char *s1, const char *s2)
 			ft_strlen(s2)) == 0);
 }
 
-static char	**prepare_args(struct ASTNode *node)
+static char	**prepare_args(t_astnode *node)
 {
 	char	**args;
 	int		i;
@@ -151,14 +151,14 @@ int	is_builtin(char *command)
 	return (0);
 }
 
-t_env	*ast_get_env(struct ASTNode *node)
+t_env	*ast_get_env(t_astnode *node)
 {
 	while(node->type != ROOT)
 		node = node->parent;
 	return (((t_shelldata *)node->data)->env);
 }
 
-t_shelldata	*ast_get_root_data(struct ASTNode *node)
+t_shelldata	*ast_get_root_data(t_astnode *node)
 {
 	while(node->type != ROOT)
 		node = node->parent;
@@ -166,7 +166,7 @@ t_shelldata	*ast_get_root_data(struct ASTNode *node)
 }
 
 
-int	try_builtin(struct ASTNode *node, int option)
+int	try_builtin(t_astnode *node, int option)
 {
 	int		ret_value;
 	char	**args;
@@ -214,7 +214,7 @@ if execve fails, returns 1 error
 @errors: 2 - invalid node or node parametrs
 it also gets enviromental variable and seach in the path
 */
-int	my_exec(struct ASTNode *node)
+int	my_exec(t_astnode *node)
 {
 	char	**args;
 	char	*command;

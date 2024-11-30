@@ -56,13 +56,13 @@
 # ✅ exit handling
 - [x] implement exit function
 
-# .h handling
-- [ ] put ash.h into minishell.h
+# ✅ .h handling
+- [-] put ash.h into minishell.h
     - na konci minishell.h mam nejake funkce ktere by bylo dobre lepe popsat
     - pridat data_structure.h nebo neco takoveho kde se budou separatne separovat struktury
+    **NECHAVAM TO JAK TO JE, JE TO DETAIL**
 
-- [ ] rename structures for norminette
-    - probably use clion for that ?
+- [x] rename structures for norminette
 
  
 # ✅ adding redirections
@@ -90,6 +90,7 @@
 - [x] now we face multiple printing of prompt
 
 - [ ] **SIGNAL GLOBAL VARIABLE ???**
+    - podle Pierra je to takto ok
 
 - [x] Unset the $PATH and ensure commands are not working anymore.
 Set the $PATH to a multiple directory value (directory1:directory2) and ensure that directories are checked in order from left to right.
@@ -99,13 +100,11 @@ syntax error near unexpected token `newline'
 
 - [x] cat | cat | ls --> should behave like in bash
     
-- [ ] double redirection:
+- [x] double redirection:
 ls > out.txt > text.txt
 bash: out.txt empty, text.txt have content of ls
 msh: naopak, out.txt content a text.txt je empty
 
 
-- [ ] tabulator a backspace --> divne chovani
+- [x] tabulator a backspace --> divne chovani
 - handlovat a printovat user input separatne ? Musel bych na to vytvorit novy modul.
-
-- [ ] 

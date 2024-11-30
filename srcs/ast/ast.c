@@ -29,12 +29,12 @@ the	create_args(void) function in tokenqueue.
  * @return The created AST node for the command,
 	or NULL if memory allocation fails.
  */
-struct ASTNode	*ast_command(struct TokenQueue *queue, struct ASTNode *parent,
-		struct Token *token)
+t_astnode	*ast_command(t_tokenqueue *queue, t_astnode *parent,
+		t_token *token)
 {
-	struct ASTNode	*node;
+	t_astnode	*node;
 
-	node = (struct ASTNode *)malloc(sizeof(struct ASTNode));
+	node = (t_astnode *)malloc(sizeof(t_astnode));
 	if (node == NULL)
 		return (NULL);
 	node->parent = parent;
@@ -42,7 +42,7 @@ struct ASTNode	*ast_command(struct TokenQueue *queue, struct ASTNode *parent,
 	node->args = NULL;
 	node->left = NULL;
 	node->right = NULL;
-	node->data = (void *)strdup(token->value.word);
+	node->data = (void *)strdup(token->u_value.word);
 	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
 		node->args = create_args(queue);
 	free_token(token);
@@ -86,12 +86,12 @@ it become the child of pipe node.
  @return The newly created binary operation AST node,
 or NULL if memory allocation fails.
  */
-struct ASTNode	*ast_binaryop(struct TokenQueue *queue, struct ASTNode *parent,
-		struct Token *token)
+t_astnode	*ast_binaryop(t_tokenqueue *queue, t_astnode *parent,
+		t_token *token)
 {
-	struct ASTNode	*node;
+	t_astnode	*node;
 
-	node = (struct ASTNode *)malloc(sizeof(struct ASTNode));
+	node = (t_astnode *)malloc(sizeof(t_astnode));
 	if (node == NULL)
 		return (NULL);
 	node->type = BINARY;
@@ -100,7 +100,7 @@ struct ASTNode	*ast_binaryop(struct TokenQueue *queue, struct ASTNode *parent,
 	node->parent = parent->parent;
 	parent->parent->left = node;
 	parent->parent = node;
-	node->data = (void *)token->value.op;
+	node->data = (void *)token->u_value.op;
 	node->right = NULL;
 	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
 		node->right = ast_command(queue, node, pop_token(queue));
@@ -109,9 +109,9 @@ struct ASTNode	*ast_binaryop(struct TokenQueue *queue, struct ASTNode *parent,
 }
 
 
-enum NodeType	get_redirection_nodetype(enum OperatorType op)
+enum e_nodetype	get_redirection_nodetype(enum e_operatortype op)
 {
-	enum NodeType	type;
+	enum e_nodetype	type;
 
 	if (op == OP_REDIRECT_OUT)
 		type = REDIRECTION_OUT;
@@ -136,15 +136,15 @@ and initializes its properties.
  * @param token The token representing the redirection operator.
  * @return The created AST node, or NULL if memory allocation fails.
  */
-struct ASTNode	*ast_redirection(struct TokenQueue *queue,
-		struct ASTNode *parent, struct Token *token)
+t_astnode	*ast_redirection(t_tokenqueue *queue,
+		t_astnode *parent, t_token *token)
 {
-	struct ASTNode	*node;
+	t_astnode	*node;
 
-	node = (struct ASTNode *)malloc(sizeof(struct ASTNode));
+	node = (t_astnode *)malloc(sizeof(t_astnode));
 	if (node == NULL)
 		return (NULL);
-	node->type = get_redirection_nodetype(token->value.op);
+	node->type = get_redirection_nodetype(token->u_value.op);
 	node->right = NULL;
 	node->left = parent;
 	node->parent = parent->parent;
@@ -152,16 +152,16 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 	parent->parent = node;
 	node->data = NULL;
 	if (queue->size > 0 && queue->top->type == TOKEN_WORD)
-		node->data = (void *)strdup(pop_token(queue)->value.word);
+		node->data = (void *)strdup(pop_token(queue)->u_value.word);
 	free_token(token);
 	return (node);
 }
 
 /**
- * @brief Creates an Abstract Syntax Tree (AST) from a TokenQueue.
+ * @brief Creates an Abstract Syntax Tree (AST) from a t_TokenQueue.
  *
 
-* This function takes a TokenQueue(parsed tokens generated from lexical analysis
+* This function takes a t_TokenQueue(parsed tokens generated from lexical analysis
 -> lexer.c and parsed by parser.c)
  *  as input and constructs tree structure from it.
  * AST is represented byt tree with root node (special type of tree-node)
@@ -172,11 +172,11 @@ struct ASTNode	*ast_redirection(struct TokenQueue *queue,
 commands and operators.
 * @return A pointer to the root node of the constructed AST.
 */
-struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
+t_astnode	*create_ast(t_tokenqueue *queue, t_shelldata *data)
 {
-	struct ASTNode	*root;
-	struct ASTNode	*node;
-	struct Token	*token;
+	t_astnode	*root;
+	t_astnode	*node;
+	t_token	*token;
 
 	root = ast_root(data);
 	node = ast_command(queue, root, pop_token(queue));
@@ -186,8 +186,8 @@ struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 		token = pop_token(queue);
 		if (token->type == TOKEN_OPERATOR)
 		{
-			if (token->value.op == OP_PIPE || token->value.op == OP_OR
-				|| token->value.op == OP_AND)
+			if (token->u_value.op == OP_PIPE || token->u_value.op == OP_OR
+				|| token->u_value.op == OP_AND)
 				node = ast_binaryop(queue, node, token);
 			else
 				node = ast_redirection(queue, node, token);
@@ -199,7 +199,7 @@ struct ASTNode	*create_ast(struct TokenQueue *queue, t_shelldata *data)
 	return (root);
 }
 
-void	free_ast(struct ASTNode *node)
+void	free_ast(t_astnode *node)
 {
 	if (node == NULL)
 		return ;
