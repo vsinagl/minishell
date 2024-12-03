@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/05 14:39:14 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:58:47 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 // MACROS:
 # define MAX_TOKENS 1000
 # define MAX_TOKEN_LENGTH 1000
+
+typedef struct s_shelldata t_shelldata;
 
 // enum	e_tokentype;
 // enum	e_operatortype;
@@ -116,6 +118,12 @@ typedef struct s_pipeinfo
 	int						status;
 }							t_pipeinfo;
 
+typedef struct s_tokens
+{
+	char					**tokens;
+	int						count;
+}							t_tokens;
+
 // executer functions and piping functions
 int							execute_ast(t_astnode *root);
 int							execute_node_main(t_astnode *node);
@@ -141,6 +149,12 @@ void						print_tokens(t_tokenqueue *tokens);
 void						print_token(t_token *token);
 int							ft_tokenlen(char **tokens);
 enum e_bool					is_pipe_redirection(char c);
+char						*append_char_to_string(char *str, char c);
+int							end_of_token(const char *input, int i,
+								char **current_token, t_tokens *tokens);
+int							handle_quotes(const char *input, int i,
+								char **current_token, t_shelldata *data);
+char						*tokenize_init(t_tokens *tokens);
 
 // parser functions
 void						free_token_queue(t_tokenqueue *tokens);

@@ -6,12 +6,12 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 07:42:39 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:41:20 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
+#include "../../includes/minishell.h"
 
 char	*concat_and_free(char *str1, char *str2)
 {
@@ -64,7 +64,7 @@ char	**create_args_new(char **original_args, t_argsizes *arr_parametrs)
 	old_size = arr_parametrs->args_size;
 	arr_parametrs->args_size *= 2;
 	new_args = (char **)ft_realloc(original_args, sizeof(char *) * old_size,
-			arr_parametrs->args_size* sizeof(char *));
+			arr_parametrs->args_size * sizeof(char *));
 	if (new_args == NULL)
 	{
 		free_args(original_args);
@@ -89,7 +89,7 @@ void	free_args(char **args)
 	while (args[i] != NULL)
 	{
 		free(args[i]);
- 		args[i] = NULL; 
+		args[i] = NULL;
 		i++;
 	}
 	free(args);
@@ -97,9 +97,9 @@ void	free_args(char **args)
 
 char	**create_args(t_tokenqueue *queue)
 {
-	t_token	*token;
+	t_token		*token;
 	t_argsizes	arr_parametrs;
-	char			**args;
+	char		**args;
 
 	arr_parametrs.args_count = 0;
 	arr_parametrs.args_size = 1;

@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_exit.c                                         :+:      :+:    :+:   */
+/*   ast_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/12/03 12:38:46 by vsinagl          ###   ########.fr       */
+/*   Created: 2024/12/03 13:42:49 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/12/03 13:44:17 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	msh_exit(t_astnode *node)
+void	free_ast(t_astnode *node)
 {
-	t_astnode	*root;
-	t_shelldata	*data;
-
 	if (node == NULL)
+		return ;
+	if (node->left != NULL)
+		free_ast(node->left);
+	if (node->right != NULL)
+		free_ast(node->right);
+	if (node->args != NULL)
+		free_args(node->args);
+	if (node->type == COMMAND)
 	{
-		ft_fprintf(STDERR_FILENO, "Error in msh_exit, ASTNode is (null)\n");
-		return (1);
+		if (node->data != NULL)
+			free(node->data);
 	}
-	if (node->data == NULL)
-	{
-		ft_fprintf(STDERR_FILENO, "Error in msh_exit, root->data is (null)\n");
-		return (1);
-	}
-	ft_fprintf(STDOUT_FILENO, "exit");
-	root = node;
-	while (root->type != ROOT)
-		root = root->parent;
-	data = (t_shelldata *)root->data;
-	free_ast(root);
-	exit_program(data);
-	exit(1);
-	return (1);
+	free(node);
 }

@@ -29,8 +29,7 @@ the	create_args(void) function in tokenqueue.
  * @return The created AST node for the command,
 	or NULL if memory allocation fails.
  */
-t_astnode	*ast_command(t_tokenqueue *queue, t_astnode *parent,
-		t_token *token)
+t_astnode	*ast_command(t_tokenqueue *queue, t_astnode *parent, t_token *token)
 {
 	t_astnode	*node;
 
@@ -108,7 +107,6 @@ t_astnode	*ast_binaryop(t_tokenqueue *queue, t_astnode *parent,
 	return (node);
 }
 
-
 enum e_nodetype	get_redirection_nodetype(enum e_operatortype op)
 {
 	enum e_nodetype	type;
@@ -136,8 +134,8 @@ and initializes its properties.
  * @param token The token representing the redirection operator.
  * @return The created AST node, or NULL if memory allocation fails.
  */
-t_astnode	*ast_redirection(t_tokenqueue *queue,
-		t_astnode *parent, t_token *token)
+t_astnode	*ast_redirection(t_tokenqueue *queue, t_astnode *parent,
+		t_token *token)
 {
 	t_astnode	*node;
 
@@ -161,7 +159,8 @@ t_astnode	*ast_redirection(t_tokenqueue *queue,
  * @brief Creates an Abstract Syntax Tree (AST) from a t_TokenQueue.
  *
 
-* This function takes a t_TokenQueue(parsed tokens generated from lexical analysis
+* This function takes a t_TokenQueue(parsed tokens generated
+from lexical analysis
 -> lexer.c and parsed by parser.c)
  *  as input and constructs tree structure from it.
  * AST is represented byt tree with root node (special type of tree-node)
@@ -176,7 +175,7 @@ t_astnode	*create_ast(t_tokenqueue *queue, t_shelldata *data)
 {
 	t_astnode	*root;
 	t_astnode	*node;
-	t_token	*token;
+	t_token		*token;
 
 	root = ast_root(data);
 	node = ast_command(queue, root, pop_token(queue));
@@ -197,24 +196,4 @@ t_astnode	*create_ast(t_tokenqueue *queue, t_shelldata *data)
 	}
 	free_token_queue(queue);
 	return (root);
-}
-
-void	free_ast(t_astnode *node)
-{
-	if (node == NULL)
-		return ;
-	if (node->left != NULL)
-		free_ast(node->left);
-	if (node->right != NULL)
-		free_ast(node->right);
-	if (node->args != NULL)
-		free_args(node->args);
-	if (node->type == COMMAND)
-	{
-		if (node->data != NULL)
-			free(node->data);
-	}
-	// if (node->type == ROOT)
-	// 	free_data((t_shelldata *)node->data);
-	free(node);
 }

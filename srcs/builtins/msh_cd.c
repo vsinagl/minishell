@@ -1,37 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_pwd.c                                          :+:      :+:    :+:   */
+/*   msh_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:27:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/06/28 23:17:53 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:30:15 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <errno.h>
-
-// int	msh_cd(int argc, char **argv)
-// {
-// 	int	err;
-
-// 	if (argc <= 1)
-// 		return (1);
-// 	else if (argc > 2)
-// 	{
-// 		printf("cd: string not in pwd: %s\n", argv[1]);
-// 		return (2);
-// 	}
-// 	err = chdir(argv[1]);
-// 	if (err != 0)
-// 	{
-// 		printf("cd: no such file or directory: %s\n", argv[1]);
-// 		return (3);
-// 	}
-// 	return (0);
-// }
 
 static void	handle_chdir_error(const char *path, int error_code)
 {
@@ -45,6 +25,21 @@ static void	handle_chdir_error(const char *path, int error_code)
 		ft_fprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(error_code));
 }
 
+static char	*error_handler(int err_no)
+{
+	if (err_no == 1)
+	{
+		ft_fprintf(STDERR_FILENO, "cd: HOME not set\n");
+		return (NULL);
+	}
+	else if (err_no == 2)
+	{
+		ft_fprintf(STDERR_FILENO, "cd: OLDPWD not set\n");
+		return (NULL);
+	}
+	return (NULL);
+}
+
 static char	*get_target_path(int argc, char **argv)
 {
 	char	*home;
@@ -55,35 +50,27 @@ static char	*get_target_path(int argc, char **argv)
 	{
 		home = getenv("HOME");
 		if (!home)
-		{
-			ft_fprintf(STDERR_FILENO, "cd: HOME not set\n");
-			return (NULL);
-		}
+			return (error_handler(1));
 		path = home;
 	}
 	else if (argc == 2 && ft_strcmp(argv[1], "-") == 0)
 	{
 		path = getenv("OLDPWD");
 		if (!path)
-		{
-			ft_fprintf(STDERR_FILENO, "cd: OLDPWD not set\n");
-			return (NULL);
-		}
+			return (error_handler(2));
 		printf("%s\n", path);
 	}
-	else// if (argc == 2)
+	else
 		path = argv[1];
-	// else
-	// 	ft_fprintf(STDERR_FILENO, "cd: too many arguments\n");
 	return (path);
 }
 
 int	msh_cd(int argc, char **argv)
 {
-	const char *path;
-	char current_dir[MAX_PATH];
-	char new_dir[MAX_PATH];
-	int chdir_result;
+	const char		*path;
+	char			current_dir[MAX_PATH];
+	char			new_dir[MAX_PATH];
+	int				chdir_result;
 
 	path = get_target_path(argc, argv);
 	if (!path)

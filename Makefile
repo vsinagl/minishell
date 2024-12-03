@@ -21,10 +21,12 @@ SRCS =	srcs/main.c \
 
 AST =	ast_utils.c\
 		ast.c\
+		ast_free.c \
 		executer.c\
 		executer_utils.c\
 		lexer_utils.c\
 		lexer.c\
+		lexer2.c\
 		parser.c\
 		parser_utils.c\
 		pipe.c\
@@ -39,6 +41,7 @@ BUILTINS =	msh_cd.c\
 			msh_export.c \
 			msh_pwd.c \
 			msh_env_list.c \
+			msh_env_utils.c \
 			msh_exit.c \
 			msh_clear.c \
 			msh_unset.c \

@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 15:07:42 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 15:32:58 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 12:39:23 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	search_through_envlist(t_env **head, char *value)
 	}
 	p_prev = current;
 	current = current->next;
-	while(current != NULL)
+	while (current != NULL)
 	{
 		if (str_exact_match(current->name, value))
 		{
@@ -47,10 +47,9 @@ static void	search_through_envlist(t_env **head, char *value)
 	}
 }
 
-
 static void	arg_loop(int argc, char **argv, t_env **head)
 {
-	int 	i;
+	int		i;
 	char	*value;
 
 	i = 1;

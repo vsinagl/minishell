@@ -6,18 +6,18 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:40 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:45:55 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/ast.h"
 
-int		ft_tokenlen(char **tokens)
+int	ft_tokenlen(char **tokens)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	while(tokens[i] != NULL)
+	while (tokens[i] != NULL)
 	{
 		i++;
 	}

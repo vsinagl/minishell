@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:27:15 by mmarek            #+#    #+#             */
-/*   Updated: 2024/11/22 15:22:40 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:49:33 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <termios.h>
 # include <unistd.h>
+
 // # include <readline/history.h>
 
 # include <sys/types.h>
@@ -103,11 +104,6 @@ struct						s_TokenizeState
 	t_shelldata				*data;
 };
 
-typedef struct s_tokens
-{
-	char					**tokens;
-	int						count;
-}							t_tokens;
 
 /*
 enumerate used in get_complete_line function that

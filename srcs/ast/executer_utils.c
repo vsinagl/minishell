@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:32 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:44:47 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ helper function, print array of strings. In Code,
 */
 void	print_args2(char **args)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (args == NULL)

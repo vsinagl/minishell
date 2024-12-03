@@ -6,14 +6,14 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/28 16:01:43 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:34:57 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
-# include <curses.h>
 # include <term.h>
+# include "minishell.h"
 
 # define ARROW_UP "\033[A"
 # define ARROW_DOWN "\033[B"
@@ -23,12 +23,21 @@
 # define CTRL_D 4
 # define ENTER 10
 
+
 typedef enum e_signal
 {
 	S_ERROR,
 	S_BREAK,
 	S_CONTINUE,
 }	t_signal;
+
+typedef struct t_input
+{
+	t_history	**h_head;
+	t_signal	result;
+	int			bytes_read;
+}				t_input;
+
 
 enum e_bool	is_ctrl(char c);
 enum e_bool	is_arrow(char *buff);

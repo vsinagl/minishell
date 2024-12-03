@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:27:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 15:23:53 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:00:32 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  *
  * This file is part of a shell program and is intended to be used internally
  * by the shell to manage its environment variables.
-*/
+ */
 t_env	*env_find_dup(t_env *head, const char *name)
 {
 	while (head != NULL)
@@ -62,7 +62,7 @@ t_env	*env_add(t_env *head, char *name, char *value)
 	}
 	new = (t_env *)malloc(sizeof(t_env));
 	if (new == NULL)
-	    return (NULL);
+		return (NULL);
 	new->name = strdup(name);
 	new->value = strdup(value);
 	if (head == NULL)
@@ -92,37 +92,6 @@ int	msh_env(t_env *head)
 		head = head->next;
 	}
 	return (0);
-}
-
-// this functions return the pointer to the value or NULL if value is not find
-char	*env_getvalue(t_env *head, char *name)
-{
-	while (head != NULL)
-	{
-		if (ft_strncmp(head->name, name, ft_strlen(name)) == 0)
-			return ((char *)(head->value));
-		head = head->next;
-	}
-	return (NULL);
-}
-
-void	env_free_struct(t_env *env)
-{
-	free(env->name);
-	free(env->value);
-	free(env);
-}
-
-void	env_free(t_env *head)
-{
-	t_env	*tmp;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		env_free_struct(tmp);
-	}
 }
 
 t_env	*init_env(void)

@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:01:35 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:45:14 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	execute_command(t_astnode *node, t_pipeinfo pipeinfo)
 	int		status;
 
 	if (is_builtin((char *)node->data) > 0 && (node->parent->type != BINARY
-				&& is_redirection(node->parent) == FALSE))
-		// node->parent->type != REDIRECTION))
+			&& is_redirection(node->parent) == FALSE))
 		return (try_builtin(node, 0));
 	pid = fork();
 	if (pid == -1)

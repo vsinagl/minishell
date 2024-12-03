@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsinagl <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 20:27:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/06/28 23:17:53 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 12:39:01 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ int	msh_pwd(void)
 	}
 	ft_putstr_fd(buff, STDOUT_FILENO);
 	ft_putstr_fd("\n", STDOUT_FILENO);
-	return 0;
+	return (0);
 }

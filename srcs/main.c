@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 09:01:21 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/03 13:36:27 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,6 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 
 	if (readline == NULL || ft_strlen(readline) <= 0)
 		return (-1);
-	// tokens = tokenizer(readline, data);
-	// if (tokens == NULL)
-	// 	return (-1);
-	// if (tokens_check(tokens) == FALSE)
-	// {
-	// 	free_token_queue(tokens);
-	// 	return (1);
-	// }
-	// if (verbose == 1)
-	// 	print_tokens(tokens);
 	result = executer_tokens(readline, verbose, data, &tokens);
 	if (result != 0)
 		return (result);
@@ -88,9 +78,11 @@ int	run_minishell(t_shelldata *data)
 	while (1)
 	{
 		line = get_input(data);
-		printf("input line: %s\n", line);
 		if (line == NULL)
+		{
+			data->last_status = 0;
 			continue;
+		}
 		if (line_ok(line) == FALSE)
 		{
 			free(line);
@@ -103,9 +95,6 @@ int	run_minishell(t_shelldata *data)
 			if (line != NULL)
 				free(line);
 			continue;
-			// fprintf(stderr, "Error in executing AST\n");
-			// free(line);
-			// return (1);
 		}
 	}
 	return (0);

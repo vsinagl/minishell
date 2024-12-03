@@ -1,0 +1,1 @@
+ cp minishell /nfs/homes/vsinagl/bin
