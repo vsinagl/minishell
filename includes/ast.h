@@ -25,7 +25,7 @@
 # define MAX_TOKENS 1000
 # define MAX_TOKEN_LENGTH 1000
 
-typedef struct s_shelldata t_shelldata;
+typedef struct s_shelldata	t_shelldata;
 
 // enum	e_tokentype;
 // enum	e_operatortype;
@@ -143,6 +143,9 @@ int							ft_strarr_len(char **arr);
 void						print_args2(char **args);
 
 // lexer utils
+
+int							handle_dollar_expansion(const char *input, int i,
+								char **current_token, t_shelldata *data);
 void						free_tokens(char **tokens);
 void						print_str_tokens(char **tokens);
 void						print_tokens(t_tokenqueue *tokens);
@@ -155,6 +158,8 @@ int							end_of_token(const char *input, int i,
 int							handle_quotes(const char *input, int i,
 								char **current_token, t_shelldata *data);
 char						*tokenize_init(t_tokens *tokens);
+void						handle_final_token(char **current_token, t_tokens *tokens);
+char						*append_char_to_string(char *str, char c);
 
 // parser functions
 void						free_token_queue(t_tokenqueue *tokens);

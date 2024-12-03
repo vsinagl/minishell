@@ -82,20 +82,6 @@ int	handle_dollar_expansion(const char *input, int i, char **current_token,
 		return (handle_env_expansion(input, i, current_token, data));
 }
 
-// finish the token array and assure that
-// final array of token is properly terminatd
-// this broke a tokenize function and now tokenize function
-// is much less readable
-// however, it was neccasary to do it beauces of norminette
-void	handle_final_token(char **current_token, t_tokens *tokens)
-{
-	if (ft_strlen(*current_token) > 0)
-		tokens->tokens[tokens->count++] = *current_token;
-	else
-		free(*current_token);
-	tokens->tokens[tokens->count] = NULL;
-}
-
 int	handle_operator(const char *input, int i, char **current_token,
 		t_tokens *tokens)
 {
@@ -115,33 +101,46 @@ int	handle_operator(const char *input, int i, char **current_token,
 	return (j);
 }
 
+/*
+NORM function
+this iterate over input and tokenize it.
+Tokens are handled based on input charracter
+append char to string will add char from input to current token.
+*/
+void	tokenize_loop(char *input, char **current_token, t_tokens *tokens,
+		t_shelldata *data)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] != '\0')
+	{
+		if (input[i] == '$')
+			i += handle_dollar_expansion(input, i, current_token, data);
+		else if (input[i] == '"' || input[i] == '\'')
+			i += handle_quotes(input, i, current_token, data);
+		else if (isspace(input[i]))
+			i += end_of_token(input, i, current_token, tokens);
+		else if (is_char_operator(input[i]))
+			i += handle_operator(input, i, current_token, tokens);
+		else
+		{
+			*current_token = append_char_to_string(*current_token, input[i]);
+			i++;
+		}
+	}
+}
+
 // Tokenize function, handling special cases like $VAR, $$, $? and quoted tokens
 char	**tokenize(char *input, t_shelldata *data)
 {
 	t_tokens	tokens;
 	char		*current_token;
-	int			i;
 
 	current_token = tokenize_init(&tokens);
-	i = 0;
 	if (current_token == NULL)
 		return (NULL);
-	while (input[i] != '\0')
-	{
-		if (input[i] == '$')
-			i += handle_dollar_expansion(input, i, &current_token, data);
-		else if (input[i] == '"' || input[i] == '\'')
-			i += handle_quotes(input, i, &current_token, data);
-		else if (isspace(input[i]))
-			i += end_of_token(input, i, &current_token, &tokens);
-		else if (is_char_operator(input[i]))
-			i += handle_operator(input, i, &current_token, &tokens);
-		else
-		{
-			current_token = append_char_to_string(current_token, input[i]);
-			i++;
-		}
-	}
+	tokenize_loop(input, &current_token, &tokens, data);
 	handle_final_token(&current_token, &tokens);
 	if (tokens.count == 0 && tokens.tokens[0] == NULL)
 		return (NULL);
