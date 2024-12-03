@@ -207,7 +207,7 @@ char *get_input(t_shelldata *data);
 char						**tokenize(char *input, t_shelldata *data);
 
 // parser
-t_tokenqueue				*tokenizer(char *readline, t_shelldata *data);
+t_tokenqueue				*tokenizer(char *readline, t_shelldata *data, int verbose);
 
 // utils
 int							str_exact_match(const char *s1, const char *s2);

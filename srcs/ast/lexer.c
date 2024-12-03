@@ -160,14 +160,8 @@ int	handle_quotes(const char *input, int i, char **current_token,
 			j++;
 		}
 	}
-	// printf("len cur token: %lu\n", strlen(*current_token));
-	// printf("test function: %i\n", is_string_operator(*current_token));
-	printf("input[i + j + 1] is: %c\n", input[i + j + 1]);
 	if (is_string_operator(*current_token) == TRUE && (input[i + j + 1] == '\0' || input[i + j + 1] == ' '))
 		(*current_token) = append_char_to_string((*current_token), ' ');
-	// printf("j is: %i\n", j);
-	// printf("input[i + j] is: %c\n", input[i + j]);
-	// printf("*current_token is: %s\n", *current_token);
 	return (j + 1);
 }
 
@@ -206,6 +200,24 @@ void	handle_final_token(char **current_token, t_tokens *tokens)
 	tokens->tokens[tokens->count] = NULL;
 }
 
+int	handle_operator(const char *input, int i, char **current_token, t_tokens *tokens)
+{
+	char	operator;
+	int		j;
+
+	operator = input[i];
+	end_of_token(input, i, current_token, tokens);
+	j = 0;
+	while(input[i] == operator && j < 2)
+	{
+		*(current_token) = append_char_to_string(*(current_token), input[i]);
+		i++;
+		j++;
+	}
+	end_of_token(input, i, current_token, tokens);
+	return(j);
+}
+
 // Tokenize function, handling special cases like $VAR, $$, $? and quoted tokens
 char	**tokenize(char *input, t_shelldata *data)
 {
@@ -224,6 +236,8 @@ char	**tokenize(char *input, t_shelldata *data)
 			i += handle_quotes(input, i, &current_token, data);
 		else if (isspace(input[i]))
 			i += end_of_token(input, i, &current_token, &tokens);
+		else if (is_char_operator(input[i]))
+			i += handle_operator(input, i, &current_token, &tokens);
 		else
 		{
 			current_token = append_char_to_string(current_token, input[i]);
@@ -231,5 +245,7 @@ char	**tokenize(char *input, t_shelldata *data)
 		}
 	}
 	handle_final_token(&current_token, &tokens);
+	if (tokens.count == 0 && tokens.tokens[0] == NULL)
+		return NULL;
 	return (tokens.tokens);
 }

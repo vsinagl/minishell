@@ -136,9 +136,11 @@ void						print_args2(char **args);
 
 // lexer utils
 void						free_tokens(char **tokens);
-void						print_tokens_str(const char **tokens);
+void						print_str_tokens(char **tokens);
 void						print_tokens(t_tokenqueue *tokens);
 void						print_token(t_token *token);
+int							ft_tokenlen(char **tokens);
+enum e_bool					is_pipe_redirection(char c);
 
 // parser functions
 void						free_token_queue(t_tokenqueue *tokens);

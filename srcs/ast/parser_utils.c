@@ -12,7 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-
+enum e_bool is_pipe_redirection(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (TRUE);
+	return (FALSE);
+}
 
 enum e_bool	is_char_operator(char c)
 {

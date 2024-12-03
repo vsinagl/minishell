@@ -27,13 +27,17 @@ int	executer_tokens(char *readline, int verbose, t_shelldata *data, t_tokenqueue
 		printf("+++++++++++++++++++++++++++++++\n");
 		printf("parsing line: %s\n", readline);
 	}
-	*(tokens) = tokenizer(readline, data);
+	*(tokens) = tokenizer(readline, data, verbose);
 	if (*(tokens) == NULL)
+	{
+		if (verbose == 1)
+			ft_fprintf(STDERR_FILENO, "Error in tokenizer!\n");
 		return (-1);
+	}
 	if (tokens_check(*tokens) == FALSE)
 	{
 		free_token_queue(*tokens);
-		return (1);
+		return (2);
 	}
 	if (verbose == 1)
 		print_tokens(*tokens);
@@ -96,9 +100,12 @@ int	run_minishell(t_shelldata *data)
 		data->last_status = executer(line, check_verbose(data), data);
 		if (data->last_status < 0)
 		{
-			fprintf(stderr, "Error in executing AST\n");
-			free(line);
-			return (1);
+			if (line != NULL)
+				free(line);
+			continue;
+			// fprintf(stderr, "Error in executing AST\n");
+			// free(line);
+			// return (1);
 		}
 	}
 	return (0);

@@ -113,9 +113,52 @@ t_tokenqueue	*init_token_queue(void)
 	return (queue);
 }
 
+t_tokenqueue		*create_tokenqueue(char **str_tokens)
+{
+	t_tokenqueue	*tokens;
+	t_token			*token;
+	t_token			*prev;
+	int					i;
+
+	tokens = init_token_queue();
+	i = 0;
+	prev = NULL;
+	while (str_tokens[i] != NULL)
+	{
+		token = tokenize_and_identify(str_tokens[i]);
+		free(str_tokens[i]);
+		if (tokens->top == NULL)
+			tokens->top = token;
+		if (prev != NULL)
+			prev->next = token;
+		prev = token;
+		tokens->size++;
+		i++;
+	}
+	free(str_tokens);
+	token->next = NULL;
+	return (tokens);
+}
 /*
 creates a token queue from given array of string tokens
 */
+t_tokenqueue	*tokenizer(char *readline, t_shelldata *data, int verbose)
+{
+	t_tokenqueue	*tokens;
+	char			**str_tokens;
+
+	str_tokens = tokenize(readline, data);
+	if (str_tokens == NULL)
+		return (NULL);
+	if (verbose == 1)
+		print_str_tokens(str_tokens);
+	tokens = create_tokenqueue(str_tokens);
+	if (tokens == NULL)
+		return (NULL);
+	return (tokens);
+}
+
+/*
 t_tokenqueue	*tokenizer(char *readline, t_shelldata *data)
 {
 	t_tokenqueue	*tokens;
@@ -144,4 +187,4 @@ t_tokenqueue	*tokenizer(char *readline, t_shelldata *data)
 	token->next = NULL;
 	return (tokens);
 }
-
+*/

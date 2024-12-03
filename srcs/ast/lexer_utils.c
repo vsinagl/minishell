@@ -12,6 +12,18 @@
 
 #include "../../includes/ast.h"
 
+int		ft_tokenlen(char **tokens)
+{
+	int		i;
+
+	i = 0;
+	while(tokens[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
+}
+
 void	free_tokens(char **tokens)
 {
 	int	i;
@@ -44,4 +56,21 @@ void	print_tokens(t_tokenqueue *tokens)
 		print_token(current);
 		current = current->next;
 	}
+}
+
+/*
+function that prints string tokens
+*/
+void	print_str_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	printf("STR TOKENS: {");
+	while (tokens[i] != NULL)
+	{
+		printf("\'%s\', ", tokens[i]);
+		i++;
+	}
+	printf("}\n");
 }
