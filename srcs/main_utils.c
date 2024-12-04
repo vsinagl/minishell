@@ -14,7 +14,7 @@
 
 static enum e_bool	check_quotes(char *line)
 {
-	int quote_char;
+	int	quote_char;
 
 	quote_char = 0;
 	while (*line)
@@ -33,9 +33,9 @@ static enum e_bool	check_quotes(char *line)
 	return (FALSE);
 }
 
-enum e_bool line_ok(char *line)
+enum e_bool	line_ok(char *line)
 {
-	int empty;
+	int	empty;
 
 	empty = 0;
 	if (check_quotes(line) == FALSE)
@@ -43,11 +43,11 @@ enum e_bool line_ok(char *line)
 		ft_fprintf(STDERR_FILENO, "minishell: syntax error: unclosed quotes\n");
 		return (FALSE);
 	}
-	if (ft_strlen(line) == 0 )
+	if (ft_strlen(line) == 0)
 		return (FALSE);
 	else if (ft_strlen(line) == 1 && line[0] == ' ')
 		return (FALSE);
-	return TRUE;
+	return (TRUE);
 }
 
 int	check_verbose(t_shelldata *data)
@@ -62,17 +62,12 @@ int	check_verbose(t_shelldata *data)
 
 void	print_info(void)
 {
-	char	pwd[1024];
-
 	printf("********* ************** **************\n");
-	printf("********* MINISHELL v0.5 **************\n");
+	printf("********* MINISHELL v0.9 **************\n");
 	printf("\n");
 	printf("VERSION DESCRIPTION: ");
-	printf("abstract syntax tree parser with expanding $, pipes, input checking, signals etc..\n");
-	printf("MISSING: redirections");
-	printf("\n\n");
+	printf("complete minishell, bug: echo \"-\"--> segfault\n");
 	printf("Uzivatel: %s\n", getenv("USER"));
-	getcwd(pwd, sizeof(pwd));
-	printf("Dir: %s\n", pwd);
 	printf("SIGINT: %i, SIGQUIT: %i\n", SIGINT, SIGQUIT);
+	printf("********* ************** **************\n");
 }

@@ -12,30 +12,42 @@
 
 #include "../../includes/minishell.h"
 
-enum e_bool	is_pipe_redirection(char c)
+/*
+function that pops first element (the first added element) from stack
+*/
+t_token	*pop_token(t_tokenqueue *tokens)
 {
-	if (c == '|' || c == '<' || c == '>')
-		return (TRUE);
-	return (FALSE);
+	t_token	*token;
+
+	if (tokens->size == 0 || tokens->top == NULL)
+		return (NULL);
+	token = tokens->top;
+	tokens->top = tokens->top->next;
+	tokens->size--;
+	return (token);
 }
 
-enum e_bool	is_char_operator(char c)
+void	free_token(t_token *token)
 {
-	if (c == '|' || c == '<' || c == '>' || c == '&' || c == ';')
-		return (TRUE);
-	return (FALSE);
-}
-
-enum e_bool	is_string_operator(char *str)
-{
-	if (str == NULL)
-		return (FALSE);
-	if (ft_strlen(str) == 1 && is_char_operator(str[0]))
-		return (TRUE);
-	else if (ft_strlen(str) == 2)
+	if (token->type == TOKEN_WORD)
 	{
-		if (ft_strncmp(str, "&&", 2) == 0 || ft_strncmp(str, "||", 2) == 0)
-			return (TRUE);
+		if (token->u_value.word != NULL)
+			free(token->u_value.word);
 	}
-	return (FALSE);
+	free(token);
+}
+
+void	free_token_queue(t_tokenqueue *tokens)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = tokens->top;
+	while (current != NULL)
+	{
+		next = current->next;
+		free_token(current);
+		current = next;
+	}
+	free(tokens);
 }

@@ -28,9 +28,6 @@ int	msh_echo(int argc, char **argv)
 	}
 	while (i < argc)
 	{
-		if (((newline == TRUE && i == 1) || (newline == FALSE && i == 2))
-			&& *argv[i] == '-')
-			i++;
 		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		if (i < argc - 1)
 			write(1, " ", 1);

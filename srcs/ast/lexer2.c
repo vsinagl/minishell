@@ -84,6 +84,7 @@ char	*append_char_to_string(char *str, char c)
 	strcpy(new_str, str);
 	new_str[len] = c;
 	new_str[len + 1] = '\0';
+	free(str);
 	return (new_str);
 }
 

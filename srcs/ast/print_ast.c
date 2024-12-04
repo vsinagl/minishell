@@ -124,9 +124,9 @@ void	process_queue_node(t_queuenode **queue, int max_level,
  */
 void	print_ast_tree(t_astnode *root)
 {
-	t_queuenode	*queue;
-	int					max_level;
-	int					current_level;
+	t_queuenode		*queue;
+	int				max_level;
+	int				current_level;
 
 	if (root == NULL)
 	{

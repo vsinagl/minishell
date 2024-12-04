@@ -71,13 +71,32 @@ void	msh_set_term(struct termios *term)
 /*
 Function that initialized data at begging of the program.
 */
-int	init_data(t_shelldata *data)
+// int	init_data(t_shelldata *data)
+// {
+
+// 	data->history = NULL;
+// 	data->env = init_env();
+// 	data->last_status = 0;
+// 	data->termcap = init_term();
+// 	if (data->termcap == NULL)
+// 		return (1);
+// 	return (0);
+// }
+
+t_shelldata	*init_data()
 {
+
+	t_shelldata		*data;
+
+	data = (t_shelldata *)malloc(sizeof(t_shelldata));
 	data->history = NULL;
 	data->env = init_env();
 	data->last_status = 0;
 	data->termcap = init_term();
 	if (data->termcap == NULL)
-		return (1);
-	return (0);
+	{
+		free_data(data);
+		return (NULL);
+	}
+	return (data);
 }

@@ -98,3 +98,9 @@ we haven't closed redirection
 
 # Norminette
 files to be norminetted:
+- [x] srcs/main.c: Error!
+- [x] srcs/exit.c: Error!
+- [x] srcs/prompt.c: Error!
+- [x] srcs/history.c: Error!
+- [x] srcs/main_utils.c: Error!
+- [x] srcs/signal.c: Error!

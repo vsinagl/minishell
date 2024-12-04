@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 09:12:15 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/04 16:11:34by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/11/27 20:08:54 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ void	print_whitespace(int n, char whitespace)
 	}
 }
 
-/*
-
-*/
 void	print_operator(enum e_nodetype op)
 {
 	if (op == BINARY)
@@ -63,12 +60,11 @@ void	print_astnode(t_astnode *node)
 	}
 	else if (node->type == BINARY || is_redirection(node) == TRUE)
 	{
-    	print_operator(node->type);
-    	if (is_redirection(node) == TRUE)
+		print_operator(node->type);
+		if (is_redirection(node) == TRUE)
 		{
-
 			if (node->args != NULL)
-        		printf(" %s", (char *)node->args[0]);
+				printf(" %s", (char *)node->args[0]);
 		}
 	}
 	else if (node->type == ROOT)

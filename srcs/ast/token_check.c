@@ -47,16 +47,17 @@ operator in the end!
 	- operator -> because of norminette, i need to declare as function argument,
 		need to be 0!!
 */
-static enum e_bool	check_consencutive_op(t_token *cur_token,
-		int *operator)
+static enum e_bool	check_consencutive_op(t_token *cur_token, int *operator)
 {
 	while (cur_token != NULL)
 	{
 		if (cur_token->type == TOKEN_OPERATOR)
 		{
-			if (cur_token->u_value.op == OP_AND || cur_token->u_value.op == OP_OR)
+			if (cur_token->u_value.op == OP_AND
+				|| cur_token->u_value.op == OP_OR)
 			{
-				ft_fprintf(STDERR_FILENO, "msh: unssuported operator '&&' or '||' \n");
+				ft_fprintf(STDERR_FILENO,
+					"msh: unssuported operator '&&' or '||' \n");
 				return (FALSE);
 			}
 			if (*operator == 1)
@@ -64,10 +65,10 @@ static enum e_bool	check_consencutive_op(t_token *cur_token,
 				err_print_operator(cur_token->u_value.op);
 				return (FALSE);
 			}
-			*operator= 1;
+			*operator = 1;
 		}
 		else
-			*operator= 0;
+			*operator = 0;
 		cur_token = cur_token->next;
 	}
 	return (TRUE);
@@ -75,7 +76,7 @@ static enum e_bool	check_consencutive_op(t_token *cur_token,
 
 static enum e_bool	check_ending_op(t_token *token, int operator)
 {
-	while(token->next != NULL)
+	while (token->next != NULL)
 		token = token->next;
 	if (operator == 1)
 	{
@@ -92,11 +93,10 @@ static enum e_bool	check_ending_op(t_token *token, int operator)
 
 enum e_bool	tokens_check(t_tokenqueue *tokens)
 {
-	t_token *cur_token;
-	int operator;
+	t_token		*cur_token;
+	int			operator;
 
-
-	operator= 0;
+	operator = 0;
 	cur_token = tokens->top;
 	if (cur_token->type == TOKEN_OPERATOR)
 	{

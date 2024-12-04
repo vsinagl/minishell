@@ -104,7 +104,6 @@ struct						s_TokenizeState
 	t_shelldata				*data;
 };
 
-
 /*
 enumerate used in get_complete_line function that
 symbolize actual completeness of line.
@@ -148,18 +147,6 @@ typedef struct s_gcl_data
 	enum e_linestatus		status;
 }							t_gcl_data;
 
-// void						ft_parse(char *line, char pars, char *arr[],
-// 								t_cmd *command);
-// void						parse_arr(char *line, char pars, char *arr[]);
-// void						ft_execute(t_cmd *command);
-// void						call_exec(t_cmd *list);
-// void						call_pipe(t_cmd *list, int fdd[2]);
-// void						input_pipe(t_cmd *list);
-// void						output_pipe(t_cmd *list, int fdd[2]);
-// void						middle_pipe(t_cmd *list, int fd[2]);
-// void						free_command(t_cmd *cmd);
-// char						*get_complete_line(int exit_status);
-
 // tokenization
 enum e_bool					tokens_check(t_tokenqueue *tokens);
 
@@ -188,14 +175,15 @@ t_env						*init_env(void);
 void						env_free_struct(t_env *env);
 
 // init
-int						init_data(t_shelldata *data);
+// int							init_data(t_shelldata *data);
+t_shelldata					*init_data(void);
 
 // signals
 void						sig_init(void);
 void						setup_signal_handling(void);
 
-//input
-char *get_input(t_shelldata *data);
+// input
+char						*get_input(t_shelldata *data);
 
 // history
 
@@ -203,13 +191,14 @@ char *get_input(t_shelldata *data);
 char						**tokenize(char *input, t_shelldata *data);
 
 // parser
-t_tokenqueue				*tokenizer(char *readline, t_shelldata *data, int verbose);
+t_tokenqueue				*tokenizer(char *readline, t_shelldata *data,
+								int verbose);
 
 // utils
 int							str_exact_match(const char *s1, const char *s2);
 enum e_bool					line_ok(char *line);
-void	print_info(void);
-int	check_verbose(t_shelldata *data);
+void						print_info(void);
+int							check_verbose(t_shelldata *data);
 
 // history
 t_history					*history_add(t_shelldata *data, char *line);
@@ -227,7 +216,7 @@ void						print_prompt(int exit_status);
 // terminal
 void						msh_set_term(struct termios *term);
 
-//exit
-void 						exit_program(t_shelldata *data);
+// exit
+void						exit_program(t_shelldata *data);
 
 #endif

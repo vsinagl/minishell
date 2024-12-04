@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   by: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   created: 2024/06/12 20:25:54 by mmarek            #+#    #+#             */
-/*   updated: 2024/11/04 17:41:13 by vsinagl          ###   ########.fr       */
+/*   Created: 2024/11/12 20:25:45 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/11/22 09:01:21 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,7 @@ t_history	*move_head(t_history *head, int direction)
 		else
 			return (current->next);
 	}
-	return NULL;
-
-// old code, delete please
-	// i = 0;
-	// if (data == NULL)
-	// 	return (NULL);
-	// current = data->history;
-	// if (current == NULL)
-	// 	return (NULL);
-	// while (current != NULL)
-	// {
-	// 	if (i == count)
-	// 		return (current->data);
-	// 	current = current->prev;
-	// 	i++;
-	// }
-	// return (NULL);
+	return (NULL);
 }
 
 int	print_history(t_shelldata *data)
@@ -97,7 +81,7 @@ int	print_history(t_shelldata *data)
 
 void	free_history(t_shelldata *data)
 {
-	t_history	*tmp;
+	t_history		*tmp;
 
 	while (data->history != NULL)
 	{

@@ -12,8 +12,8 @@
 
 #ifndef INPUT_H
 # define INPUT_H
-# include <term.h>
 # include "minishell.h"
+# include <term.h>
 
 # define ARROW_UP "\033[A"
 # define ARROW_DOWN "\033[B"
@@ -23,13 +23,12 @@
 # define CTRL_D 4
 # define ENTER 10
 
-
 typedef enum e_signal
 {
 	S_ERROR,
 	S_BREAK,
 	S_CONTINUE,
-}	t_signal;
+}				t_signal;
 
 typedef struct t_input
 {
@@ -38,17 +37,16 @@ typedef struct t_input
 	int			bytes_read;
 }				t_input;
 
-
-enum e_bool	is_ctrl(char c);
-enum e_bool	is_arrow(char *buff);
-void		handle_backspace(int *i);
-t_signal	handle_ctrl_c(char *buff, t_shelldata *data);
-t_signal	handle_ctrl_d(char *buff, t_shelldata *data);
-void		inpt_handle_quotes(char *buff, int *quote_char, int *i,
-				int bytes_read);
-t_signal	handle_enter(char *buff, int quote_char);
-t_history	*handle_arrow(char *buff, t_shelldata *data, t_history *head,
-				int *i);
-int			ft_putint(int c);
+enum e_bool		is_ctrl(char c);
+enum e_bool		is_arrow(char *buff);
+void			handle_backspace(int *i);
+t_signal		handle_ctrl_c(char *buff, t_shelldata *data);
+t_signal		handle_ctrl_d(char *buff, t_shelldata *data);
+void			inpt_handle_quotes(char *buff, int *quote_char, int *i,
+					int bytes_read);
+t_signal		handle_enter(char *buff, int quote_char);
+t_history		*handle_arrow(char *buff, t_shelldata *data, t_history *head,
+					int *i);
+int				ft_putint(int c);
 
 #endif

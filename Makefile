@@ -9,7 +9,6 @@ CFLAGS =  -g -Wall  -Wextra
 LFLAGS = -Llibft -Lft_fprintf -lftfprintf -lft -lreadline  -lncurses -ltinfo
 
 SRCS =	srcs/main.c \
-		srcs/readline.c \
 		srcs/signal.c \
 		srcs/history.c \
 		srcs/init.c \
@@ -30,10 +29,13 @@ AST =	ast_utils.c\
 		lexer3.c\
 		parser.c\
 		parser_utils.c\
+		parser_utils2.c\
 		pipe.c\
 		print_ast_utils.c\
 		print_ast.c\
 		my_exec.c \
+		my_exec_utils.c \
+		my_exec_utils2.c \
 		redirection.c \
 		token_check.c \
 

@@ -14,10 +14,6 @@
 
 void	print_prompt(int exit_status)
 {
-	char *user;
-
-	// user = getenv("USER");
-	// printf("%smsh:%s", PROMPT_USER, user);
 	ft_putstr_fd(PROMPT_USER, STDOUT_FILENO);
 	ft_putstr_fd("msh:", STDOUT_FILENO);
 	if (exit_status == 0)
@@ -25,7 +21,6 @@ void	print_prompt(int exit_status)
 		ft_putstr_fd(PROMPT_OK, STDOUT_FILENO);
 		ft_putstr_fd(PROMPT, STDOUT_FILENO);
 		ft_putstr_fd(PROMPT_RESET, STDOUT_FILENO);
-
 	}
 	else
 	{
@@ -34,11 +29,3 @@ void	print_prompt(int exit_status)
 		ft_putstr_fd(PROMPT_RESET, STDOUT_FILENO);
 	}
 }
-
-// char *readline_prompt(int exit_status)
-// {
-// 	char *line;
-
-// 	line = readline("");
-// 	return (line);
-// }

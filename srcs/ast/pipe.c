@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/ast.h"
+#include "../../includes/minishell.h"
 
 t_pipeinfo	init_pipe(int read_fd, int write_fd)
 {
@@ -23,7 +23,8 @@ t_pipeinfo	init_pipe(int read_fd, int write_fd)
 	return (pipe);
 }
 
-static int pipe_process(t_astnode *node, t_pipeinfo left_pipe, t_pipeinfo right_pipe, int *pipe_fd)
+static int	pipe_process(t_astnode *node, t_pipeinfo left_pipe,
+		t_pipeinfo right_pipe, int *pipe_fd)
 {
 	pid_t	pid_left;
 	pid_t	pid_right;
@@ -58,24 +59,24 @@ left child of current root.
 */
 int	execute_pipe(t_astnode *node, t_pipeinfo parent_pipe)
 {
-	int				pipe_fd[2];
+	int			pipe_fd[2];
 	t_pipeinfo	left_pipe;
 	t_pipeinfo	right_pipe;
-	int				status;
+	int			status;
 
 	if (node == NULL || node->type != BINARY)
 	{
 		ft_fprintf(STDERR_FILENO, "Wrong node pass to execute_pipe/pipe.c\n");
-		return(1);
+		return (1);
 	}
 	if (pipe(pipe_fd) == -1)
 	{
-		ft_fprintf(STDERR_FILENO, "Error in creating pipe-> pipe.c/execute_pipe\n");
-		return(1);
+		ft_fprintf(STDERR_FILENO,
+			"Error in creating pipe-> pipe.c/execute_pipe\n");
+		return (1);
 	}
 	left_pipe = init_pipe(-1, pipe_fd[1]);
 	right_pipe = init_pipe(pipe_fd[0], parent_pipe.write_fd);
 	status = pipe_process(node, left_pipe, right_pipe, pipe_fd);
-	return WEXITSTATUS(status);
+	return (WEXITSTATUS(status));
 }
-

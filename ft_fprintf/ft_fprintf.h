@@ -10,22 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef FT_FPRINTF_H
+# define FT_FPRINTF_H
 
-# include <unistd.h>
-# include <stdio.h>
+# include "../libft/libft.h"
 # include <limits.h>
 # include <stdarg.h>
-# include "../libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
 
-int ftf_putchar_fd(char c, int fd);
-int ftf_putstr_fd(char *s, int fd);
-int ftf_putnbr_fd(int num, int fd);
-int ft_putnbr_u_fd(unsigned int num, int fd);
-int ft_puthex_fd(unsigned int num, int option, int fd);
-int ft_pointeradr_fd(void *ptr, int fd);
-int ft_fprintf(int fd, const char *input, ...);
-
+int	ftf_putchar_fd(char c, int fd);
+int	ftf_putstr_fd(char *s, int fd);
+int	ftf_putnbr_fd(int num, int fd);
+int	ft_putnbr_u_fd(unsigned int num, int fd);
+int	ft_puthex_fd(unsigned int num, int option, int fd);
+int	ft_pointeradr_fd(void *ptr, int fd);
+int	ft_fprintf(int fd, const char *input, ...);
 
 #endif

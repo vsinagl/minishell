@@ -27,7 +27,8 @@ static int	create_fd_heredoc(char *eof)
 
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	while ((line = readline("> ")) != NULL)
+	line = readline("> ");
+	while (line != NULL)
 	{
 		if (ft_strcmp(line, eof) == 0)
 		{
@@ -37,13 +38,15 @@ static int	create_fd_heredoc(char *eof)
 		ft_putstr_fd(line, pipe_fd[1]);
 		write(pipe_fd[1], "\n", 1);
 		free(line);
+		line = readline("> ");
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
 }
 
 // Function: get_fd
-// Description: Opens or creates a file descriptor based on the specified redirection type.
+// Description: Opens or creates a file descriptor based on the
+// specified redirection type.
 // Parameters:
 //   - filename: The name of the file to open or create.
 //   - nodetype: The type of redirection (e.g., input, output, append, heredoc).
@@ -80,20 +83,21 @@ from file to be redirected
 ==> this means that we are not overwriting already defined file descriptors
 (currently opened files)
 */
-t_pipeinfo update_pipeinfo(t_astnode *node, int file_fd,
+t_pipeinfo	update_pipeinfo(t_astnode *node, int file_fd,
 		t_pipeinfo parent_pipe, char *file_name)
 {
-	t_pipeinfo left_pipe;
-	
+	t_pipeinfo	left_pipe;
+
 	file_fd = get_fd(file_name, node->type);
-	printf("\tparent_pipe: read: %i || write: %i\n", parent_pipe.read_fd, parent_pipe.write_fd);
 	left_pipe = init_pipe(parent_pipe.read_fd, parent_pipe.write_fd);
-	if ((node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC) && parent_pipe.read_fd == -1)
+	if ((node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC)
+		&& parent_pipe.read_fd == -1)
 		left_pipe.read_fd = file_fd;
-	else if ((node->type == REDIRECTION_OUT || node->type == REDIRECTION_APPEND) && parent_pipe.write_fd == -1)
+	else if ((node->type == REDIRECTION_OUT || node->type == REDIRECTION_APPEND)
+		&& parent_pipe.write_fd == -1)
 		left_pipe.write_fd = file_fd;
 	else
-		close(file_fd); //file fd not used :)
+		close(file_fd);
 	return (left_pipe);
 }
 
@@ -113,44 +117,28 @@ static enum e_bool	handle_error(t_astnode *node)
 }
 
 // Function: execute_redirection
-// Description: Executes a redirection operation based on the AST node type. Handles
-// both individual and chained redirections, including heredoc and append.
+// Description: Executes a redirection operation based on the AST node type.
+// Handle sboth individual and chained redirections,
+// including heredoc and append.
 // Parameters:
 //   - node: The current AST node to process.
 //   - parent_pipe: The pipe information from the parent process.
 // Returns: 0 on success, 1 on failure.
 int	execute_redirection(t_astnode *node, t_pipeinfo parent_pipe)
 {
-	int file_fd;
-	t_pipeinfo left_pipe;
-	char *file_name;
+	int				file_fd;
+	t_pipeinfo		left_pipe;
+	char			*file_name;
 
 	if (handle_error(node) == FALSE)
 		return (1);
 	file_name = (char *)node->data;
-	// tohle je picovina nejak se mi nezda
-	// if (node->type == REDIRECTION_HEREDOC && node->parent
-	// 	&& node->parent->type == REDIRECTION_APPEND)
-	// 	return (execute_heredoc_append(node, parent_pipe));
-	// file_fd = handle_correct_fd(node, file_fd, parent_pipe, file_name);
 	left_pipe = update_pipeinfo(node, file_fd, parent_pipe, file_name);
 	if (file_fd < 0)
 		return (1);
-	printf("---------------------------------------\n");
-	printf("node: %s, file_fd: %i\n", file_name, file_fd);
-	// if (node->type == REDIRECTION_IN || node->type == REDIRECTION_HEREDOC)
-	// 	left_pipe = init_pipe(file_fd, parent_pipe.write_fd);
-	// else
-	// 	left_pipe = init_pipe(parent_pipe.read_fd, file_fd);
-	printf("\tpipe-> read: %i || write: %i\n", left_pipe.read_fd, left_pipe.write_fd);
-	printf("---------------------------------------\n");
 	if (node->left)
 	{
-		{
-			printf("\t\texecuting COM with pipeinfo: read: %i || write: %i\n",
-				left_pipe.read_fd, left_pipe.write_fd);
-			return (execute_node(node->left, left_pipe));
-		}
+		return (execute_node(node->left, left_pipe));
 	}
 	close(file_fd);
 	return (0);
