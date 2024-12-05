@@ -35,9 +35,6 @@ static enum e_bool	check_quotes(char *line)
 
 enum e_bool	line_ok(char *line)
 {
-	int	empty;
-
-	empty = 0;
 	if (check_quotes(line) == FALSE)
 	{
 		ft_fprintf(STDERR_FILENO, "minishell: syntax error: unclosed quotes\n");
