@@ -1,1 +1,0 @@
-CMakeLists.txt not found in /home/vsinagl/Code/42/minishell/minishell Select CMakeLists.txt

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 20:27:15 by vsinagl            #+#    #+#            */
-/*   Updated: 2024/11/04 16:00:38 by vsinagl          ###   ########.fr       */
+/*   Created: 2024/06/12 20:27:15 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/12/05 20:12:28 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 retrieves the terminal type from the environment,
 and sets up the terminal attributes for non-canonical mode
 
-* with no echo. It also retrieves the termcap strings for 
+* with no echo. It also retrieves the termcap strings for
 cursor movement and line deletion.
 
  * The initialization process includes setting terminal flags to ensure
@@ -63,12 +63,10 @@ t_termcap	*init_term(void)
 void	free_termcap(t_termcap *termcap)
 {
 	if (!termcap)
-		return;
+		return ;
 	tcsetattr(STDIN_FILENO, TCSANOW, &termcap->old_term);
 	free(termcap);
-
 }
-
 
 /*
 We have two type of terminals settings, default one and our custom
@@ -83,10 +81,9 @@ void	msh_set_term(struct termios *term)
 /*
 Function that initialized data at begging of the program.
 */
-t_shelldata	*init_data()
+t_shelldata	*init_data(void)
 {
-
-	t_shelldata		*data;
+	t_shelldata	*data;
 
 	data = (t_shelldata *)malloc(sizeof(t_shelldata));
 	data->history = NULL;

@@ -111,6 +111,7 @@ enum e_nodetype	get_redirection_nodetype(enum e_operatortype op)
 {
 	enum e_nodetype	type;
 
+	type = 0;
 	if (op == OP_REDIRECT_OUT)
 		type = REDIRECTION_OUT;
 	else if (op == OP_REDIRECT_APPEND)

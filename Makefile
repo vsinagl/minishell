@@ -55,6 +55,11 @@ INPUT = input.c \
 
 TESTLIB = libminishell.so
 
+#libraries
+LIBFT = libft/libft.a
+
+FPRINTF = ft_fprintf/libftfprintf.a
+
 #adding folder prefix for ast files
 AST_SRCS = $(addprefix srcs/ast/, $(AST))
 AST_OBJS = $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast/%.o)
@@ -71,7 +76,7 @@ OBJECTS = $(SRCS:srcs/%.c=$(OBJ_DIR)/%.o) $(AST_SRCS:srcs/ast/%.c=$(OBJ_DIR)/ast
 
 OBJECTS_SO =  $(BUILTINS_OBJS)
 
-all: $(OBJ_DIR) $(NAME)
+all: $(LIBFT)  $(OBJ_DIR) $(NAME) $(FPRINTF)
 
 # Create obj directory and its subdirectories
 $(OBJ_DIR):
@@ -96,7 +101,12 @@ $(OBJ_DIR)/ast/%.o: srcs/ast/%.c
 $(OBJ_DIR)/builtins/%.o: srcs/builtins/%.c
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
-#rule for BUITLINS object files
+# rules for libraries
+$(LIBFT):
+	@make -C libft/
+
+$(FPRINTF):
+	@make -C ft_fprintf/
 
 #RULES FOR TESTING:
 test: $(TESTLIB)
@@ -114,10 +124,14 @@ srcs/ast/main.o: srcs/ast/main.o
 clean:
 	rm -rf $(OBJ_DIR)
 
+lclean:
+	rm libft/libft.a
+	rm ft_fprintf/libftfprintf.a
+
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+re: fclean all 
 
 norm:
 	norminette ./srcs/*

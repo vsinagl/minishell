@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/11/22 09:01:21 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/05 19:58:34 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_history	*history_add(t_shelldata *data, char *line)
 	t_history	*new;
 
 	new = (t_history *)malloc(sizeof(t_history));
-	new->data = line;
+	new->data = ft_strdup(line);
 	if (data->history == NULL)
 		new->prev = NULL;
 	else
@@ -87,6 +87,7 @@ void	free_history(t_shelldata *data)
 	{
 		tmp = data->history;
 		data->history = data->history->prev;
+		free(tmp->data);
 		free(tmp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vsinagl <vsinagl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:25:45 by vsinagl           #+#    #+#             */
-/*   Updated: 2024/12/03 13:36:27 by vsinagl          ###   ########.fr       */
+/*   Updated: 2024/12/05 20:12:11 by vsinagl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,17 @@ it returs a signal represented as integer
 0 - line is ok
 1 - there was problem in line-> continue
 */
-int		check_line(char *line, t_shelldata *data)
+int	check_line(char *line, t_shelldata *data)
 {
 	if (line == NULL)
 	{
 		data->last_status = 0;
-		return 1;
+		return (1);
 	}
 	if (line_ok(line) == FALSE)
 	{
 		free(line);
-		return 1;
+		return (1);
 	}
 	return (0);
 }
