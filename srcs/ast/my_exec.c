@@ -66,13 +66,17 @@ static int	try_basic_command(t_astnode *node, char **args)
 	if (str_exact_match((char *)node->data, "cd"))
 		ret_value = msh_cd(ft_strarr_len(args), args);
 	else if (str_exact_match((char *)node->data, "exit"))
-		ret_value = msh_exit(node);
+		ret_value = msh_exit(node, args);
 	else if (str_exact_match((char *)node->data, "echo"))
 		ret_value = msh_echo(ft_strarr_len(args), args);
 	else if (str_exact_match((char *)node->data, "pwd"))
 		ret_value = msh_pwd();
 	else if (str_exact_match((char *)node->data, "clear"))
 		ret_value = msh_clear(ft_strarr_len(args));
+	else if (str_exact_match((char *)node->data, "export"))
+		ret_value = msh_export(ft_strarr_len(args), args, ast_get_env(node));
+	else if (str_exact_match((char *)node->data, "history"))
+		ret_value = print_history(ast_get_root_data(node));
 	return (ret_value);
 }
 
@@ -86,18 +90,14 @@ int	try_builtin(t_astnode *node, int option)
 	ret_value = try_basic_command(node, args);
 	if (str_exact_match((char *)node->data, "env"))
 		ret_value = msh_env(ast_get_env(node));
-	else if (str_exact_match((char *)node->data, "export"))
-		ret_value = msh_export(ft_strarr_len(args), args, ast_get_env(node));
-	else if (str_exact_match((char *)node->data, "history"))
-		ret_value = print_history(ast_get_root_data(node));
 	else if (str_exact_match((char *)node->data, "unset"))
 	{
 		env = ast_get_env(node);
 		ret_value = msh_unset(ft_strarr_len(args), args, &env);
 	}
+	free_args(args);
 	if (ret_value == -1)
 		return (-1);
-	free_args(args);
 	if (option == 1)
 		exit(ret_value);
 	return (ret_value);
@@ -131,6 +131,7 @@ int	my_exec(t_astnode *node)
 	{
 		ft_fprintf(STDERR_FILENO, "Minishell: %s: no such file or directory\n",
 			(char *)node->data);
+		free_args(args);
 		return (127);
 	}
 	if (execve(command, args, NULL) == -1)

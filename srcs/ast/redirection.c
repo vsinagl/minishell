@@ -130,12 +130,11 @@ int	execute_redirection(t_astnode *node, t_pipeinfo parent_pipe)
 	t_pipeinfo		left_pipe;
 	char			*file_name;
 
+	file_fd = -1;
 	if (handle_error(node) == FALSE)
 		return (1);
 	file_name = (char *)node->data;
 	left_pipe = update_pipeinfo(node, file_fd, parent_pipe, file_name);
-	if (file_fd < 0)
-		return (1);
 	if (node->left)
 	{
 		return (execute_node(node->left, left_pipe));

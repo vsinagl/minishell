@@ -21,13 +21,14 @@ void	free_data(t_shelldata *data)
 	}
 	free_history(data);
 	env_free(data->env);
+	free_termcap(data->termcap);
+	free(data);
 }
 
 void	exit_program(t_shelldata *data)
 {
 	write(STDOUT_FILENO, "\n", 1);
-	msh_set_term(&(data->termcap->old_term));
+	// msh_set_term(&(data->termcap->old_term));
 	free_data(data);
-	free_history(data);
 	exit(0);
 }

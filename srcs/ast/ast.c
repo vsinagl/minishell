@@ -144,6 +144,7 @@ t_astnode	*ast_redirection(t_tokenqueue *queue, t_astnode *parent,
 		return (NULL);
 	node->type = get_redirection_nodetype(token->u_value.op);
 	node->right = NULL;
+	node->args = NULL;
 	node->left = parent;
 	node->parent = parent->parent;
 	parent->parent->left = node;

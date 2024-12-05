@@ -52,6 +52,7 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	if (readline == NULL || ft_strlen(readline) <= 0)
 		return (-1);
 	result = executer_tokens(readline, verbose, data, &tokens);
+	free(readline);
 	if (result != 0)
 		return (result);
 	root = create_ast(tokens, data);
@@ -66,8 +67,8 @@ int	executer(char *readline, int verbose, t_shelldata *data)
 	result = execute_node_main(root);
 	if (verbose == 1)
 		printf("ast executed with result: %i\n", result);
-	// if (root != NULL)
-	// 	free_ast(root);
+	if (root != NULL)
+		free_ast(root);
 	return (result);
 }
 
@@ -105,33 +106,11 @@ int	run_minishell(t_shelldata *data)
 		data->last_status = executer(line, check_verbose(data), data);
 		if (data->last_status < 0)
 		{
-			if (line != NULL)
-				free(line);
 			continue ;
 		}
-		free(line);
 	}
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	t_shelldata		data;
-// 	int				status;
-
-// 	if (init_data(&data) != 0)
-// 	{
-// 		ft_fprintf(STDERR_FILENO, "Error in init_data\n");
-// 		return (1);
-// 	}
-// 	print_info();
-// 	setup_signal_handling();
-// 	status = run_minishell(&data);
-// 	print_history(&data);
-// 	msh_set_term(&(data.termcap->old_term));
-// 	free_history(&data);
-// 	return (status);
-// }
 
 int	main(void)
 {

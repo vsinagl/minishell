@@ -35,11 +35,11 @@ char	**prepare_args(t_astnode *node)
 	args = (char **)malloc(sizeof(char *) * (ft_strarr_len(node->args) + 2));
 	if (args == NULL)
 		exit(1);
-	args[0] = (char *)node->data;
+	args[0] = ft_strdup((char *)node->data);
 	i = 1;
 	while (node->args != NULL && node->args[i - 1] != NULL)
 	{
-		args[i] = node->args[i - 1];
+		args[i] = ft_strdup(node->args[i - 1]);
 		i++;
 	}
 	args[i] = NULL;

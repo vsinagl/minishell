@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	msh_exit(t_astnode *node)
+int	msh_exit(t_astnode *node, char **args)
 {
 	t_astnode	*root;
 	t_shelldata	*data;
@@ -33,6 +33,7 @@ int	msh_exit(t_astnode *node)
 		root = root->parent;
 	data = (t_shelldata *)root->data;
 	free_ast(root);
+	free_args(args);
 	exit_program(data);
 	exit(1);
 	return (1);

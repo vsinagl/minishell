@@ -33,6 +33,7 @@ cursor movement and line deletion.
  * @return A pointer to the initialized t_termcap structure,
 	or NULL if initialization fails.
  */
+
 t_termcap	*init_term(void)
 {
 	t_termcap	*termcap;
@@ -40,6 +41,7 @@ t_termcap	*init_term(void)
 
 	termcap = (t_termcap *)malloc(sizeof(t_termcap));
 	term_type = getenv("TERM");
+	termcap->buffer = (char *)malloc(2048);
 	tcgetattr(STDIN_FILENO, &termcap->old_term);
 	tcgetattr(STDIN_FILENO, &termcap->new_term);
 	if (tgetent(termcap->buffer, term_type) < 0)
@@ -58,6 +60,16 @@ t_termcap	*init_term(void)
 	return (termcap);
 }
 
+void	free_termcap(t_termcap *termcap)
+{
+	if (!termcap)
+		return;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termcap->old_term);
+	free(termcap);
+
+}
+
+
 /*
 We have two type of terminals settings, default one and our custom
 one for handling minishell input. We can switch between terminal with
@@ -71,18 +83,6 @@ void	msh_set_term(struct termios *term)
 /*
 Function that initialized data at begging of the program.
 */
-// int	init_data(t_shelldata *data)
-// {
-
-// 	data->history = NULL;
-// 	data->env = init_env();
-// 	data->last_status = 0;
-// 	data->termcap = init_term();
-// 	if (data->termcap == NULL)
-// 		return (1);
-// 	return (0);
-// }
-
 t_shelldata	*init_data()
 {
 

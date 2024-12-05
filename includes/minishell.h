@@ -155,7 +155,7 @@ int							msh_echo(int argc, char **argv);
 int							msh_pwd(void);
 int							msh_cd(int argc, char **argv);
 int							msh_export(int argc, char **argv, t_env *head);
-int							msh_exit(t_astnode *node);
+int							msh_exit(t_astnode *node, char **args);
 int							msh_env(t_env *head);
 int							msh_clear(int argc);
 int							msh_unset(int argc, char **argv, t_env **head);
@@ -215,6 +215,8 @@ void						print_prompt(int exit_status);
 
 // terminal
 void						msh_set_term(struct termios *term);
+void						free_termcap(t_termcap *termcap);
+t_termcap					*init_term(void);
 
 // exit
 void						exit_program(t_shelldata *data);
